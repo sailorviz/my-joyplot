@@ -1,0 +1,215 @@
+.four-curves {
+  position: relative;   /* 参考定位，子元素 sticky 以此为边界 */
+  height: 2000vh;        /* 给滚动动画留出空间 */
+  margin-bottom: 20vh;
+}
+
+.four-curves-stickyContainer {
+  position: sticky;
+  top: 0;
+}
+
+/* 外层容器：让整个 2×2 网格在视口内水平 + 垂直居中 */
+#four-curves-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;  /* 填满视口 */
+  display: flex;
+  align-items: center;     /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+  /* overflow: hidden; */
+  background: rgba(245, 85, 85, 0.5);
+}
+
+.scrollingTextContainer-4curves {
+  position: relative;
+  margin-top: 100vh; /* sticky 撑满一屏后再出现文字 */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* 水平居中 */
+  justify-content: flex-start;
+  gap: 40vh;
+}
+
+.scrolling-text-4curves {
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+  height: 40vh;
+  background:  rgba(57, 143, 224, 0.5);
+}
+
+.triggerStep-4curves {
+  height: 40vh;
+  background: rgba(5, 231, 16, 0.5);
+  margin-bottom: 50vh;
+}
+
+.scrollingTextEndStep-4curves {
+  margin-top: auto; /* 推到底部 */
+  height: 40vh;
+  background: rgba(57, 143, 224, 0.5);
+}
+
+.four-curves-songs {
+  position: absolute;
+  pointer-events: auto;
+  z-index: 999;
+}
+
+.song-dot {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.four-curves-songs:hover .song-dot {
+  transform: scale(1.8);
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.play-icon {
+  position: absolute;
+  width: 0;
+  height: 0;
+
+  border-left: 6px solid #000;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.four-curves-songs:hover .play-icon {
+  opacity: 1;
+}
+
+.four-curves-songs.playing .song-dot {
+  background: #00ffcc;
+  box-shadow: 0 0 12px rgba(0, 255, 204, 0.9);
+  transform: scale(1.9);
+}
+
+.four-curves-songs.playing .play-icon {
+  opacity: 1;
+  border-left-color: #000;
+}
+
+.four-curves-songs.paused .play-icon {
+  width: 8px;
+  height: 10px;
+  border: none;
+  background: #000;
+}
+
+.song-tooltip {
+  position: fixed;
+  pointer-events: none;
+  background: rgba(0,0,0,0.85);
+  color: white;
+  padding: 6px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 9999;
+}
+
+/* 2x2 Grid 容器 */
+.kde-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  /* 两列自适应宽度 */
+  grid-auto-rows: auto;                   /* 高度自适应 */
+  gap: 24px 16px;                         /* 行列间距，可调整 */
+  width: 70vw;                             /* 整体宽度占视口 70% */
+  max-width: 900px;
+  margin: 0 auto;                          /* 居中 */
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* KDE 卡片 */
+.kde-card {
+  margin: 0;
+  padding: 16px;                           /* 内边距，用于标题和曲线分隔 */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: visible;                       /* 防止曲线被裁剪 */
+  will-change: transform;
+  transform-origin: center center;
+  background: transparent;
+}
+
+/* SVG 自适应填满卡片宽度 */
+.kde-card svg {
+  width: 100%;
+  height: auto;                            /* 高度自适应 */
+  display: block;
+  overflow: visible;
+}
+
+/* KDE 卡片标题 */
+.kde-card-title {
+  font-size: 12px;
+  color: #ccc;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+/* x-axis 与曲线 */
+.kde-card svg .curve {
+  stroke-width: 2px;
+  fill: none;
+}
+
+.kde-card svg .x-axis path,
+.kde-card svg .x-axis line {
+  stroke: #aaa;
+}
+
+.kde-card svg .x-axis text {
+  fill: #aaa;
+  font-size: 10px;
+}
+
+/* tooltip 样式保持不变 */
+/* .four-kde-tooltip {
+  position: fixed;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.78);
+  color: white;
+  font-size: 12px;
+  border-radius: 6px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.15s;
+} */
+
+.kde-area-hover {
+  pointer-events: none;
+}
+
+.kde-area-ref {
+  pointer-events: none;
+}
+

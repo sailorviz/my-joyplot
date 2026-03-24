@@ -1,0 +1,215 @@
+.joyplot {
+  position: relative;   /* 参考定位，子元素 sticky 以此为边界 */
+  height: 2400vh;        /* 给滚动动画留出空间 */
+  margin-bottom: 20vh;
+}
+
+.joyplot-stickyContainer {
+  position: sticky;
+  top: 0;
+}
+
+/* 外层容器：让整个 2×2 网格在视口内水平 + 垂直居中 */
+#joyplot-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;  /* 填满视口 */
+  display: flex;
+  align-items: center;     /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+  /* overflow: hidden; */
+  background: rgba(245, 85, 85, 0.5);
+}
+
+/* ---------------- 修复非 exploratory 模式下 Joyplot 全屏 ---------------- */
+#joyplot-container:not(.exploratory) {
+  display: block;          /* 恢复普通 flow */
+  width: 100vw;
+  height: 100vh;           /* 填满视口 */
+  overflow: hidden;        /* 避免溢出滚动条 */
+}
+
+#joyplot-container:not(.exploratory) .joyplot-div {
+  width: 100vw !important;
+  height: 100vh !important;
+  flex: 0 0 auto !important;
+}
+#joyplot-container:not(.exploratory) .controls-div,
+#joyplot-container:not(.exploratory) .overview-div{
+  width: 100% !important;
+  height: auto !important;
+  flex: 0 0 auto !important;
+  display: block !important;
+}
+#joyplot-container:not(.exploratory) .joyplot-title {
+  display: none;
+}
+
+#joyplot-container:not(.exploratory) .left-panel,
+#joyplot-container:not(.exploratory) .right-panel {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+#joyplot-container:not(.exploratory) .joyplot-stickyContainer {
+  position: static !important;
+  top: auto !important;
+}
+
+/* ---------------- exploratory 模式 ---------------- */
+#joyplot-container.exploratory {
+  display: flex;
+  flex-direction: row;
+}
+
+#joyplot-container.exploratory .left-panel {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 6px;
+}
+
+#joyplot-container.exploratory .right-panel {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#joyplot-container.exploratory .joyplot-title {
+  height: 5%; 
+  border: 5px solid red;
+  font-size: 1.5rem;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#joyplot-container.exploratory .controls-div  { height: 20%; border: 5px solid red;}
+#joyplot-container.exploratory .joyplot-div   { height: 50%; border: 5px solid red;}
+#joyplot-container.exploratory .overview-div  { height: 20%; border: 5px solid red;}
+
+
+#joyplot-container.exploratory .illustration-area {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+#joyplot-container.exploratory .illustration-area.visible {
+  opacity: 1;
+}
+
+/* 其他元素保持原样 */
+.scrollingTextContainer-joyplot {
+  position: relative;
+  margin-top: 150vh; /* sticky 撑满一屏后再出现文字 */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* 水平居中 */
+  justify-content: flex-start;
+  gap: 40vh;
+}
+
+.scrolling-text-joyplot {
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+  height: 40vh;
+  background:  rgba(57, 143, 224, 0.5);
+}
+
+.triggerStep-joyplot {
+  height: 40vh;
+  background: rgba(5, 231, 16, 0.5);
+  margin-bottom: 50vh;
+}
+
+.triggerStep-illustration.amp60, .triggerStep-illustration.spec60 {
+  height: 40vh;
+  background: rgba(5, 231, 16, 0.5);
+  margin-bottom: 50vh;
+}
+
+.scrollingTextEndStep-joyplot {
+  margin-top: auto; /* 推到底部 */
+  height: 40vh;
+  background: rgba(57, 143, 224, 0.5);
+}
+
+.joyplot-tooltip {
+  position: fixed;
+  pointer-events: none;
+  background: rgba(0,0,0,0.85);
+  color: white;
+  padding: 6px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 9999;
+}
+
+.joyplot-close-btn {
+  position: absolute;          /* 浮在 container 上 */
+  top: 12px;                   /* 距离顶部 */
+  right: 12px;                 /* 距离右侧 */
+  padding: 6px 10px;           /* 内边距 */
+  background: rgba(50, 50, 50, 0.7); /* 半透明背景 */
+  color: #fff;                 /* 白色文字 */
+  font-size: 16px;              /* 字体稍大 */
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;           /* 圆角 */
+  user-select: none;            /* 防止选中 */
+  opacity: 0;                   /* 初始隐藏 */
+  z-index: 10;                  /* 在 SVG 之上 */
+  transition: background 0.2s, opacity 0.2s; /* 平滑过渡 */
+}
+
+.joyplot-close-btn:hover {
+  background: rgba(80, 80, 80, 0.9); /* hover 效果 */
+}
+
+.zoom-frame{
+  fill: none;             
+  stroke: rgb(251, 124, 5);      
+  stroke-width: 3px; 
+}
+
+/* JoyplotControls Legend 样式优化 */
+.joyplot-legend {
+  margin-top: 12px;
+}
+
+.joyplot-legend-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #333;
+}
+
+.joyplot-legend-items {
+  display: flex;
+  flex-wrap: wrap;       /* 自动换行 */
+  gap: 8px;              /* 色块间距 */
+}
+
+.joyplot-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #555;
+}
+
+.joyplot-legend-color {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  border-radius: 2px;    /* 小圆角更柔和 */
+}

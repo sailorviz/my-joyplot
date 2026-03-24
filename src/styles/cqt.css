@@ -1,0 +1,179 @@
+.cqt {
+  position: relative;   /* 参考定位，子元素 sticky 以此为边界 */
+  height: 1200vh;        /* 给滚动动画留出空间 */
+  margin-bottom: 20vh;
+  outline: 3px solid yellow;
+}
+
+.cqt-stickyContainer {
+  position: sticky;
+  top: 0;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+#cqt-container {
+  width: 75%;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: rgba(245, 85, 85, 0.5);
+  overflow: hidden;
+}
+
+.cqt-layout{
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+/* 左侧图示区 */
+.cqt-left{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 右侧文字区 */
+.cqt-right{
+  top: 0;
+  width: 25%;
+  padding: 4rem 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.cqt-stage{
+  width: 80%;
+  max-width: 900px;
+
+  display: flex;
+  flex-direction: column;
+  /* gap: 1.2rem; */
+  margin-top: 1vh;
+}
+
+.cqt-header-container {
+  text-align: center; /* 父元素文本居中 */
+}
+
+.cqt-header {
+  display: inline-flex;       /* inline-flex 保证整体可以居中 */
+  align-items: center;        /* 垂直居中 */
+  gap: 10px;                  /* 标题和按钮之间的间隙，可调 */
+}
+
+.cqt-title{
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.cqt-play{
+  padding: 6px 14px;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+/* spectrogram 会自动适应 上层容器 宽度 */
+.cqt-spectrogram-wrapper{
+  position:relative;
+  display: flex;
+  justify-content: center;
+  background: rgba(245, 85, 85, 0.5);
+}
+
+.cqt-spectrogram-canvas{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.cqt-overlay {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.6); /* 暗化 */
+  pointer-events: none;
+}
+
+.cqt-capture-box{
+  position:absolute;
+  border:2px solid #ffffff;
+  pointer-events:none;
+}
+
+.cqt-playhead{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+
+  width: 2px;
+  background: white;
+
+  left: 0;
+}
+
+.cqt-framebar{
+  width: 100%;
+  height: 30px;
+  justify-content: center; /* ⚠️ 关键 */
+
+  display: flex;
+}
+
+.cqt-framebar-rect{
+  /* flex: 1; */
+  height: 100%;
+  position: relative;
+  /* background: red; */
+}
+
+.framebar-label{
+  position: absolute;
+  bottom: -1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: white;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cqt-text{
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 320px;
+  color: white;
+}
+
+
+.scrollingTextContainer-cqt {
+  position: relative;
+  margin-top: 100vh; /* sticky 撑满一屏后再出现文字 */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* 水平居中 */
+  justify-content: flex-start;
+  gap: 40vh;
+}
+
+.scrolling-text-cqt {
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+  height: 40vh;
+  background:  rgba(57, 143, 224, 0.5);
+}
+
+.triggerStep-cqt {
+  height: 40vh;
+  background: rgba(5, 231, 16, 0.5);
+  margin-bottom: 50vh;
+}
+
+.scrollingTextEndStep-cqt {
+  margin-top: auto; /* 推到底部 */
+  height: 40vh;
+  background: rgba(57, 143, 224, 0.5);
+}
+

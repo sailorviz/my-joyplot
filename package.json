@@ -11,11 +11,15 @@
   },
   "dependencies": {
     "d3": "^7.9.0",
+    "d3-sankey": "^0.12.3",
+    "marked": "^17.0.1",
     "papaparse": "^5.5.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-markdown": "^10.1.0",
     "react-scrollama": "^2.4.2",
-    "scrollama": "^3.2.0"
+    "scrollama": "^3.2.0",
+    "topojson-client": "^3.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",

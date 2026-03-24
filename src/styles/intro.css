@@ -1,0 +1,48 @@
+.intro {
+  width: 100%;
+  height: 300vh;
+  color: #a0c4ff;
+  position: relative;
+  margin-bottom: 20vh;
+}
+
+.sticky-container {
+  position: sticky;
+  top: 0;
+  height: 100vh; /* 占满视口 */
+  display: flex;
+  flex-direction: column;
+}
+
+.sticky-headline{
+  flex: 0 0 55vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background: rgba(254, 137, 28, 0.5); */
+}
+
+.scroll-intro {
+  flex: 0 0 45vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  background: rgba(39, 133, 240, 0.5);
+}
+
+.scroll-intro.fade-in {
+  opacity: 1;
+}
+
+.trigger-step {
+  background: rgba(177, 223, 24, 0.5);
+  height: 50vh;
+  margin-top: 20vh;
+}
+
+

@@ -1,0 +1,85 @@
+.hpcp-comparision.full-screen {
+  width: 100%;
+  height: 100vh; /* 全屏滚动区域 */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.hpcp-comparision-stickyContainer {
+  display: flex;
+  gap: 2rem;          /* 左右间距 */
+  align-items: flex-start;
+  position: relative;
+}
+
+.hpcp-comparision-left {
+  flex: 1;
+  position: sticky;
+  top: 0;              /* sticky 顶部固定 */
+  align-self: flex-start;
+  padding: 1rem;
+  max-width: 600px;    /* 左侧最大宽度，可调 */
+  background-color: #111; /* 可加轻微背景区分左右 */
+  color: #fff;
+}
+
+.hpcp-comparision-title {
+  margin-bottom: 1rem;
+}
+
+.hpcp-comparision-selector {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.instrument-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;           /* 每个乐器间距 */
+  margin-top: 1rem;
+}
+
+.instrument-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.instrument-name {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.play-button {
+  margin-bottom: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  background-color: #444;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.instrument-canvas {
+  width: 100%;
+  height: 200px; /* 或根据 Canvas 调整 */
+  background-color: #222; /* 提示 Canvas 区域 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hpcp-comparision-right {
+  flex: 1;
+  position: sticky;
+  top: 0;
+  padding: 1rem;
+  max-width: 500px;      /* 右侧文本最大宽度 */
+}
+
+.hpcp-comparision-text {
+  color: #eee;
+  line-height: 1.5;
+}
+

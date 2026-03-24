@@ -1,16 +1,42 @@
+.floatingSongs {
+  position: relative;   /* 参考定位，子元素 sticky 以此为边界 */
+  height: 4750vh;        /* 给滚动动画留出空间 */
+  margin-bottom: 20vh;
+}
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: #000;
-  font-family: "Segoe UI", sans-serif;
+.stickyContainer {
+  position: sticky;
+  top: 0;
 }
 
 #container {
+  overflow: hidden;
+  height: 100vh;
+  background: rgba(245, 85, 85, 0.5);
   position: relative;
-  width: 100%;
-  height: 100%;
+}
+
+.clusterForArtist {
+  position: absolute;
+}
+
+.scrollingTextContainer {
+  position: relative;
+  margin-top: 100vh; /* sticky 撑满一屏后再出现文字 */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* 水平居中 */
+  justify-content: flex-start;
+  gap: 40vh;
+}
+
+.scrolling-text {
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+  height: 40vh;
+  background:  rgba(57, 143, 224, 0.5);
 }
 
 .song {
@@ -18,6 +44,26 @@ html, body {
   white-space: nowrap;
   color: #a0c4ff;
 }
+
+.triggerStep {
+  height: 40vh;
+  background: rgba(5, 231, 16, 0.5);
+  margin-bottom: 50vh;
+}
+
+.scrollingTextEndStep {
+  margin-top: auto; /* 推到底部 */
+  height: 40vh;
+  background: rgba(57, 143, 224, 0.5);
+}
+
+.band-highlight {
+  box-shadow: 0 0 25px #a0c4ff;
+  border: 5px solid #a0c4ff;
+  transition: all 0.3s ease;
+  border-radius: 17px;
+}
+
 
 
 

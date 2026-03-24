@@ -1,4 +1,12 @@
-body {
+html, body {
   margin: 0;
   padding: 0;
+  height: 100%;
+  background: #000;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.app-container {
+  width: 100%;
+  min-height: 100vh; /* ✅ 用 min-height，而不是 height */
 }
