@@ -10,11 +10,42 @@ const HPCPComparision = forwardRef((_, ref) => {
   // 变量定义
   // mode state
   const [mode, setMode] = useState("cqt");
+  const [playingIndex, setPlayingIndex] = useState(null); // null 表示没有播放
+  const audioRef = useRef(null);
 
   // 播放音频函数
-  const playSound = (audioPath) => {
+  // const playSound = (audioPath) => {
+  //   const audio = new Audio(audioPath);
+  //   audio.play();
+  // };
+  const playSound = (audioPath, idx) => {
+    // 如果点击同一个正在播放的按钮 → 停止
+    if (playingIndex === idx) {
+      audioRef.current?.pause();
+      audioRef.current = null;
+      setPlayingIndex(null);
+      return;
+    }
+
+    // 停掉之前播放的
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+
+    // 新建 audio 并播放
     const audio = new Audio(audioPath);
     audio.play();
+
+    // 保存 ref
+    audioRef.current = audio;
+    setPlayingIndex(idx);
+
+    // 播放结束自动清空状态
+    audio.onended = () => {
+      setPlayingIndex(null);
+      audioRef.current = null;
+    };
   };
 
   
@@ -72,10 +103,10 @@ const HPCPComparision = forwardRef((_, ref) => {
 
                 {/* 播放按钮 */}
                 <button
-                  className="play-button"
-                  onClick={() => playSound(inst.audio)}
+                  className={`play-button ${playingIndex === idx ? "playing" : ""}`}
+                  onClick={() => playSound(inst.audio, idx)}
                 >
-                  ▶ Play
+                  ▶
                 </button>
 
                 {/* Canvas: CQT / HPCP */}

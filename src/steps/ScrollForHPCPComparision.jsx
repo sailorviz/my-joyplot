@@ -49,16 +49,6 @@ export default function ScrollForHPCPComparision() {
         if (element.classList.contains("triggerStep-hpcp-comparision") && direction === "down") {
           // 1️⃣ 更新右侧文字
           setCurrentText(featureSteps[index]);
-
-          // 3️⃣ 根据 index 特殊处理组件
-          switch (index) {
-            case 1:
-              // console.log("step1");
-              baseRef.current?.showCaptureBox();  // 显示 capture box
-              break;
-            default:
-              break;
-          }
         }
       })
       .onStepExit(({ element, index, direction }) => {
@@ -79,15 +69,6 @@ export default function ScrollForHPCPComparision() {
             setCurrentText(null);
           }
           
-          // 3️⃣ 根据 index 特殊处理组件
-          switch (index) {
-            case 1:
-              // console.log("step1");
-              baseRef.current?.hideCaptureBox();  
-              break;       
-            default:
-              break;
-          }
         }
       });
 
