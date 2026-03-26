@@ -462,7 +462,7 @@ const BaseCQT = forwardRef((_, ref) => {
             </div>
           </div>
 
-          {modeState === "explore" && showSelector && (
+          {/* {modeState === "explore" && showSelector && (
             <div className="cqt-explore-panel">
               <select
                 value={currentSong?.id || ""}
@@ -480,7 +480,25 @@ const BaseCQT = forwardRef((_, ref) => {
                 ))}
               </select>
             </div>
-          )}
+          )} */}
+
+          <div className={`cqt-explore-panel ${modeState === "explore" && showSelector ? "visible" : "hidden"}`}>
+            <select
+              value={currentSong?.id || ""}
+              onChange={(e) => {
+                const song = mergedSongs.find(s => s.id === e.target.value);
+                setCurrentSong(song);
+              }}
+            >
+              <option value="" disabled>Select a song</option>
+
+              {mergedSongs.map(s => (
+                <option key={s.id} value={s.id}>
+                  {s.song} - {s.artist}
+                </option>
+              ))}
+            </select>
+          </div>
 
           {/* Spectrogram canvas */}
           <div className="cqt-spectrogram-wrapper">
@@ -562,14 +580,23 @@ const BaseCQT = forwardRef((_, ref) => {
           </div>
 
           {/* FrameBar */}
-          {showFrameBar && (
+          {/* {showFrameBar && (
             <FrameBar
               bins={72}
               noteLabels={noteLabels}
               rectWidth={binHeight}
               values={currentFrame} 
             />
-          )}
+          )} */}
+          <div className={`cqt-framebar ${showFrameBar ? "visible" : "hidden"}`}>
+            <FrameBar
+              bins={72}
+              noteLabels={noteLabels}
+              rectWidth={binHeight}
+              values={currentFrame} 
+            />
+          </div>
+
 
         </div>
       </div>

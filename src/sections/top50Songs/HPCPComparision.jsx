@@ -112,7 +112,7 @@ const HPCPComparision = forwardRef((_, ref) => {
                 {/* Canvas: CQT / HPCP */}
                 <div className="instrument-canvas">
                   {mode === "cqt" ? (
-                    <CQTCanvas data={inst.cqtData.values} width={300} height={200} />
+                    <CQTCanvas data={inst.cqtData.values} />
                   ) : (
                     <HPCPCanvas data={inst.hpcpData.values} width={400} height={200} />
                   )}

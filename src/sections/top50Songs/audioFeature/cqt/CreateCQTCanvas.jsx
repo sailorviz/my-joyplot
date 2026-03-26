@@ -11,17 +11,6 @@ const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady }, ref) => {
   const [cqtData, setCqtData] = useState(null);
   const dataRef = useRef(null);
 
-  // 加载 JSON 数据
-  // useEffect(() => {
-  //   fetch(dataPath)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       const { times, values, note_labels } = data;
-  //       setCqtData({ times, values, note_labels });
-  //       dataRef.current = { times, values, note_labels };
-  //     })
-  //     .catch((err) => console.error("加载 CQT JSON 出错:", err));
-  // }, [dataPath]);
   useEffect(() => {
     if (!dataPath) return;
 
@@ -67,11 +56,30 @@ const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady }, ref) => {
     const axisFont = "18px sans-serif";    // 轴名
 
     // Canvas 大小 + 留白
-    const width = canvas.parentElement.clientWidth;
-    const height = 500;
+    // const width = canvas.parentElement.clientWidth;
+    // const height = 500;
+    const rect = canvas.parentElement.getBoundingClientRect();
+
+    console.log("wrapper height:", rect.height);
+
+    const width = rect.width;
+    const height = rect.height;   // 🔥 改这里
+
     const margin = { left: 60, right: 20, top: 20, bottom: 40 };
     const drawWidth = width - margin.left - margin.right;
     const drawHeight = height - margin.top - margin.bottom;
+
+    // canvas.width = width;
+    // canvas.height = height + margin.bottom;
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;   // ⭐⭐⭐ 去掉 + margin.bottom
+
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height + margin.bottom}px`;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     plotAreaRef.current = {
       left: margin.left,
@@ -81,9 +89,6 @@ const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady }, ref) => {
       frameCount: times.length,
       binCount: note_labels.length
     };
-
-    canvas.width = width;
-    canvas.height = height + margin.bottom;
 
     // 横纵比例
     // const xScale = (i) => margin.left + (i / (times.length - 1)) * drawWidth;
@@ -158,7 +163,8 @@ const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady }, ref) => {
       const frameIndex = times.findIndex((time) => time >= t);
       if (frameIndex >= 0) {
         const x = xScale(frameIndex);
-        ctx.fillText(`${t}s`, x, height - 30);
+        // ctx.fillText(`${t}s`, x, height - 30);
+        ctx.fillText(`${t}s`, x, margin.top + drawHeight + 5);
       }
     }
 

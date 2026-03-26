@@ -1,9 +1,11 @@
 .hpcp-comparision-title {
   text-align: center;
-  margin-bottom: 3rem;
+  height: 10%;        /* 占左侧 panel 总高度的 10% */
+  margin-bottom: 2rem;
 }
 
 .hpcp-comparision-title h2 {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
   display: inline-flex;
   align-items: center;
 }
@@ -13,19 +15,25 @@
   justify-content: center;
 }
 
+.hpcp-comparision-selector label {
+  font-size: clamp(0.7rem, 1.5vw, 1rem);
+  margin: 0 0.5rem;
+}
+
 .instrument-blocks {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);  /* 2列，稳 */
+  grid-template-columns: repeat(3, 1fr); /* 3列 */
+  grid-auto-rows: minmax(150px, 1fr);   /* canvas 最小高度 150px，自适应拉伸 */
   gap: 1rem;
-  flex: 1;   /* 🔥 关键：填满 stage */
-  grid-auto-rows: 1fr;
+  width: 100%;
+  height: 90%;        /* 剩余高度给 canvas grid */
 }
 
 .instrument-block {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;   /* 🔥 用 gap 控制间距 */
+  gap: 0.3rem;
 }
 
 .instrument-name {
@@ -74,10 +82,17 @@
 }
 
 .instrument-canvas {
+  width: 100%;        /* 父容器宽度自适应 */
+  height: 0;
+  padding-bottom: 50%; /* 这里用比例撑开高度，高度 = 宽度 * 0.5 */
   position: relative;
+}
+
+.instrument-canvas canvas {
+  position: absolute;
+  top: 0; left: 0;
   width: 100%;
-  height: 150px;     /* 🔥 固定高度，先稳定 */
-  overflow: hidden;
+  height: 100%;
 }
 
 .hpcp-comparision {
@@ -105,10 +120,10 @@
 
 /* 左侧图示区 */
 .hpcp-comparision-left{
-  height: 80%;
+  width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  padding: 1rem 0; /* 顶部间距 */
 }
 
 /* 右侧文字区 */
