@@ -10,22 +10,23 @@
   top: 0;
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100vh;           /* 关键：占满一屏 */
+  overflow: hidden;        /* 防止子元素溢出 */
 }
 
 #cqt-container {
-  width: 75%;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: rgba(245, 85, 85, 0.5);
+  width: 75%;              /* 或你想要的比例 */
+  height: 100%;            /* 必须 100% */
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
   overflow: hidden;
 }
 
 .cqt-layout{
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 
 /* 左侧图示区 */
@@ -45,37 +46,40 @@
   align-items: center;
 }
 
-.cqt-stage{
-  width: 80%;
-  max-width: 900px;
-
+.cqt-stage {
+  width: 100%;
+  height: 100%;                    /* 🔥 吃满容器 */
   display: flex;
   flex-direction: column;
-  height: 100%;
-  /* gap: 1.2rem; */
-  margin-top: 1vh;
+  padding: 1rem 2rem 0.2rem;
+  box-sizing: border-box;
+  gap: 1rem;                     /* 模块间距统一管理 */
 }
 
+/* Header（标题 + 播放按钮） */
 .cqt-header-container {
-  text-align: center; /* 父元素文本居中 */
-  flex: 0 0 auto;              /* 🔥 不拉伸 */
-  margin-bottom: 0.5rem;       /* 🔥 缩小间距 */
+  flex: 0 0 auto;   /* 不参与弹性分配 */
+  display: flex;
+  align-items: center;
+  justify-content: center;               
 }
 
 .cqt-header {
   display: inline-flex;       /* inline-flex 保证整体可以居中 */
   align-items: center;        /* 垂直居中 */
+  
   gap: 10px;                  /* 标题和按钮之间的间隙，可调 */
 }
 
 .cqt-title{
   font-size: clamp(1rem, 1.5vw, 1.4rem);  /* 🔥 自适应 */
   font-weight: 600;
+  color:#ffffff;
 }
 
+/* Explore Panel（选歌下拉框） */
 .cqt-explore-panel {
   flex: 0 0 auto;
-  margin-bottom: 0.5rem;
 }
 
 .cqt-explore-panel.visible {
@@ -95,21 +99,27 @@
 }
 
 /* spectrogram 会自动适应 上层容器 宽度 */
-.cqt-spectrogram-wrapper{
-  position:relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(245, 85, 85, 0.5);
-  flex: 1;                     /* 🔥 核心：吃掉剩余空间 */
-  overflow: hidden;   /* 🔥 加这一行 */
-  min-height: 0;   /* ⭐⭐⭐ 防止被撑爆（很关键） */
+.cqt-spectrogram-wrapper {
+  flex: 1 1 auto;                  /* 🔥 核心：吃掉剩余所有空间 */
+  position: relative;
+  min-height: 0;                   /* 防止 flex 子元素溢出（非常重要！） */
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
-.cqt-spectrogram-canvas{
-  width: 100%;
-  height: 100%;
+.cqt-spectrogram-canvas {
+  width: 100% !important;
+  height: 100% !important;
   display: block;
+}
+
+.cqt-beat-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none;
 }
 
 .cqt-overlay {
@@ -135,13 +145,18 @@
   left: 0;
 }
 
-.cqt-framebar{
-  flex: 0 0 40px;   /* 🔥 关键：固定占位 */
+.cqt-framebar {
+  flex: 0 0 100px;                  /* 固定高度，建议 48~60px */
   width: 100%;
+  display: flex;
+}
 
-  justify-content: center; /* ⚠️ 关键 */
+.cqt-framebar-inner {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 35%;
 }
 
 /* 🔥 隐藏但占位 */

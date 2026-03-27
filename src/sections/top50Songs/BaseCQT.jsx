@@ -233,8 +233,11 @@ const BaseCQT = forwardRef((_, ref) => {
     setClipPath(`inset(0 0 0 ${progress * 100}%)`);
 
     const frame = canvasRef.current.getFrame(frameIndex);
-    // if (frame) frameBarRef.current?.updateFrame(frame);
-    if (frame) setCurrentFrame(frame);
+    if (frame) {
+      setCurrentFrame(frame);        // 强制更新
+    }
+
+    console.log(frame === currentFrame);
 
     // ⭐ NEW：beat detection
     const song = currentSongRef.current;
@@ -411,7 +414,7 @@ const BaseCQT = forwardRef((_, ref) => {
       setShowFrame(true); // 先渲染 FrameBar
 
       const frame0 = canvasRef.current.getFrame(0);
-      setCurrentFrame(frame0);
+      if (frame0) setCurrentFrame(frame0);
     },
 
     hideFrameBar: () => setShowFrame(false),
