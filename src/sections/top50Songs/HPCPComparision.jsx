@@ -1,3 +1,130 @@
+// import { forwardRef, useImperativeHandle, useRef, useState, useEffect } from "react";
+// import * as d3 from "d3";
+// import Papa from "papaparse";
+// import "../../styles/hpcp.css";
+// import { loadInstrumentsData } from "./audioFeature/hpcp/loadInstrumentsData";
+// import HPCPCanvas from "./audioFeature/hpcp/HPCPCanvas";
+// import CQTCanvas from "./audioFeature/hpcp/CQTCanvas";
+
+// const HPCPComparision = forwardRef((_, ref) => {
+//   // 变量定义
+//   // mode state
+//   const [mode, setMode] = useState("cqt");
+//   const [playingIndex, setPlayingIndex] = useState(null); // null 表示没有播放
+//   const audioRef = useRef(null);
+
+//   const playSound = (audioPath, idx) => {
+//     // 如果点击同一个正在播放的按钮 → 停止
+//     if (playingIndex === idx) {
+//       audioRef.current?.pause();
+//       audioRef.current = null;
+//       setPlayingIndex(null);
+//       return;
+//     }
+
+//     // 停掉之前播放的
+//     if (audioRef.current) {
+//       audioRef.current.pause();
+//       audioRef.current = null;
+//     }
+
+//     // 新建 audio 并播放
+//     const audio = new Audio(audioPath);
+//     audio.play();
+
+//     // 保存 ref
+//     audioRef.current = audio;
+//     setPlayingIndex(idx);
+
+//     // 播放结束自动清空状态
+//     audio.onended = () => {
+//       setPlayingIndex(null);
+//       audioRef.current = null;
+//     };
+//   };
+
+  
+//   // 加载数据
+//   const [instruments, setInstruments] = useState([]);
+//   useEffect(() => {
+//     loadInstrumentsData().then(data => setInstruments(data));
+//   }, []);
+
+//   // 暴露给 Scrollama 调用的方法
+//   useImperativeHandle(ref, () => ({
+//     showCaptureBox: () => {},
+//   }));
+
+//   // 完全使用react进行layout
+//   return (
+//     <div id="hpcp-comparision-container">
+
+//       <div className="hpcp-comparision-left">
+//         <div className="hpcp-comparision-stage">
+          
+//           {/* Title */}
+//           <div className="hpcp-comparision-title">
+//             <h2>音色对比：CQT vs HPCP</h2>
+//             <div className="hpcp-comparision-selector">
+//               <label>
+//                 <input
+//                   type="radio"
+//                   name="displayMode"
+//                   value="cqt"
+//                   checked={mode === "cqt"}
+//                   onChange={() => setMode("cqt")}
+//                 />
+//                 CQT
+//               </label>
+//               <label>
+//                 <input
+//                   type="radio"
+//                   name="displayMode"
+//                   value="hpcp"
+//                   checked={mode === "hpcp"}
+//                   onChange={() => setMode("hpcp")}
+//                 />
+//                 HPCP
+//               </label>
+//             </div>
+//           </div>
+
+//           {/* 乐器 Blocks */}
+//           <div className="instrument-blocks">
+//             {instruments.map((inst, idx) => (
+//               <div key={idx} className="instrument-block">
+//                 {/* 图名 */}
+//                 <div className="instrument-name">{inst.name}</div>
+
+//                 {/* 播放按钮 */}
+//                 <button
+//                   className={`play-button ${playingIndex === idx ? "playing" : ""}`}
+//                   onClick={() => playSound(inst.audio, idx)}
+//                 >
+//                   ▶
+//                 </button>
+
+//                 {/* Canvas: CQT / HPCP */}
+//                 <div className="instrument-canvas">
+//                   {mode === "cqt" ? (
+//                     <CQTCanvas data={inst.cqtData} />
+//                   ) : (
+//                     <HPCPCanvas data={inst.hpcpData.values} width={400} height={200} />
+//                   )}
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+
+//         </div>
+//       </div>
+
+//     </div>
+//   );
+// });
+
+// export default HPCPComparision;
+
 import { forwardRef, useImperativeHandle, useRef, useState, useEffect } from "react";
 import * as d3 from "d3";
 import Papa from "papaparse";
@@ -7,69 +134,98 @@ import HPCPCanvas from "./audioFeature/hpcp/HPCPCanvas";
 import CQTCanvas from "./audioFeature/hpcp/CQTCanvas";
 
 const HPCPComparision = forwardRef((_, ref) => {
-  // 变量定义
   // mode state
   const [mode, setMode] = useState("cqt");
-  const [playingIndex, setPlayingIndex] = useState(null); // null 表示没有播放
+  const [playingIndex, setPlayingIndex] = useState(null);
+
   const audioRef = useRef(null);
 
-  // 播放音频函数
-  // const playSound = (audioPath) => {
-  //   const audio = new Audio(audioPath);
-  //   audio.play();
-  // };
+  // ✅ NEW: progress state（按 instrument 存）
+  const [progressMap, setProgressMap] = useState({});
+  // ✅ NEW
+  const [pausedIndex, setPausedIndex] = useState(null);
+
   const playSound = (audioPath, idx) => {
-    // 如果点击同一个正在播放的按钮 → 停止
-    if (playingIndex === idx) {
-      audioRef.current?.pause();
-      audioRef.current = null;
+    // 🟡 情况1：点击正在播放 → pause
+    if (playingIndex === idx && audioRef.current) {
+      audioRef.current.pause();
       setPlayingIndex(null);
+      setPausedIndex(idx);
       return;
     }
 
-    // 停掉之前播放的
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
+    // 🟡 情况2：点击已暂停 → resume
+    if (pausedIndex === idx && audioRef.current) {
+      audioRef.current.play();
+      setPlayingIndex(idx);
+      setPausedIndex(null);
+      return;
     }
 
-    // 新建 audio 并播放
+    // 🔴 情况3：点击其他按钮 → stop previous + play new
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0; // ✅ reset
+
+      // ✅ reset progress
+      setProgressMap(prev => ({
+        ...prev,
+        [playingIndex]: 0,
+        [pausedIndex]: 0
+      }));
+    }
+
     const audio = new Audio(audioPath);
     audio.play();
 
-    // 保存 ref
     audioRef.current = audio;
     setPlayingIndex(idx);
+    setPausedIndex(null);
 
-    // 播放结束自动清空状态
+    // 进度更新
+    audio.ontimeupdate = () => {
+      if (!audio.duration) return;
+
+      const progress = audio.currentTime / audio.duration;
+
+      setProgressMap(prev => ({
+        ...prev,
+        [idx]: progress * 100
+      }));
+    };
+
     audio.onended = () => {
       setPlayingIndex(null);
+      setPausedIndex(null);
       audioRef.current = null;
+
+      setProgressMap(prev => ({
+        ...prev,
+        [idx]: 0
+      }));
     };
   };
 
-  
   // 加载数据
   const [instruments, setInstruments] = useState([]);
   useEffect(() => {
     loadInstrumentsData().then(data => setInstruments(data));
   }, []);
 
-  // 暴露给 Scrollama 调用的方法
   useImperativeHandle(ref, () => ({
     showCaptureBox: () => {},
   }));
 
-  // 完全使用react进行layout
   return (
     <div id="hpcp-comparision-container">
 
       <div className="hpcp-comparision-left">
         <div className="hpcp-comparision-stage">
-          
-          {/* Title */}
+
+          {/* 🔧 MODIFIED: Title 区域去掉 instrument title */}
           <div className="hpcp-comparision-title">
-            <h2>音色对比：CQT vs HPCP</h2>
+            <h2>Timbre Comparision: CQT vs HPCP</h2>
+
             <div className="hpcp-comparision-selector">
               <label>
                 <input
@@ -98,25 +254,46 @@ const HPCPComparision = forwardRef((_, ref) => {
           <div className="instrument-blocks">
             {instruments.map((inst, idx) => (
               <div key={idx} className="instrument-block">
-                {/* 图名 */}
-                <div className="instrument-name">{inst.name}</div>
 
-                {/* 播放按钮 */}
+                {/* ❌ REMOVED: instrument-name */}
+
+                {/* 🔧 MODIFIED: button = title + progress */}
                 <button
-                  className={`play-button ${playingIndex === idx ? "playing" : ""}`}
+                  className={`
+                    instrument-button 
+                    ${playingIndex === idx ? "playing" : ""}
+                    ${pausedIndex === idx ? "paused" : ""}
+                  `}
                   onClick={() => playSound(inst.audio, idx)}
                 >
-                  ▶
+                  {/* ✅ NEW: progress 背景层 */}
+                  <div
+                    className="progress"
+                    style={{ width: `${progressMap[idx] || 0}%` }}
+                  />
+
+                  {/* 🔧 MODIFIED: label */}
+                  <span className="instrument-label">
+                    {playingIndex === idx
+                      ? "⏸ "
+                      : pausedIndex === idx
+                      ? "▶ "
+                      : "▶ "}
+                    {inst.name}
+                  </span>
                 </button>
 
-                {/* Canvas: CQT / HPCP */}
+                {/* Canvas */}
                 <div className="instrument-canvas">
                   {mode === "cqt" ? (
-                    <CQTCanvas data={inst.cqtData.values} />
+                    <CQTCanvas data={inst.cqtData} />
                   ) : (
-                    <HPCPCanvas data={inst.hpcpData.values} width={400} height={200} />
+                    <HPCPCanvas
+                      data={inst.hpcpData}
+                    />
                   )}
                 </div>
+
               </div>
             ))}
           </div>

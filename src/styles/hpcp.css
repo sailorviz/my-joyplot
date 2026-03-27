@@ -36,31 +36,28 @@
   gap: 0.3rem;
 }
 
-.instrument-name {
+/* .instrument-name {
   font-weight: bold;
   margin-bottom: 0.5rem;
-}
+} */
 
-.play-button {
-  padding: 0.3rem 0.8rem;
-  font-size: 0.75rem;
+.instrument-button {
+  position: relative;
+  width: 100%;
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.5rem;
 
+  background: #222;
   color: #fff;
-  background: linear-gradient(145deg, #444, #2f2f2f);
-
-  border: 1px solid #555;
+  border: none;
   border-radius: 6px;
 
   cursor: pointer;
-
-  /* 关键：动效 */
-  transition: all 0.15s ease;
-
-  /* 初始轻微阴影 */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  overflow: hidden;
+  text-align: center;
 }
 
-.play-button:hover {
+.instrument-button:hover {
   background: linear-gradient(145deg, #555, #3a3a3a);
 
   transform: translateY(-1px);
@@ -68,7 +65,7 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
-.play-button:active {
+.instrument-button:active {
   transform: translateY(1px);
 
   box-shadow: 0 1px 2px rgba(0,0,0,0.6);
@@ -76,15 +73,37 @@
   background: linear-gradient(145deg, #2f2f2f, #444);
 }
 
-.play-button.playing {
+.instrument-button.playing {
   background: linear-gradient(145deg, #ff6b6b, #d64545);
   border-color: #ff6b6b;
 }
 
+/* ✅ NEW: progress */
+.instrument-button .progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: rgba(255,255,255,0.15);
+  z-index: 0;
+  transition: width 0.1s linear;
+}
+
+.instrument-button.paused {
+  background: #2a2a2a;
+  opacity: 0.8;
+}
+
+/* label 在上层 */
+.instrument-button .label {
+  position: relative;
+  z-index: 1;
+  font-size: 0.95rem;
+}
+
 .instrument-canvas {
-  width: 100%;        /* 父容器宽度自适应 */
-  height: 0;
-  padding-bottom: 50%; /* 这里用比例撑开高度，高度 = 宽度 * 0.5 */
+  width: 100%;
+  aspect-ratio: 2 / 1;   /* 直接用现代 CSS，不用 padding hack */
   position: relative;
 }
 

@@ -38,12 +38,12 @@ export async function loadInstrumentsData() {
       cqtData: {
         values: cqtJson.values,
         times: cqtJson.times,
-        noteLabels: cqtJson.note_labels
+        note_labels: cqtJson.note_labels
       },
       hpcpData: {
         values: hpcpJson.values,
         times: hpcpJson.times,
-        noteLabels: hpcpJson.note_labels
+        note_labels: hpcpJson.note_labels
       }
     });
   }

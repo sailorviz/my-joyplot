@@ -1,72 +1,82 @@
-// import { useRef, useEffect } from "react";
-
-// export default function CQTCanvas({ data, width = 300, height = 200 }) {
-//   const canvasRef = useRef(null);
-
-//   useEffect(() => {
-//     const canvas = canvasRef.current;
-//     const ctx = canvas.getContext("2d");
-
-//     // 清空画布
-//     ctx.clearRect(0, 0, width, height);
-
-//     // 绘制 CQT 数据
-//     if (data) {
-//       const rows = data.length;
-//       const cols = data[0].length;
-
-//       const cellWidth = width / cols;
-//       const cellHeight = height / rows;
-
-//       for (let r = 0; r < rows; r++) {
-//         for (let c = 0; c < cols; c++) {
-//           const value = data[r][c]; // 0~1
-//           ctx.fillStyle = `rgb(${value * 255}, ${value * 255}, ${value * 255})`;
-//           ctx.fillRect(c * cellWidth, height - (r + 1) * cellHeight, cellWidth, cellHeight);
-//         }
-//       }
-//     }
-//   }, [data, width, height]);
-
-//   return <canvas ref={canvasRef} width={width} height={height} />;
-// }
-
 import { useRef, useEffect } from "react";
+import { interpolateInferno } from "d3-scale-chromatic";
 
-export default function HPCPCanvas({ data }) {
+export default function CQTCanvas({ data }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const container = canvas.parentElement; // 🔥 获取父容器尺寸
+    if (!data) {
+        console.log("CQTCanvas: no data");
+        return;
+      }
 
-    // 🔥 自适应宽高
-    canvas.width = container.clientWidth;
-    canvas.height = container.clientHeight;
+    const { times, values, note_labels } = data;
+
+    if (
+      !Array.isArray(times) || times.length === 0 ||
+      !Array.isArray(values) || values.length === 0 ||
+      !Array.isArray(note_labels) || note_labels.length === 0
+    ) {
+      console.warn("CQTCanvas: invalid data structure", data);
+      return;
+    }
+
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      console.error("CQTCanvas: canvas ref is null");
+      return;
+    }
+
+    const block = canvas.parentElement;
+    const rect = block.getBoundingClientRect();
+    console.log("Canvas container size:", rect.width, "x", rect.height);
+
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    canvas.style.width = `${rect.width}px`;
+    canvas.style.height = `${rect.height}px`;
 
     const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, rect.width, rect.height);
 
-    if (!data) return;
+    // ===== 下面是原来的绘制逻辑（先保持不变）=====
+    const rows = note_labels.length;
+    const cols = times.length;
+    const margin = { left: 0, right: 0, top: 0, bottom: 0 };
+    const drawWidth = rect.width - margin.left - margin.right;
+    const drawHeight = rect.height - margin.top - margin.bottom;
 
-    const rows = data.length;
-    const cols = data[0].length;
+    const cellWidth = drawWidth / cols;
+    const cellHeight = drawHeight / rows;
 
-    const cellWidth = canvas.width / cols;
-    const cellHeight = canvas.height / rows;
+    const xScale = (i) => margin.left + i * cellWidth;
+    const yScale = (i) => margin.top + drawHeight - (i + 1) * cellHeight;
 
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const value = data[r][c]; // 0~1
-        ctx.fillStyle = `rgb(${value * 255}, ${value * 255}, ${value * 255})`;
+    const flat = values.flat();
+    const min = Math.min(...flat);
+    const max = Math.max(...flat);
+    console.log("Color range:", min, "→", max);
+
+    const getColor = (v) => {
+      const norm = (v - min) / (max - min || 1);
+      return interpolateInferno(norm);
+    };
+
+    // 绘制 spectrogram
+    for (let f = 0; f < cols; f++) {
+      for (let b = 0; b < rows; b++) {
+        ctx.fillStyle = getColor(values[f][b]);
         ctx.fillRect(
-          c * cellWidth,
-          canvas.height - (r + 1) * cellHeight,
-          cellWidth,
-          cellHeight
+          xScale(f),
+          yScale(b),
+          Math.max(1, cellWidth + 1),
+          Math.max(1, cellHeight + 1)
         );
       }
     }
+
   }, [data]);
 
   return <canvas ref={canvasRef} style={{ display: "block" }} />;

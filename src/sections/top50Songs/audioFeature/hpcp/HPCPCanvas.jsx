@@ -1,30 +1,79 @@
 import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
-export default function HPCPCanvas({ data, width = 400, height = 200 }) {
+export default function HPCPCanvas({ data }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     if (!data) return;
 
+    const { times, values, note_labels } = data;
+
+    // 基础检查
+    if (
+      !Array.isArray(times) || times.length === 0 ||
+      !Array.isArray(values) || values.length === 0 ||
+      !Array.isArray(note_labels) || note_labels.length === 0
+    ) {
+      console.warn("HPCPCanvas: invalid data structure", data);
+      return;
+    }
+
     const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const block = canvas.parentElement;
+    const rect = block.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+
+    // 设置画布尺寸
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    canvas.style.width = `${rect.width}px`;
+    canvas.style.height = `${rect.height}px`;
+
     const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, rect.width, rect.height);
 
-    const rows = 12;               // HPCP 12 音高
-    const cols = data[0].length;   // 时间步
-    const cellWidth = width / cols;
-    const cellHeight = height / rows;
+    const rows = note_labels.length; // 12
+    const cols = times.length;       // 横轴时间
 
-    ctx.clearRect(0, 0, width, height);
+    const margin = { left: 0, right: 0, top: 0, bottom: 0 };
+    const drawWidth = rect.width - margin.left - margin.right;
+    const drawHeight = rect.height - margin.top - margin.bottom;
 
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const value = data[r][c];
-        ctx.fillStyle = d3.interpolateViridis(value);
-        ctx.fillRect(c * cellWidth, height - (r + 1) * cellHeight, cellWidth, cellHeight);
+    const cellWidth = drawWidth / cols;
+    const cellHeight = drawHeight / rows;
+
+    const xScale = (i) => margin.left + i * cellWidth;
+    const yScale = (i) => margin.top + drawHeight - (i + 1) * cellHeight;
+
+    // 颜色归一化
+    const flat = values.flat();
+    const min = Math.min(...flat);
+    const max = Math.max(...flat);
+
+    const getColor = (v) => {
+      const norm = (v - min) / (max - min || 1);
+      return d3.interpolateViridis(norm);
+    };
+
+    // 绘制 HPCP
+    for (let t = 0; t < cols; t++) {
+      for (let p = 0; p < rows; p++) {
+        const v = values[p][t]; // pitch 在外，time 在内
+        ctx.fillStyle = getColor(v);
+        ctx.fillRect(
+          xScale(t),
+          yScale(p),
+          Math.max(1, cellWidth + 1),
+          Math.max(1, cellHeight + 1)
+        );
       }
     }
-  }, [data, width, height]);
 
-  return <canvas ref={canvasRef} width={width} height={height} style={{ background: "#111" }} />;
+  }, [data]);
+
+  return <canvas ref={canvasRef} style={{ display: "block" }} />;
 }
