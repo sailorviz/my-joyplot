@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { interpolateInferno } from "d3-scale-chromatic";
 
-export default function CQTCanvas({ data }) {
+export default function CQTCanvas({ data, colorScale }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -54,30 +54,38 @@ export default function CQTCanvas({ data }) {
     const xScale = (i) => margin.left + i * cellWidth;
     const yScale = (i) => margin.top + drawHeight - (i + 1) * cellHeight;
 
-    const flat = values.flat();
-    const min = Math.min(...flat);
-    const max = Math.max(...flat);
-    console.log("Color range:", min, "→", max);
+    // const flat = values.flat();
+    // const min = Math.min(...flat);
+    // const max = Math.max(...flat);
+    // console.log("Color range:", min, "→", max);
 
-    const getColor = (v) => {
-      const norm = (v - min) / (max - min || 1);
-      return interpolateInferno(norm);
-    };
+    // const getColor = (v) => {
+    //   const norm = (v - min) / (max - min || 1);
+    //   return interpolateInferno(norm);
+    // };
+
+    if (!colorScale) {
+      console.warn("CQTCanvas: missing colorScale");
+      return;
+    }
 
     // 绘制 spectrogram
-    for (let f = 0; f < cols; f++) {
-      for (let b = 0; b < rows; b++) {
-        ctx.fillStyle = getColor(values[f][b]);
+    for (let t = 0; t < cols; t++) {
+      for (let f = 0; f < rows; f++) {
+
+        const v = values[t][f];   // ✅ 统一语义
+        ctx.fillStyle = colorScale(v);
+
         ctx.fillRect(
-          xScale(f),
-          yScale(b),
+          xScale(t),
+          yScale(f),
           Math.max(1, cellWidth + 1),
           Math.max(1, cellHeight + 1)
         );
       }
     }
 
-  }, [data]);
+  }, [data, colorScale]);
 
   return <canvas ref={canvasRef} style={{ display: "block" }} />;
 }

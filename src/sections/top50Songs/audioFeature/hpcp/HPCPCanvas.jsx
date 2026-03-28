@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
-export default function HPCPCanvas({ data }) {
+export default function HPCPCanvas({ data, colorScale }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -50,20 +50,25 @@ export default function HPCPCanvas({ data }) {
     const yScale = (i) => margin.top + drawHeight - (i + 1) * cellHeight;
 
     // 颜色归一化
-    const flat = values.flat();
-    const min = Math.min(...flat);
-    const max = Math.max(...flat);
+    // const flat = values.flat();
+    // const min = Math.min(...flat);
+    // const max = Math.max(...flat);
 
-    const getColor = (v) => {
-      const norm = (v - min) / (max - min || 1);
-      return d3.interpolateViridis(norm);
-    };
+    // const getColor = (v) => {
+    //   const norm = (v - min) / (max - min || 1);
+    //   return d3.interpolateViridis(norm);
+    // };
+
+    if (!colorScale) {
+      console.warn("HPCPCanvas: missing colorScale");
+      return;
+    }
 
     // 绘制 HPCP
     for (let t = 0; t < cols; t++) {
       for (let p = 0; p < rows; p++) {
         const v = values[p][t]; // pitch 在外，time 在内
-        ctx.fillStyle = getColor(v);
+        ctx.fillStyle = colorScale(v);
         ctx.fillRect(
           xScale(t),
           yScale(p),
@@ -73,7 +78,7 @@ export default function HPCPCanvas({ data }) {
       }
     }
 
-  }, [data]);
+  }, [data, colorScale]);
 
   return <canvas ref={canvasRef} style={{ display: "block" }} />;
 }
