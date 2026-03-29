@@ -230,8 +230,8 @@ const HPCPComparision = forwardRef((_, ref) => {
                 label={mode === "cqt" ? "CQT Energy" : "HPCP Energy"}
               />
               <div className="legend-labels">
-                <span>weak</span>
-                <span>strong</span>
+                <span>low</span>
+                <span>high</span>
               </div>
             </div>
           </div>

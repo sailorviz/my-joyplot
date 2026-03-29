@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import { interpolateInferno } from "d3-scale-chromatic";
 
-const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady }, ref) => {
+const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady, colorScale }, ref) => {
   const canvasRef = useRef(null);
   const plotAreaRef = useRef(null);
   const [cqtData, setCqtData] = useState(null);
@@ -36,7 +36,7 @@ const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady }, ref) => {
 
   // ==================== 核心：绘制 + 自适应 ====================
   const draw = () => {
-    if (!canvasRef.current || !cqtData) return;
+    if (!canvasRef.current || !cqtData || !colorScale) return;
 
     const { times, values, note_labels } = cqtData;
     const canvas = canvasRef.current;
@@ -83,14 +83,14 @@ const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady }, ref) => {
     const xScale = (i) => margin.left + i * frameWidth;
     const yScale = (i) => margin.top + drawHeight - ((i + 1) / note_labels.length) * drawHeight;
 
-    // 颜色映射
-    const flatValues = values.flat();
-    const minVal = Math.min(...flatValues);
-    const maxVal = Math.max(...flatValues);
-    const valueToColor = (v) => {
-      const norm = (v - minVal) / (maxVal - minVal || 1);
-      return interpolateInferno(norm);
-    };
+    // // 颜色映射
+    // const flatValues = values.flat();
+    // const minVal = Math.min(...flatValues);
+    // const maxVal = Math.max(...flatValues);
+    // const valueToColor = (v) => {
+    //   const norm = (v - minVal) / (maxVal - minVal || 1);
+    //   return interpolateInferno(norm);
+    // };
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -100,7 +100,8 @@ const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady }, ref) => {
 
     for (let frame = 0; frame < times.length; frame++) {
       for (let bin = 0; bin < note_labels.length; bin++) {
-        ctx.fillStyle = valueToColor(values[frame][bin]);
+        const colorValue = values[frame][bin];
+        ctx.fillStyle = colorScale(colorValue);
         ctx.fillRect(
           xScale(frame),
           yScale(bin),

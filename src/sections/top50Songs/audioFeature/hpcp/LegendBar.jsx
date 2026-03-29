@@ -48,9 +48,9 @@ export default function LegendBar({
   }, [colorScale, domain, height]);
 
   return (
-    <div className="energy-bar" style={{ display: "inline-block" }}>
+    <div className="energy-bar">
       {label && (
-        <div style={{ fontSize: 12, marginBottom: 4 }}>
+        <div className="legend-title">
           {label}
         </div>
       )}

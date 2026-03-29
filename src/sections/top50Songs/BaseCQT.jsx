@@ -1,7 +1,8 @@
-import { forwardRef, useImperativeHandle, useRef, useState, useEffect } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState, useEffect, useMemo } from "react";
 import * as d3 from "d3";
 import Papa from "papaparse";
 import "../../styles/cqt.css";
+import LegendBar from "./audioFeature/hpcp/LegendBar";
 import CreateCQTCanvas from "./audioFeature/cqt/CreateCQTCanvas";
 import FrameBar from "./audioFeature/cqt/FrameBar";
 import { extractSongTitleFromFilename } from "../../components/extractSongTitleFromFilename";
@@ -30,6 +31,8 @@ const BaseCQT = forwardRef((_, ref) => {
   const [showPulse, setShowPulse] = useState(false);
   const [showSelector, setShowSelector] = useState(false);
 
+  const [domain, setDomain] = useState([0, 1]);
+
   // animation相关
   const isPlayingRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -50,6 +53,12 @@ const BaseCQT = forwardRef((_, ref) => {
   useEffect(() => {
     currentSongRef.current = currentSong;
   }, [currentSong]);
+
+  const scale = useMemo(() => {
+    return d3.scaleSequential()
+      .domain(domain)
+      .interpolator(d3.interpolateInferno);
+  }, [domain]);
 
   // 加载songs数据
   useEffect(() => {
@@ -465,26 +474,6 @@ const BaseCQT = forwardRef((_, ref) => {
             </div>
           </div>
 
-          {/* {modeState === "explore" && showSelector && (
-            <div className="cqt-explore-panel">
-              <select
-                value={currentSong?.id || ""}
-                onChange={(e) => {
-                  const song = mergedSongs.find(s => s.id === e.target.value);
-                  setCurrentSong(song);
-                }}
-              >
-                <option value="" disabled>Select a song</option>
-
-                {mergedSongs.map(s => (
-                  <option key={s.id} value={s.id}>
-                    {s.song} - {s.artist}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )} */}
-
           <div className={`cqt-explore-panel ${modeState === "explore" && showSelector ? "visible" : "hidden"}`}>
             <select
               value={currentSong?.id || ""}
@@ -503,12 +492,33 @@ const BaseCQT = forwardRef((_, ref) => {
             </select>
           </div>
 
+          <div className="legend-wrapper">
+            <LegendBar 
+              colorScale={scale}
+              domain={domain}
+              label="Energy"
+            />
+            <div className="legend-labels">
+              <span>low</span>
+              <span>high</span>
+            </div>
+          </div>
+          
+
           {/* Spectrogram canvas */}
           <div className="cqt-spectrogram-wrapper">
             <CreateCQTCanvas 
               ref={canvasRef}
               dataPath={currentSong?.cqtPath}
               onDataReady={(data) => {
+                const allValues = data.values.flat().sort((a, b) => a - b);
+
+                // ✅ 推荐：用分位数（更稳）
+                const min = d3.quantile(allValues, 0.02);
+                const max = d3.quantile(allValues, 0.98);
+
+                setDomain([min, max]);
+
                 const plot = canvasRef.current.getPlotArea();
 
                 if (!plot) return;
@@ -521,6 +531,7 @@ const BaseCQT = forwardRef((_, ref) => {
                 setPlayheadLeft(plot.left);
                 resetPlayback();
               }}
+              colorScale={scale}   // ⭐ 新增
             />
             {/* 👇 遮罩层 */}
             {showOverlay && (
@@ -582,15 +593,6 @@ const BaseCQT = forwardRef((_, ref) => {
             
           </div>
 
-          {/* FrameBar */}
-          {/* {showFrameBar && (
-            <FrameBar
-              bins={72}
-              noteLabels={noteLabels}
-              rectWidth={binHeight}
-              values={currentFrame} 
-            />
-          )} */}
           <div className={`cqt-framebar ${showFrameBar ? "visible" : "hidden"}`}>
             <FrameBar
               bins={72}

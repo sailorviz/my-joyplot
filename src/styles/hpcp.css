@@ -36,11 +36,6 @@
   gap: 0.3rem;
 }
 
-/* .instrument-name {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-} */
-
 .instrument-button {
   position: relative;
   width: 100%;
@@ -116,14 +111,43 @@
 
 .legend-wrapper {
   display: flex;
+  flex-direction: column;
+  align-items: center;        /* 整体居中 */
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.energy-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;        /* energy-bar 内容居中 */
+  width: 100%;
+  max-width: 150px;           /* 可根据需要调整最大宽度，避免太宽 */
+}
+
+.energy-bar canvas {
+  width: 100%;                /* canvas 占满 energy-bar 宽度 */
+  height: 18px;               /* 建议给 canvas 一个固定高度，更好控制 */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.legend-title {
+  font-size: 1rem;
+  color: #ddd;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 .legend-labels {
   display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: white;
-  margin-top: 4px;
+  justify-content: space-between;   /* weak 在左，strong 在右 */
+  width: 100%;                      /* 让标签撑满 energy-bar 的宽度 */
+  max-width: 150px;                 /* 与 canvas 宽度对齐 */
+  font-size: 0.8rem;
+  color: #ddd;
+  margin-top: 6px;
+  padding: 0 2px;                   /* 轻微左右内边距，让文字不贴边 */
 }
 
 .hpcp-comparision {
