@@ -223,13 +223,13 @@ const HPCPComparision = forwardRef((_, ref) => {
               </div>
             ))}
 
-            <div className="legend-wrapper">
+            <div className="hpcp-legend-wrapper">
               <LegendBar 
                 colorScale={mode === "cqt" ? cqtScale : hpcpScale}
                 domain={mode === "cqt" ? cqtDomain : hpcpDomain}
                 label={mode === "cqt" ? "CQT Energy" : "HPCP Energy"}
               />
-              <div className="legend-labels">
+              <div className="hpcp-legend-labels">
                 <span>low</span>
                 <span>high</span>
               </div>

@@ -92,11 +92,11 @@
   transform: translateY(10px);
 }
 
-.legend-title {
+.cqt-legend-wrapper .legend-title {
   display: none;
 }
 
-.legend-wrapper {
+.cqt-legend-wrapper {
   flex: 0 0 auto;                    /* 关键：固定内容高度，不参与弹性伸缩 */
   width: 100%;
   display: flex;
@@ -109,18 +109,20 @@
 }
 
 /* Legend 内部元素控制 */
-.legend-wrapper .energy-bar {
+.cqt-legend-wrapper .energy-bar {
   max-width: 320px;                  /* 建议值，根据你的界面宽度调整 */
   width: 100%;
 }
 
-.legend-wrapper .energy-bar canvas {
+.cqt-legend-wrapper .energy-bar canvas {
   width: 100%;
   height: 22px;                      /* 固定 canvas 高度，更稳定 */
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.legend-wrapper .legend-labels {
+.cqt-legend-labels {
+  display: flex;
+  justify-content: space-between;   /* weak 在左，strong 在右 */
   max-width: 320px;
   width: 100%;
   font-size: 0.82rem;
@@ -170,7 +172,7 @@
   pointer-events:none;
 }
 
-.cqt-playhead{
+/* .cqt-playhead{
   position: absolute;
   top: 0;
   bottom: 0;
@@ -179,6 +181,24 @@
   background: white;
 
   left: 0;
+} */
+
+.cqt-playhead {
+  position: absolute;
+  border-left: 2px solid white;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+  z-index: 10;
+  transition: all 0.05s linear;
+}
+
+.cqt-playhead.flash {
+  border-left: 3.5px solid #ffffff;
+  box-shadow: 
+    0 0 12px #fff,
+    0 0 22px #aaffff,
+    0 0 35px #66ccff;      /* 横向拉伸增强冲击感 */
+  filter: brightness(1.8);
 }
 
 .cqt-framebar {

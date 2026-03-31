@@ -109,7 +109,7 @@
   height: 100%;
 }
 
-.legend-wrapper {
+.hpcp-legend-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;        /* 整体居中 */
@@ -118,7 +118,7 @@
   height: 100%;
 }
 
-.energy-bar {
+.hpcp-legend-wrapper .energy-bar {
   display: flex;
   flex-direction: column;
   align-items: center;        /* energy-bar 内容居中 */
@@ -126,20 +126,20 @@
   max-width: 150px;           /* 可根据需要调整最大宽度，避免太宽 */
 }
 
-.energy-bar canvas {
+.hpcp-legend-wrapper .energy-bar canvas {
   width: 100%;                /* canvas 占满 energy-bar 宽度 */
   height: 18px;               /* 建议给 canvas 一个固定高度，更好控制 */
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.legend-title {
+.hpcp-legend-wrapper .legend-title {
   font-size: 1rem;
   color: #ddd;
   margin-bottom: 0.5rem;
   font-weight: bold;
 }
 
-.legend-labels {
+.hpcp-legend-labels {
   display: flex;
   justify-content: space-between;   /* weak 在左，strong 在右 */
   width: 100%;                      /* 让标签撑满 energy-bar 的宽度 */
