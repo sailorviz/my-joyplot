@@ -29,7 +29,6 @@ export default function CQTCanvas({ data, colorScale }) {
 
     const block = canvas.parentElement;
     const rect = block.getBoundingClientRect();
-    console.log("Canvas container size:", rect.width, "x", rect.height);
 
     const dpr = window.devicePixelRatio || 1;
     canvas.width = rect.width * dpr;

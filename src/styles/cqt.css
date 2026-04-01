@@ -146,18 +146,11 @@
 }
 
 .cqt-spectrogram-canvas {
+  position: absolute;
   width: 100% !important;
   height: 100% !important;
   display: block;
-}
-
-.cqt-beat-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  pointer-events: none;
+  z-index: 0;
 }
 
 .cqt-overlay {
@@ -172,23 +165,12 @@
   pointer-events:none;
 }
 
-/* .cqt-playhead{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-
-  width: 2px;
-  background: white;
-
-  left: 0;
-} */
-
 .cqt-playhead {
   position: absolute;
   border-left: 2px solid white;
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
   pointer-events: none;
-  z-index: 10;
+  z-index: 20;
   transition: all 0.05s linear;
 }
 

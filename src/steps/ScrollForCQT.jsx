@@ -64,10 +64,10 @@ export default function ScrollForCQT() {
               baseRef.current?.showPlayhead();
               baseRef.current?.showPlayButton();  
               baseRef.current?.showOverlay(); 
+              baseRef.current?.showPulse(); // beats效果依赖RAF，每帧检查state, REACT异步更新延迟明显，所以在case7前提前设置。
               break;
             case 7:
               baseRef.current?.resetPlayback();
-              baseRef.current?.showPulse(); 
               break;
             case 9:
               baseRef.current?.enterExploreMode();
@@ -113,7 +113,7 @@ export default function ScrollForCQT() {
               break;
             case 7:
               baseRef.current?.resetPlayback();
-              baseRef.current?.hidePulse(); 
+              baseRef.current?.hidePulse(); // 这里也是一样，需要在回到case4之前就提前设置state。
               break;
             case 9:
               baseRef.current?.exitExploreMode();
