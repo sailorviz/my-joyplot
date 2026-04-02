@@ -1,0 +1,172 @@
+.hpcp-example {
+  position: relative;   /* 参考定位，子元素 sticky 以此为边界 */
+  height: 1200vh;        /* 给滚动动画留出空间 */
+  margin-bottom: 20vh;
+  outline: 3px solid yellow;
+}
+
+.hpcp-example-stickyContainer {
+  position: sticky;
+  top: 0;
+  display: flex;
+  width: 100%;
+  height: 100vh;           /* 关键：占满一屏 */
+  overflow: hidden;        /* 防止子元素溢出 */
+}
+
+#hpcp-example-container {
+  width: 75%;              /* 或你想要的比例 */
+  height: 100%;            /* 必须 100% */
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
+  overflow: hidden;
+}
+
+.hpcp-example-layout{
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* 左侧图示区 */
+.hpcp-example-left{
+  height: 100%;              /* 🔥 必须固定 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 右侧文字区 */
+.hpcp-example-right{
+  top: 0;
+  width: 25%;
+  padding: 4rem 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.hpcp-example-stage {
+  width: 100%;
+  height: 100%;                    /* 🔥 吃满容器 */
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem 0.2rem;
+  box-sizing: border-box;
+  gap: 0;                     /* 模块间距统一管理 */
+}
+
+/* Header（标题 + 播放按钮） */
+.hpcp-example-header-container {
+  flex: 0 0 auto;   /* 不参与弹性分配 */
+  display: flex;
+  align-items: center;
+  justify-content: center;               
+}
+
+.hpcp-example-header {
+  display: inline-flex;       /* inline-flex 保证整体可以居中 */
+  align-items: center;        /* 垂直居中 */
+  
+  gap: 10px;                  /* 标题和按钮之间的间隙，可调 */
+}
+
+.hpcp-example-title{
+  font-size: clamp(1rem, 1.5vw, 1.4rem);  /* 🔥 自适应 */
+  font-weight: 600;
+  color:#ffffff;
+}
+
+.hpcp-example-legend-wrapper .legend-title {
+  display: none;
+}
+
+.hpcp-example-legend-wrapper {
+  flex: 0 0 auto;                    /* 关键：固定内容高度，不参与弹性伸缩 */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0;
+  max-height: 80px;                  /* ← 新增：强行限制最大高度，防止挤压 */
+  box-sizing: border-box;
+}
+
+/* Legend 内部元素控制 */
+.hpcp-example-legend-wrapper .energy-bar {
+  max-width: 320px;                  /* 建议值，根据你的界面宽度调整 */
+  width: 100%;
+}
+
+.hpcp-example-legend-wrapper .energy-bar canvas {
+  width: 100%;
+  height: 22px;                      /* 固定 canvas 高度，更稳定 */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.hpcp-example-legend-labels {
+  display: flex;
+  justify-content: space-between;   /* weak 在左，strong 在右 */
+  max-width: 320px;
+  width: 100%;
+  font-size: 0.82rem;
+  color: #ddd;
+  padding: 0 4px;
+}
+
+/* spectrogram 会自动适应 上层容器 宽度 */
+.hpcp-example-spectrogram-wrapper {
+  flex: 1 1 auto;                  /* 🔥 核心：吃掉剩余所有空间 */
+  position: relative;
+  min-height: 0;                   /* 防止 flex 子元素溢出（非常重要！） */
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.hpcp-example-spectrogram-canvas {
+  position: absolute;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  z-index: 0;
+}
+
+.hpcp-example-text{
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 320px;
+  color: white;
+}
+
+.scrollingTextContainer-hpcp-example {
+  position: relative;
+  margin-top: 100vh; /* sticky 撑满一屏后再出现文字 */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* 水平居中 */
+  justify-content: flex-start;
+  gap: 40vh;
+}
+
+.scrolling-text-hpcp-example {
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+  height: 40vh;
+  background:  rgba(57, 143, 224, 0.5);
+}
+
+.triggerStep-hpcp-example {
+  height: 40vh;
+  background: rgba(5, 231, 16, 0.5);
+  margin-bottom: 50vh;
+}
+
+.scrollingTextEndStep-hpcp-example {
+  margin-top: auto; /* 推到底部 */
+  height: 40vh;
+  background: rgba(57, 143, 224, 0.5);
+}
+

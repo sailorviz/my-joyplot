@@ -13,6 +13,7 @@ import ScrollForCQT from "./steps/ScrollForCQT";
 import ScrollForTransitionFive from "./steps/ScrollForTransitionFive";
 import ScrollForHPCPIllustration from "./steps/ScrollForHPCPIllustration";
 import ScrollForHPCPComparision from "./steps/ScrollForHPCPComparision";
+import ScrollForHPCPExample from "./steps/ScrollForHPCPExample";
 
 export default function App() {
   const introRef = useRef(null);
@@ -29,6 +30,7 @@ export default function App() {
   const transitionFiveRef = useRef(null);
   const hpcpIllustrationRef = useRef(null);
   const hpcpComparisionRef = useRef(null);
+  const hpcpExampleRef = useRef(null);
 
   return (
     <div className="app-container">
@@ -88,6 +90,9 @@ export default function App() {
       </div>
       <div ref={hpcpComparisionRef}>
         <ScrollForHPCPComparision />
+      </div>
+      <div ref={hpcpExampleRef}>
+        <ScrollForHPCPExample />
       </div>
     </div>
   );

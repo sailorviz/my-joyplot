@@ -67,7 +67,7 @@ export default function HPCPCanvas({ data, colorScale }) {
     // 绘制 HPCP
     for (let t = 0; t < cols; t++) {
       for (let p = 0; p < rows; p++) {
-        const v = values[p][t]; // pitch 在外，time 在内
+        const v = values[t][p]; // pitch 在外，time 在内
         ctx.fillStyle = colorScale(v);
         ctx.fillRect(
           xScale(t),
