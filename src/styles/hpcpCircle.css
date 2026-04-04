@@ -1,0 +1,127 @@
+.hpcpCircle {
+  position: relative;
+  margin-bottom: 20vh;
+  outline: 3px solid blue;
+}
+
+/* ===================== */
+/* 文字 section 居中 */
+/* ===================== */
+
+.text-hpcpCircle {
+  height: 100vh;
+  background: red;
+
+  /* 新增 ↓ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  /* 控制阅读宽度 */
+  padding-left: 20vw;
+  padding-right: 20vw;
+}
+
+
+/* ===================== */
+/* sticky hpcp-circle */
+/* ===================== */
+
+.hpcpCircle-stickyContainer {
+  position: sticky;
+  top: 0;
+
+  /* 新增 ↓ 保证占满一屏 */
+  height: 100vh;
+
+  /* 新增 ↓ 让 hpcp-circle 居中 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ===================== */
+/* hpcp-circle 本体 */
+/* ===================== */
+
+#hpcp-circle-container {
+  overflow: hidden;
+  height: 100vh;
+  background: rgba(245, 85, 85, 0.5);
+  position: relative;
+}
+
+/* ===================== */
+/* hpcp-circle 内部分割 */
+/* ===================== */
+.hpcp-circle-layout{
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* 左侧图示区 */
+.hpcp-circle-left{
+  width:75%;
+  height: 100%;              /* 🔥 必须固定 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 右侧hover illustration区 */
+.hpcp-circle-right{
+  top: 0;
+  width: 25%;
+  padding: 4rem 2rem;
+  display: flex;
+  align-items: center;
+}
+
+/* ===================== */
+/* 原 scrolling text 结构 */
+/* (目前没用可以保留) */
+/* ===================== */
+
+.scrollingTextContainer-hpcpCircle {
+  position: relative;
+  margin-top: 100vh;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 40vh;
+}
+
+.scrolling-text-hpcpCircle {
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+  height: 40vh;
+  background:  rgba(57, 143, 224, 0.5);
+}
+
+
+/* ===================== */
+/* scroll trigger */
+/* ===================== */
+
+.triggerStep-hpcpCircle {
+
+  /* 修改 ↓ */
+  height: 100vh;
+
+  background: rgba(5, 231, 16, 0.5);
+
+  /* 删除 margin-bottom */
+}
+
+.scrollingTextEndStep-hpcpCircle {
+  margin-top: auto;
+  height: 40vh;
+  background: rgba(57, 143, 224, 0.5);
+}
