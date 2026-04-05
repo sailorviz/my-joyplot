@@ -48,37 +48,59 @@
 /* ===================== */
 
 #hpcp-circle-container {
-  overflow: hidden;
-  height: 100vh;
-  background: rgba(245, 85, 85, 0.5);
+  width: 100%;
+  height: 100%; /* ✅ 关键：跟随 sticky container */
   position: relative;
 }
 
 /* ===================== */
-/* hpcp-circle 内部分割 */
+/* layout */
 /* ===================== */
-.hpcp-circle-layout{
+
+.hpcp-circle-layout {
   display: flex;
   width: 100%;
   height: 100%;
 }
 
-/* 左侧图示区 */
-.hpcp-circle-left{
-  width:75%;
-  height: 100%;              /* 🔥 必须固定 */
+/* ===================== */
+/* 左侧：circle */
+/* ===================== */
+
+.hpcp-circle-left {
+  width: 65%;
+  height: 100%;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* 防止撑爆 */
+  overflow: hidden;
 }
 
-/* 右侧hover illustration区 */
-.hpcp-circle-right{
-  top: 0;
-  width: 25%;
-  padding: 4rem 2rem;
+/* 控制 SVG 最大尺寸 */
+.hpcp-circle-left svg {
+  max-width: 600px;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ===================== */
+/* 右侧：hover panel */
+/* ===================== */
+
+.hpcp-circle-right {
+  width: 35%;
+  height: 100%; /* ✅ 必须加 */
+
   display: flex;
-  align-items: center;
+  align-items: center;     /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
 /* ===================== */

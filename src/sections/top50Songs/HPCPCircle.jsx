@@ -1,23 +1,27 @@
 import { forwardRef, useImperativeHandle, useRef, useState, useEffect, useMemo } from "react";
 import * as d3 from "d3";
 import Papa from "papaparse";
-import "../../styles/hpcpExample.css";
-import LegendBar from "./audioFeature/hpcp/LegendBar";
-import HPCPCanvasPlus from "./audioFeature/hpcp/HPCPCanvasPlus";
+import "../../styles/hpcpCircle.css";
+import CreateHPCPCircle from "./audioFeature/hpcp/CreateHPCPCircle";
 
 const HPCPCircle = forwardRef((_, ref) => {
   const [songs, setSongs] = useState(false);
   const [mergedSongs, setMergedSongs] = useState([]);
-  const [domain, setDomain] = useState([0, 1]);
+  const [hpcpSongs, setHpcpSongs] = useState([]);
+  const [domainMean, setDomainMean] = useState([0, 1]); // 全局all songs的hpcp值之domain
+  const [domainVar, setDomainVar] = useState([0, 1]);
 
-  // ⭐ NEW：当前歌曲（这里先写死 Holiday，后面可以扩展）
-  const [currentSong, setCurrentSong] = useState(null);
-
-  const scale = useMemo(() => {
+  const colorScaleMean = useMemo(() => {
     return d3.scaleSequential()
-      .domain(domain)
+      .domain(domainMean)
       .interpolator(d3.interpolateViridis);
-  }, [domain]);
+  }, [domainMean]);
+
+  const colorScaleVar = useMemo(() => {
+    return d3.scaleSequential()
+      .domain(domainVar)
+      .interpolator(d3.interpolateInferno); // 后面修改为与cqt/hpcp都不同的颜色映射
+  }, [domainVar]);
 
   // 加载songs数据
   useEffect(() => {
@@ -70,26 +74,112 @@ const HPCPCircle = forwardRef((_, ref) => {
         bpm: song.bpm,
         danceability: song.danceability,
         dynamic_complexity: song.dynamic_complexity,
-        duration: song.duration,
         key: song.key,
         scale: song.scale,
-        instrument: song.instrument,
-        beat_position: song.beat_positon,   
         hpcpPath: `/data/hpcp/${song.artist} - ${song.song}_HPCP.json`,
       };
     });
     setMergedSongs(merged);
   }, [songs]);
 
-  // set current song as "Holiday"
+  // fetch hpcp data and compute
+  function computePitchStats(values) {
+    const PITCH_COUNT = 12;
+
+    const pitch = [];
+
+    for (let pc = 0; pc < PITCH_COUNT; pc++) {
+
+      const arr = values.map(frame => frame[pc]);
+
+      const mean = d3.mean(arr);
+
+      const variance = d3.variance(arr);
+
+      pitch.push({
+        pc,
+        mean: mean || 0,
+        variance: variance || 0
+      });
+    }
+
+    return pitch;
+  }
+
   useEffect(() => {
     if (!mergedSongs.length) return;
 
-    const song = mergedSongs.find(s => s.song === "Holiday"); // ⭐ NEW
-    setCurrentSong(song);
+    const loadAll = async () => {
+      const results = await Promise.all(
+        mergedSongs.map(async (song) => {
+          try {
+            const res = await fetch(song.hpcpPath);
+            const json = await res.json();
 
+            const values = json.values; // [frame][12]
+
+            if (!values || !values.length) return null;
+
+            const pitchStats = computePitchStats(values);
+
+            return {
+              ...song,
+              pitch: pitchStats
+            };
+
+          } catch (err) {
+            console.error("HPCP load error:", song.song, err);
+            return null;
+          }
+        })
+      );
+
+      const cleaned = results.filter(Boolean);
+      console.log("Expected:", mergedSongs.length);
+      console.log("Loaded:", cleaned.length);
+
+      // 找缺失的
+      const missing = mergedSongs.filter(
+        s => !cleaned.find(c => c.song === s.song && c.artist === s.artist)
+      );
+      console.log("Missing songs:", missing);
+
+      setHpcpSongs(cleaned);
+    };
+
+    loadAll();
+    
   }, [mergedSongs]);
 
+  // 计算 global domainMean
+  useEffect(() => {
+    if (!hpcpSongs.length) return;
+
+    const allMeans = hpcpSongs.flatMap(s =>
+      s.pitch.map(p => p.mean)
+    );
+
+    setDomainMean([
+      0,
+      d3.max(allMeans)
+    ]);
+
+  }, [hpcpSongs]);
+
+  // 计算 global domainVar
+  useEffect(() => {
+    if (!hpcpSongs.length) return;
+
+    const allVars = hpcpSongs.flatMap(s =>
+      s.pitch.map(p => p.variance)
+    );
+
+    setDomainVar([
+      0,
+      d3.max(allVars)
+    ]);
+
+  }, [hpcpSongs]);  
 
   // 暴露给 Scrollama 调用的方法
   useImperativeHandle(ref, () => ({
@@ -101,6 +191,11 @@ const HPCPCircle = forwardRef((_, ref) => {
     <div id="hpcp-circle-container">
       <div className="hpcp-circle-layout">
         <div className="hpcp-circle-left">
+          <CreateHPCPCircle
+            songs={hpcpSongs}
+            colorScaleMean={colorScaleMean}
+            colorScaleVar={colorScaleVar}
+          />
         </div>
 
         <div className="hpcp-circle-right">
