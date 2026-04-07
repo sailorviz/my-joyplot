@@ -54,7 +54,7 @@ export default function ScrollForHPCPCircle() {
         if (element.classList.contains("scrollingTextEndStep-hpcpCircle") && direction === "down") {
           switch (index) {
             case 0:
-              baseRef.current.zoomToDissonanceKDE();
+              baseRef.current.hideGuide();
               break;
               default:
               break;
@@ -63,11 +63,11 @@ export default function ScrollForHPCPCircle() {
         // if (element.classList.contains("triggerStep-hpcpCircle") && direction === "down") {
         // }
       })
-      .onStepExit(({ element, direction }) => {
+      .onStepExit(({ element, index, direction }) => {
         if (element.classList.contains("scrollingTextEndStep-hpcpCircle") && direction === "up") {
           switch (index) {
             case 0:
-              baseRef.current.zoomToDissonanceKDE();
+              baseRef.current.showGuide();
               break;
               default:
               break;
@@ -106,14 +106,16 @@ export default function ScrollForHPCPCircle() {
             <ReactMarkdown>{featureSteps[0]}</ReactMarkdown>
           </div>
           <div className="scrollingTextEndStep-hpcpCircle"></div>
-        </div>        
+        </div>   
+
+        <div style={{ height: '100vh', pointerEvents: 'auto' }} />     
       </div>
 
       <div className="text-hpcpCircle">
         <ReactMarkdown>{textSteps[1]}</ReactMarkdown>
       </div>
 
-      {/* <div style={{ height: '100vh', pointerEvents: 'auto' }} /> */}
+
     </div>
   );
 }

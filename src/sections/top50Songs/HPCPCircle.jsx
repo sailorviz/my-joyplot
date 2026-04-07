@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import Papa from "papaparse";
 import "../../styles/hpcpCircle.css";
 import CreateHPCPCircle from "./audioFeature/hpcp/CreateHPCPCircle";
+import LegendBar from "./audioFeature/hpcp/LegendBar";
 
 const HPCPCircle = forwardRef((_, ref) => {
   const [songs, setSongs] = useState(false);
@@ -10,6 +11,7 @@ const HPCPCircle = forwardRef((_, ref) => {
   const [hpcpSongs, setHpcpSongs] = useState([]);
   const [domainMean, setDomainMean] = useState([0, 1]); // 全局all songs的hpcp值之domain
   const [domainVar, setDomainVar] = useState([0, 1]);
+  const [showGuide, setShowGuide] = useState(true);
 
   const colorScaleMean = useMemo(() => {
     return d3.scaleSequential()
@@ -183,7 +185,8 @@ const HPCPCircle = forwardRef((_, ref) => {
 
   // 暴露给 Scrollama 调用的方法
   useImperativeHandle(ref, () => ({
-    hideCaptureBox: () => setShowCapture(false),
+    hideGuide: () => setShowGuide(false),
+    showGuide: () => setShowGuide(true),
   }));
 
   // 完全使用react进行layout
@@ -195,7 +198,35 @@ const HPCPCircle = forwardRef((_, ref) => {
             songs={hpcpSongs}
             colorScaleMean={colorScaleMean}
             colorScaleVar={colorScaleVar}
+            showGuide={showGuide}
           />
+          
+          {/* legend 区 */}
+          <div className="hpcp-legend-group">
+            <div className="hpcp-legend-mean">
+              <LegendBar
+                colorScale={colorScaleMean}
+                domain={domainMean}
+                label="Energy (Mean)"
+              />
+              <div className="legend-labels">
+                <span>low</span>
+                <span>high</span>
+              </div>
+            </div>
+
+            <div className="hpcp-legend-var">
+              <LegendBar
+                colorScale={colorScaleVar}
+                domain={domainVar}
+                label="Variation (Variance)"
+              />
+              <div className="legend-labels">
+                <span>low</span>
+                <span>high</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="hpcp-circle-right">
