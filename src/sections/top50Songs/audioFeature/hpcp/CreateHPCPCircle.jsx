@@ -5,10 +5,12 @@ export default function CreateHPCPCircle({
   songs,
   colorScaleMean,
   colorScaleVar,
-  showGuide
+  hover,
+  setHover
 }) {
   const containerRef = useRef(null);
   const [size, setSize] = useState({ width: 600, height: 600 });
+  const [layoutReady, setLayoutReady] = useState(false);
 
   // =========================
   // resize
@@ -19,6 +21,9 @@ export default function CreateHPCPCircle({
     const observer = new ResizeObserver((entries) => {
       const { width, height } = entries[0].contentRect;
       setSize({ width, height });
+
+      // ⭐ 关键：标记 layout 已稳定
+      setLayoutReady(true);
     });
 
     observer.observe(containerRef.current);
@@ -55,7 +60,7 @@ export default function CreateHPCPCircle({
   // =========================
   // HOVER STATE
   // =========================
-  const [hover, setHover] = useState(null);
+  // const [hover, setHover] = useState(null);
 
   // =========================
   // VISUAL CELLS（保持不变）
@@ -168,7 +173,7 @@ export default function CreateHPCPCircle({
   // PITCH HIT OVERLAYS（改为透明环形面积 —— 推荐修复）
   // =========================
   const pitchHitOverlays = useMemo(() => {
-    if (!songs || !songs.length) return [];
+    if (!songs || !songs.length || !layoutReady) return [];
 
     const arc = d3.arc();
     const result = [];
@@ -190,7 +195,7 @@ export default function CreateHPCPCircle({
       });
     }
     return result;
-  }, [innerEmptyRadius, radiusStep]);
+  }, [songs, innerEmptyRadius, radiusStep, layoutReady]);
 
   // =========================
   // SONG HIT OVERLAYS（扇形面积 —— 保持你上次的优化）
@@ -222,8 +227,7 @@ export default function CreateHPCPCircle({
     });
 
     return result;
-  }, [songs.length, angleStep, innerEmptyRadius, outerRadius, SONG_HIT_ANGLE_RATIO]);
-
+  }, [songs, angleStep, innerEmptyRadius, outerRadius, SONG_HIT_ANGLE_RATIO]);
 
   // =========================
   // RENDER
@@ -245,18 +249,54 @@ export default function CreateHPCPCircle({
             const pitchActive = hover?.type === "pitch" && hover.pitchIndex === c.pitchIndex;
             const pitchDim   = hover?.type === "pitch" && hover.pitchIndex !== c.pitchIndex;
 
-            const isActive = songActive || pitchActive;
+            const isSongHover = hover?.type === "song";
+            const isPitchHover = hover?.type === "pitch";
+
             const isDim = songDim || pitchDim;
 
+            const isActive = songActive || pitchActive;
+
+            const song = songs[c.songIndex];
+
+            const isDominantHighlight =
+              hover?.type === "pitch" &&
+              c.pitchIndex === hover.pitchIndex &&
+              song?.dominantPitch === hover.pitchIndex;
+            const isDominantSong =
+              isPitchHover && song?.dominantPitch === hover.pitchIndex;
+            const isSameSongNonTargetPitch =
+              isDominantSong && c.pitchIndex !== hover.pitchIndex;
+
             return (
+
               <path
                 key={i}
                 d={c.path}
                 fill={c.color}
-                stroke={isActive ? "white" : "rgba(255,255,255,0.05)"}
-                strokeWidth={isActive ? 1.5 : 0.5}
-                opacity={isDim ? 0.15 : 1}
-                style={{ transition: "opacity 120ms, stroke 120ms" }}
+                stroke={
+                  isDominantHighlight
+                    ? "red"
+                    : isActive
+                      ? "white"
+                      : "rgba(255,255,255,0.05)"
+                }
+                strokeWidth={
+                  isDominantHighlight
+                    ? 3
+                    : isActive
+                      ? 1.5
+                      : 0.5
+                }
+                opacity={
+                  isSameSongNonTargetPitch
+                    ? 0.6     // ⭐ override dim（关键）
+                    : isDim
+                      ? 0.12
+                      : 1
+                }
+                style={{
+                  transition: "all 120ms",
+                }}
               />
             );
           })}
@@ -319,29 +359,25 @@ export default function CreateHPCPCircle({
       </svg>
 
       {/* 引导文字提示 */}
-      {showGuide && (
-        <div 
-          style={{
-            position: "absolute",
-            top: "5vh",
-            paddingLeft: "6vw",
-            background: "rgba(0,0,0,0.8)",
-            color: "#fff",
-            padding: "12px 16px",
-            borderRadius: "8px",
-            fontSize: "13.8px",
-            pointerEvents: "none",
-            zIndex: 30,
-            boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-          }}
-        >
-          移动鼠标试试看 👇<br />
-          <span style={{ opacity: 0.9 }}>
-            Fan-shaped area = one song<br />
-            Circular area = one pitch class
-          </span>
-        </div>
-      )}
+      <div 
+        style={{
+          position: "absolute",
+          top: "5vh",
+          paddingLeft: "0",
+          background: "rgba(0,0,0,0.8)",
+          color: "#fff",
+          borderRadius: "8px",
+          fontSize: "13.8px",
+          pointerEvents: "none",
+          zIndex: 30,
+          boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+        }}
+      >
+        <span style={{ opacity: 0.9 }}>
+          Fan-shaped area = one song<br />
+          Circular area = one pitch class
+        </span>
+      </div>
     </div>
   );
 }

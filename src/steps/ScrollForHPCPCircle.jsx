@@ -54,7 +54,7 @@ export default function ScrollForHPCPCircle() {
         if (element.classList.contains("scrollingTextEndStep-hpcpCircle") && direction === "down") {
           switch (index) {
             case 0:
-              baseRef.current.hideGuide();
+              // baseRef.current.hideGuide();
               break;
               default:
               break;
@@ -67,7 +67,7 @@ export default function ScrollForHPCPCircle() {
         if (element.classList.contains("scrollingTextEndStep-hpcpCircle") && direction === "up") {
           switch (index) {
             case 0:
-              baseRef.current.showGuide();
+              // baseRef.current.showGuide();
               break;
               default:
               break;

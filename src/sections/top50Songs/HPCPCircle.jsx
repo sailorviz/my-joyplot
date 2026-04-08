@@ -4,6 +4,7 @@ import Papa from "papaparse";
 import "../../styles/hpcpCircle.css";
 import CreateHPCPCircle from "./audioFeature/hpcp/CreateHPCPCircle";
 import LegendBar from "./audioFeature/hpcp/LegendBar";
+import HPCPDetailPanel from "./audioFeature/hpcp/HPCPDetailPanel";
 
 const HPCPCircle = forwardRef((_, ref) => {
   const [songs, setSongs] = useState(false);
@@ -11,7 +12,7 @@ const HPCPCircle = forwardRef((_, ref) => {
   const [hpcpSongs, setHpcpSongs] = useState([]);
   const [domainMean, setDomainMean] = useState([0, 1]); // 全局all songs的hpcp值之domain
   const [domainVar, setDomainVar] = useState([0, 1]);
-  const [showGuide, setShowGuide] = useState(true);
+  const [hover, setHover] = useState(null);
 
   const colorScaleMean = useMemo(() => {
     return d3.scaleSequential()
@@ -79,6 +80,7 @@ const HPCPCircle = forwardRef((_, ref) => {
         key: song.key,
         scale: song.scale,
         hpcpPath: `/data/hpcp/${song.artist} - ${song.song}_HPCP.json`,
+        coverPath: `/imgs/song_cover/${song.artist} - ${song.song}.jpg`,
       };
     });
     setMergedSongs(merged);
@@ -123,10 +125,12 @@ const HPCPCircle = forwardRef((_, ref) => {
             if (!values || !values.length) return null;
 
             const pitchStats = computePitchStats(values);
+            const dominantPitch = d3.maxIndex(pitchStats, d => d.mean);
 
             return {
               ...song,
-              pitch: pitchStats
+              pitch: pitchStats,
+              dominantPitch
             };
 
           } catch (err) {
@@ -152,6 +156,31 @@ const HPCPCircle = forwardRef((_, ref) => {
     loadAll();
     
   }, [mergedSongs]);
+
+  // 建立 dominant pitch to songs map
+  const pitchToSongsMap = useMemo(() => {
+    if (!hpcpSongs.length) return {};
+
+    const map = {};
+
+    hpcpSongs.forEach((song) => {
+      const p = song.dominantPitch;
+
+      if (!map[p]) {
+        map[p] = [];
+      }
+
+      map[p].push(song);
+    });
+
+    return map;
+  }, [hpcpSongs]);
+
+  let pitchSongs = [];
+
+  if (hover && hover.type === "pitch") {
+    pitchSongs = pitchToSongsMap[hover.pitchIndex] || [];
+  }
 
   // 计算 global domainMean
   useEffect(() => {
@@ -185,8 +214,7 @@ const HPCPCircle = forwardRef((_, ref) => {
 
   // 暴露给 Scrollama 调用的方法
   useImperativeHandle(ref, () => ({
-    hideGuide: () => setShowGuide(false),
-    showGuide: () => setShowGuide(true),
+    // hideGuide: () => setShowGuide(false),
   }));
 
   // 完全使用react进行layout
@@ -198,7 +226,8 @@ const HPCPCircle = forwardRef((_, ref) => {
             songs={hpcpSongs}
             colorScaleMean={colorScaleMean}
             colorScaleVar={colorScaleVar}
-            showGuide={showGuide}
+            hover={hover}
+            setHover={setHover}
           />
           
           {/* legend 区 */}
@@ -219,7 +248,7 @@ const HPCPCircle = forwardRef((_, ref) => {
               <LegendBar
                 colorScale={colorScaleVar}
                 domain={domainVar}
-                label="Variation (Variance)"
+                label="Energy (Variance)"
               />
               <div className="legend-labels">
                 <span>low</span>
@@ -230,6 +259,11 @@ const HPCPCircle = forwardRef((_, ref) => {
         </div>
 
         <div className="hpcp-circle-right">
+          <HPCPDetailPanel
+            hover={hover}
+            songs={hpcpSongs}
+            pitchToSongsMap={pitchToSongsMap}
+          />
         </div>
       </div>
     </div>
