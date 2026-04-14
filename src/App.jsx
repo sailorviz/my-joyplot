@@ -15,6 +15,7 @@ import ScrollForHPCPIllustration from "./steps/ScrollForHPCPIllustration";
 import ScrollForHPCPComparision from "./steps/ScrollForHPCPComparision";
 import ScrollForHPCPExample from "./steps/ScrollForHPCPExample";
 import ScrollForHPCPCircle from "./steps/ScrollForHPCPCircle";
+import ScrollForNebula from "./steps/ScrollForNebula";
 
 export default function App() {
   const introRef = useRef(null);
@@ -33,6 +34,7 @@ export default function App() {
   const hpcpComparisionRef = useRef(null);
   const hpcpExampleRef = useRef(null);
   const hpcpCircleRef = useRef(null);
+  const nebulaRef = useRef(null);
 
   return (
     <div className="app-container">
@@ -98,6 +100,9 @@ export default function App() {
       </div>
       <div ref={hpcpCircleRef}>
         <ScrollForHPCPCircle />
+      </div>
+      <div ref={nebulaRef}>
+        <ScrollForNebula />
       </div>
     </div>
   );
