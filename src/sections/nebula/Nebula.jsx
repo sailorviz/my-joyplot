@@ -35,6 +35,123 @@ const Nebula = forwardRef((_, ref) => {
     return song.ifTop50 === 1 ? "#7dd3fc" : "#64748b";
   }
 
+  // 计算all particles' target positions
+  // 🆕 STEP 1: 计算三层结构 target positions
+  function computeTargets(songs, width, height) {
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    // =========================
+    // 1. 按 artist 分组
+    // =========================
+    const artistMap = new Map();
+
+    songs.forEach(song => {
+      // 🆕 STEP: extract primary artist only
+      const primaryArtist = song.artist
+        ? song.artist.split(",")[0].trim()   // 如果是 "A, B, C"
+        : "unknown";
+
+      song.primaryArtist = primaryArtist; // 🆕 可选：写回去，方便 debug
+
+      if (!artistMap.has(primaryArtist)) {
+        artistMap.set(primaryArtist, []);
+      }
+
+      artistMap.get(primaryArtist).push(song);
+    });
+
+    const artists = Array.from(artistMap.entries());
+
+    const maxRadius = Math.min(width, height) * 0.28;
+
+    artists.forEach(([artist, list], i) => {
+
+      // =========================
+      // 2. artist level（按 top50 density 决定半径）
+      // =========================
+      const top50Count = list.filter(d => d.ifTop50 === 1).length;
+      const strength = top50Count / Math.max(1, list.length);
+
+      // const radius = maxRadius * (0.4 + strength * 0.6);
+      const radius = maxRadius * (0.3 + strength * 0.9);
+
+      const angle = (i / artists.length) * Math.PI * 2;
+
+      const ax = centerX + Math.cos(angle) * radius;
+      const ay = centerY + Math.sin(angle) * radius;
+
+      // =========================
+      // 3. album clustering
+      // =========================
+      const albumMap = new Map();
+
+      list.forEach(song => {
+        if (!albumMap.has(song.album)) {
+          albumMap.set(song.album, []);
+        }
+        albumMap.get(song.album).push(song);
+      });
+
+      const albums = Array.from(albumMap.entries());
+
+      albums.forEach(([album, songsInAlbum], j) => {
+
+        const albumAngle = (j / albums.length) * Math.PI * 2;
+        // const albumR = 60;
+        const albumR = 40 + songsInAlbum.length * 3;
+
+        const bx = ax + Math.cos(albumAngle) * albumR;
+        const by = ay + Math.sin(albumAngle) * albumR;
+
+        // =========================
+        // 4. song target
+        // =========================
+        const topSongs = songsInAlbum.filter(s => s.ifTop50 === 1);
+        // songsInAlbum.forEach(song => {
+        //   // song.targetX = bx + (Math.random() - 0.5) * 20;
+        //   // song.targetY = by + (Math.random() - 0.5) * 20;
+        // });
+        if (topSongs.length > 0) {
+          // ⭐ 先给 top50 分配位置（核心点）
+          topSongs.forEach((song, k) => {
+            const angle = (k / topSongs.length) * Math.PI * 2;
+            const r = 10; // 很小，保持紧凑
+
+            song.targetX = bx + Math.cos(angle) * r;
+            song.targetY = by + Math.sin(angle) * r;
+          });
+
+          // ⭐ 非top50 围绕最近的 top50
+          songsInAlbum.forEach(song => {
+            if (song.ifTop50 === 1) return;
+
+            // 👉 随机选一个 top50 作为 anchor
+            const anchor = topSongs[Math.floor(Math.random() * topSongs.length)];
+
+            const angle = Math.random() * Math.PI * 2;
+            const r = 20 + Math.random() * 30;
+
+            song.targetX = anchor.targetX + Math.cos(angle) * r;
+            song.targetY = anchor.targetY + Math.sin(angle) * r;
+          });
+
+        } else {
+          songsInAlbum.forEach(song => {
+            const angle = Math.random() * Math.PI * 2;
+            const r = Math.sqrt(Math.random()) * 40;
+
+            song.targetX = bx + Math.cos(angle) * r;
+            song.targetY = by + Math.sin(angle) * r;
+          });
+        }
+
+      });
+    });
+
+    return songs;
+  }
+
   // import infos of all songs
   useEffect(() => {
     fetch("/data/2296_all_songs.csv")
@@ -50,6 +167,15 @@ const Nebula = forwardRef((_, ref) => {
           // ifInfoCollected : row.if_info_collected ? +if_info_collected : NaN,
           ifTop50 : row.if_top50 ? +row.if_top50 : NaN,
         }));
+
+        // 🆕 STEP 2: attach target system
+        // const enriched = computeTargets(
+        //   data,
+        //   window.innerWidth,
+        //   window.innerHeight
+        // );
+
+        // setSongs(enriched);
         setSongs(data);
       })
       .catch((err) => console.error(err));
@@ -63,13 +189,24 @@ const Nebula = forwardRef((_, ref) => {
 
   function computeState(p) {
     return {
-      flow: 1 - rangeProgress(p, 0.15, 0.25),
-      freeze: rangeProgress(p, 0.15, 0.25),
-      abstraction: rangeProgress(p, 0.25, 0.40),
-      separation: rangeProgress(p, 0.40, 0.55),
-      clustering: rangeProgress(p, 0.55, 0.75),
-      strongSeparation: rangeProgress(p, 0.75, 0.90),
-      breathing: rangeProgress(p, 0.90, 1.00),
+      // flow: 1 - rangeProgress(p, 0.15, 0.25),
+      // freeze: rangeProgress(p, 0.15, 0.25),
+      // abstraction: rangeProgress(p, 0.25, 0.40),
+      // separation: rangeProgress(p, 0.40, 0.55),
+      // clustering: rangeProgress(p, 0.55, 0.75),
+      // strongSeparation: rangeProgress(p, 0.75, 0.90),
+      // breathing: rangeProgress(p, 0.90, 1.00),
+      flow: 1 - rangeProgress(p, 0.15, 0.22),
+      freeze: rangeProgress(p, 0.15, 0.22),
+
+      abstraction: rangeProgress(p, 0.22, 0.35),
+      separation: rangeProgress(p, 0.35, 0.50),
+
+      // ⭐ 拉长
+      clustering: rangeProgress(p, 0.50, 0.80),
+
+      strongSeparation: rangeProgress(p, 0.80, 0.92),
+      breathing: rangeProgress(p, 0.92, 1.00),
     };
   }
 
@@ -77,9 +214,65 @@ const Nebula = forwardRef((_, ref) => {
   function initParticles(songs, width, height) {
     const random = (min, max) => Math.random() * (max - min) + min;
 
-    return songs.slice(0, 100).map((song, i) => {
-      const x = random(0, width);
-      const y = random(0, height);
+    return songs.map((song, i) => {
+
+      let x, y;
+
+      // =========================
+      // 🟢 EXISTING PARTICLES (0–100)
+      // =========================
+      if (i < 100) {
+
+        x = random(0, width);
+        y = random(0, height);
+
+        // 🆕 标记
+        song.isLate = false;
+      }
+
+      // =========================
+      // 🔵 LATE PARTICLES (100+)
+      // =========================
+      else {
+
+        // const edge = Math.floor(Math.random() * 4);
+
+        // // 四周初始化（视口外）
+        // if (edge === 0) {
+        //   x = random(0, width);
+        //   y = -80;
+        // } 
+        // else if (edge === 1) {
+        //   x = width + 80;
+        //   y = random(0, height);
+        // } 
+        // else if (edge === 2) {
+        //   x = random(0, width);
+        //   y = height + 80;
+        // } 
+        // else {
+        //   x = -80;
+        //   y = random(0, height);
+        // }
+
+        // 🆕 以中心为基准的“外环初始化”
+        const centerX = width / 2;
+        const centerY = height / 2;
+
+        // 半径：比画布大一圈
+        const spawnRadius = Math.max(width, height) * 0.7;
+
+        const angle = Math.random() * Math.PI * 2;
+
+        // 加一点随机扰动（防止太均匀）
+        const radiusJitter = spawnRadius * (0.8 + Math.random() * 0.4);
+
+        x = centerX + Math.cos(angle) * radiusJitter;
+        y = centerY + Math.sin(angle) * radiusJitter;
+
+        // 🆕 标记
+        song.isLate = true;
+      }
 
       return {
         x,
@@ -88,9 +281,9 @@ const Nebula = forwardRef((_, ref) => {
         initialY: y,
 
         opacity: random(0.3, 0.9),
-        speed: random(20, 40),  // px/frame（和第二份一致）
+        speed: random(20, 40),
         fontSize: random(14, 24),
-        seed: Math.random() * 1000, // 扰动
+        seed: Math.random() * 1000,
 
         song,
 
@@ -110,6 +303,8 @@ const Nebula = forwardRef((_, ref) => {
 
     // ⭐ 新增：time（用于持续运动）
     const time = performance.now() * 0.001;
+    // 🆕 STEP 2: attraction strength（由 clustering 控制）
+    const attractionStrength = state.clustering * 0.08;
 
     particles.forEach((p) => {
 
@@ -120,7 +315,7 @@ const Nebula = forwardRef((_, ref) => {
       let y = p.initialY;
 
       // state.flow
-      if (state.flow > 0) {
+      if (state.flow > 0 && !p.song.isLate) {
         const motionX = p.speed * time;
         x += motionX;
 
@@ -130,16 +325,7 @@ const Nebula = forwardRef((_, ref) => {
       }
 
       // state.freeze
-      // if (state.freeze > 0) {
-      //   particles.forEach(p => {
-      //     if (!p.isFrozen) {
-      //       p.frozenX = p.x;
-      //       p.frozenY = p.y;
-      //       p.isFrozen = true;
-      //     }
-      //   });
-      // }
-      if (state.freeze > 0 && !freezeTriggeredRef.current) {
+      if (state.freeze > 0 && !p.song.isLate && !freezeTriggeredRef.current) {
         particles.forEach(p => {
           p.frozenX = p.x;
           p.frozenY = p.y;
@@ -149,20 +335,32 @@ const Nebula = forwardRef((_, ref) => {
         freezeTriggeredRef.current = true;
       }
 
+      if (state.separation > 0 && state.clustering === 0) {
 
-      // =====================
-      // 🚫 暂时关闭其他 state（专注 flow）
-      // =====================
-      /*
-      if (state.separation > 0) {
-        const offset = p.song.ifTop50 ? -80 : 80;
-        x += offset * state.separation;
+        const dx = p.song.targetX - x;
+        const dy = p.song.targetY - y;
+
+        // ⭐ 很弱的吸引（只是“方向提示”）
+        x += dx * 0.01 * state.separation;
+        y += dy * 0.01 * state.separation;
       }
 
+      // 校准两组粒子的motion system
+      const lateFactor = p.song.isLate ? 0.3 : 1;
+      
       if (state.clustering > 0) {
-        x += (centerX - x) * 0.1 * state.clustering;
-        y += (centerY - y) * 0.1 * state.clustering;
+
+        const dx = p.song.targetX - x;
+        const dy = p.song.targetY - y;
+
+        // x += dx * attractionStrength * lateFactor;
+        // y += dy * attractionStrength * lateFactor;
+        const t = state.clustering; // 0 → 1
+
+        x = p.initialX + (p.song.targetX - p.initialX) * t;
+        y = p.initialY + (p.song.targetY - p.initialY) * t;
       }
+      /*
 
       if (state.breathing > 0) {
         const t = performance.now() * 0.002;
@@ -186,136 +384,158 @@ const Nebula = forwardRef((_, ref) => {
   }
 
   // render particles
-  // function renderParticles(container, particles, progress, width) {
-  //   const children = container.children;
-  //   const state = computeState(progress);
+  function renderEarly(el, p, state, width){
+    // =========================
+    // ① position（不变）
+    // =========================
+    el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
 
-  //   particles.forEach((p, i) => {
-  //     const el = children[i];
+    const a = state.abstraction;
+    const s = state.separation; // ⭐ 新增（0.40–0.55）
 
-  //     // =========================
-  //     // ① position（不变）
-  //     // =========================
-  //     el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
+    // =========================
+    // ② TEXT（保持原设计，只 fade）
+    // =========================
+    const textOpacity = p.opacity * (1 - a);
 
-  //     const a = state.abstraction;
+    el.style.opacity = textOpacity;
+    el.style.color = `rgba(255,255,255,${1 - a})`;
+    el.style.fontSize = `${p.fontSize * (1 - a)}px`;
 
-  //     // =========================
-  //     // ② TEXT（保持原设计，只 fade）
-  //     // =========================
-  //     const textOpacity = p.opacity * (1 - a);
+    // =========================
+    // ③ DOT（abstraction 阶段）
+    // =========================
 
-  //     el.style.opacity = textOpacity;
-  //     el.style.color = `rgba(255,255,255,${1 - a})`;
-  //     el.style.fontSize = `${p.fontSize * (1 - a)}px`;
+    const t = easeInOutCubic(a);
 
-  //     // =========================
-  //     // ⭐ ③ DOT（渐进出现，关键修改）
-  //     // =========================
+    // =========================
+    // ⭐ SIZE（加入 separation 放大）
+    // =========================
+    let size = DOT_CONFIG.size * t;
 
-  //     // ⭐ easing（让生长更自然）
-  //     const t = easeInOutCubic(a);
+    if (p.song.ifTop50 === 1) {
+      const targetSize = DOT_CONFIG.size * SIZE_SCALE_TOP50;
+      size = size + (targetSize - size) * s; // ⭐ 随 separation 渐变
+    }
 
-  //     // ⭐ size 从 0 → DOT_CONFIG.size
-  //     const size = DOT_CONFIG.size * t;
+    el.style.width = `${size}px`;
+    el.style.height = `${size}px`;
 
-  //     el.style.width = `${size}px`;
-  //     el.style.height = `${size}px`;
+    // =========================
+    // ⭐ COLOR（加入 separation 渐变）
+    // =========================
+    const baseColor = DOT_CONFIG.color;
+    const targetColor = getSeparationColor(p.song);
 
-  //     // ⭐ dot 视觉
-  //     el.style.background = DOT_CONFIG.color;
-  //     el.style.borderRadius = "50%";
+    function lerpColor(c1, c2, t) {
+      const a = parseInt(c1.slice(1), 16);
+      const b = parseInt(c2.slice(1), 16);
 
-  //     // ⭐ opacity 渐变
-  //     const dotOpacity = DOT_CONFIG.opacity * t;
+      const r = (a >> 16) + ((b >> 16) - (a >> 16)) * t;
+      const g = ((a >> 8) & 0xff) + (((b >> 8) & 0xff) - ((a >> 8) & 0xff)) * t;
+      const b2 = (a & 0xff) + ((b & 0xff) - (a & 0xff)) * t;
 
-  //     // ⭐ 合成 opacity（防止超过1）
-  //     el.style.opacity = Math.min(1, textOpacity + dotOpacity);
+      return `rgb(${r},${g},${b2})`;
+    }
 
-  //     // =========================
-  //     // ④ 保持居中（不变）
-  //     // =========================
-  //     el.style.display = "flex";
-  //     el.style.alignItems = "center";
-  //     el.style.justifyContent = "center";
-  //   });
-  // }
+    el.style.background = lerpColor(baseColor, targetColor, s);
+
+    el.style.borderRadius = "50%";
+
+    // =========================
+    // ④ opacity（不改 separation）
+    // =========================
+    const dotOpacity = DOT_CONFIG.opacity * t;
+    el.style.opacity = Math.min(1, textOpacity + dotOpacity);
+
+    // =========================
+    // ⑤ 保持居中（不变）
+    // =========================
+    el.style.display = "flex";
+    el.style.alignItems = "center";
+    el.style.justifyContent = "center";
+  }
+
+  function renderLate(el, p, state, width) {
+    const s = state.separation;
+
+    // =========================
+    // 🟡 position（直接参与结构系统）
+    // =========================
+    el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
+
+    // =========================
+    // 🟡 NO TEXT LOGIC（关键）
+    // =========================
+    el.textContent = "";
+
+    // =========================
+    // 🟡 DIRECT DOT MODE（从一开始就是dot）
+    // =========================
+    const baseColor = "#64748b";
+    const targetColor = getSeparationColor(p.song);
+
+    function lerpColor(c1, c2, t) {
+      const a = parseInt(c1.slice(1), 16);
+      const b = parseInt(c2.slice(1), 16);
+
+      const r = (a >> 16) + ((b >> 16) - (a >> 16)) * t;
+      const g = ((a >> 8) & 0xff) + (((b >> 8) & 0xff) - ((a >> 8) & 0xff)) * t;
+      const b2 = (a & 0xff) + ((b & 0xff) - (a & 0xff)) * t;
+
+      return `rgb(${r},${g},${b2})`;
+    }
+
+    // =========================
+    // 🟡 size：直接进入 separation scale
+    // =========================
+    let size = DOT_CONFIG.size;
+
+    if (p.song.ifTop50 === 1) {
+      size *= SIZE_SCALE_TOP50;
+    }
+
+    el.style.width = `${size}px`;
+    el.style.height = `${size}px`;
+
+    // =========================
+    // 🟡 color：直接进入 weak-separation mapping
+    // =========================
+    el.style.background = lerpColor(baseColor, targetColor, s);
+
+    el.style.borderRadius = "50%";
+
+    // =========================
+    // 🟡 opacity：不走 abstraction fade
+    // =========================
+    el.style.opacity = DOT_CONFIG.opacity;
+
+    // =========================
+    // 🟡 layout
+    // =========================
+    el.style.display = "block";
+  }
+
   function renderParticles(container, particles, progress, width) {
     const children = container.children;
     const state = computeState(progress);
+    // 🆕 只在 weak-separation 阶段显示 late particles
+    const showLate = state.separation > 0;
 
     particles.forEach((p, i) => {
+      // 分支渲染
+      const isEarly = i < 100;
+      const isLate = !isEarly;
+
       const el = children[i];
 
-      // =========================
-      // ① position（不变）
-      // =========================
-      el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
-
-      const a = state.abstraction;
-      const s = state.separation; // ⭐ 新增（0.40–0.55）
-
-      // =========================
-      // ② TEXT（保持原设计，只 fade）
-      // =========================
-      const textOpacity = p.opacity * (1 - a);
-
-      el.style.opacity = textOpacity;
-      el.style.color = `rgba(255,255,255,${1 - a})`;
-      el.style.fontSize = `${p.fontSize * (1 - a)}px`;
-
-      // =========================
-      // ③ DOT（abstraction 阶段）
-      // =========================
-
-      const t = easeInOutCubic(a);
-
-      // =========================
-      // ⭐ SIZE（加入 separation 放大）
-      // =========================
-      let size = DOT_CONFIG.size * t;
-
-      if (p.song.ifTop50 === 1) {
-        const targetSize = DOT_CONFIG.size * SIZE_SCALE_TOP50;
-        size = size + (targetSize - size) * s; // ⭐ 随 separation 渐变
+      // 分开渲染
+      if (isEarly) {
+        renderEarly(el, p, state, width);
+        return;
       }
+      renderLate(el, p, state, width);
 
-      el.style.width = `${size}px`;
-      el.style.height = `${size}px`;
-
-      // =========================
-      // ⭐ COLOR（加入 separation 渐变）
-      // =========================
-      const baseColor = DOT_CONFIG.color;
-      const targetColor = getSeparationColor(p.song);
-
-      function lerpColor(c1, c2, t) {
-        const a = parseInt(c1.slice(1), 16);
-        const b = parseInt(c2.slice(1), 16);
-
-        const r = (a >> 16) + ((b >> 16) - (a >> 16)) * t;
-        const g = ((a >> 8) & 0xff) + (((b >> 8) & 0xff) - ((a >> 8) & 0xff)) * t;
-        const b2 = (a & 0xff) + ((b & 0xff) - (a & 0xff)) * t;
-
-        return `rgb(${r},${g},${b2})`;
-      }
-
-      el.style.background = lerpColor(baseColor, targetColor, s);
-
-      el.style.borderRadius = "50%";
-
-      // =========================
-      // ④ opacity（不改 separation）
-      // =========================
-      const dotOpacity = DOT_CONFIG.opacity * t;
-      el.style.opacity = Math.min(1, textOpacity + dotOpacity);
-
-      // =========================
-      // ⑤ 保持居中（不变）
-      // =========================
-      el.style.display = "flex";
-      el.style.alignItems = "center";
-      el.style.justifyContent = "center";
     });
   }
 
@@ -329,8 +549,11 @@ const Nebula = forwardRef((_, ref) => {
     const width = rect.width;
     const height = rect.height;
 
+    // 🆕 在 initParticles 之前加
+    const enrichedSongs = computeTargets(songs, width, height);
+
     // 初始化粒子
-    particlesRef.current = initParticles(songs, width, height);
+    particlesRef.current = initParticles(enrichedSongs, width, height);
 
     // 初始化 DOM
     container.replaceChildren();
