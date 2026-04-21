@@ -1,42 +1,41 @@
 .intro {
   width: 100%;
-  height: 300vh;
+  height: auto;
   color: #a0c4ff;
   position: relative;
   margin-bottom: 20vh;
 }
 
 .sticky-container {
-  position: sticky;
-  top: 0;
-  height: 100vh; /* 占满视口 */
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  height: 100vh; /* 确保容器有高度 */
 }
 
-.sticky-headline{
-  flex: 0 0 55vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* background: rgba(254, 137, 28, 0.5); */
+.sticky-headline {
+  position: absolute;
+  top: 20%; /* 根据需要调整垂直位置 */
+  left: 0;
+  right: 0;
+  /* 如果需要水平居中 */
+  text-align: center;
 }
 
 .scroll-intro {
-  flex: 0 0 45vh;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  opacity: 0;
-  transition: opacity 0.8s ease-in-out;
-  background: rgba(39, 133, 240, 0.5);
+  position: absolute;
+  bottom: 20%; /* 根据需要调整垂直位置 */
+  left: 0;
+  right: 0;
+  text-align: center;
+  transition: opacity 0.3s ease;
 }
 
 .scroll-intro.fade-in {
   opacity: 1;
+}
+
+.scroll-intro.fade-out {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .trigger-step {

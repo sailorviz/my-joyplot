@@ -7,43 +7,26 @@ import ReactMarkdown from "react-markdown";
 export default function ScrollForTop50Songs() {
   const baseRef = useRef(null);
   const [infoSteps, setInfoSteps] = useState([]);
-  const [featureSteps, setFeatureSteps] = useState([]);
   const scrollerRef = useRef(null);
   console.log("baseRef.current =", baseRef.current);
 
   
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/top50songs-info-texts.md")
+    fetch("/data/text/zh/top50songs-info-texts.md")
       .then((res) => res.text())
       .then((text) => {
-        // 按标题（# step）分段
         const blocks = text
-          .split(/^#\s+(?=step\d+)/gm)
-          .filter((t) => t.trim().length > 0)
-          .map((t) => `# ${t.trim()}`); // 补回 #
+          .split(/<!--\s*step\d+\s*-->/gm)
+          .filter((block) => block.trim().length > 0)
+          .map((block) => block.trim());
         setInfoSteps(blocks);
       })
       .catch((err) => console.error("加载 Markdown 出错:", err));
   }, []);
 
   useEffect(() => {
-    // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/top50songs-feature-texts.md")
-      .then((res) => res.text())
-      .then((text) => {
-        // 按标题（# step）分段
-        const blocks = text
-          .split(/^#\s+(?=step\d+)/gm)
-          .filter((t) => t.trim().length > 0)
-          .map((t) => `# ${t.trim()}`); // 补回 #
-        setFeatureSteps(blocks);
-      })
-      .catch((err) => console.error("加载 Markdown 出错:", err));
-  }, []);
-
-  useEffect(() => {
-    if (!baseRef.current || infoSteps.length === 0 || featureSteps.length === 0) return;
+    if (!baseRef.current || infoSteps.length === 0) return;
     scrollerRef.current = scrollama();
 
     scrollerRef.current
@@ -183,7 +166,7 @@ export default function ScrollForTop50Songs() {
       }
       window.removeEventListener("resize", handleResize);
     }; 
-  }, [baseRef.current, infoSteps, featureSteps]);
+  }, [baseRef.current, infoSteps]);
 
   return (
     <div className="top50Songs full-screen">
@@ -304,6 +287,20 @@ export default function ScrollForTop50Songs() {
       <div className="scrollingTextContainer-top50songs">
         <div className="scrolling-text-top50songs">
           <ReactMarkdown>{infoSteps[17]}</ReactMarkdown>
+        </div>
+        <div className="scrollingTextEndStep-top50songs"></div>
+      </div>
+
+      <div className="scrollingTextContainer-top50songs">
+        <div className="scrolling-text-top50songs">
+          <ReactMarkdown>{infoSteps[18]}</ReactMarkdown>
+        </div>
+        <div className="scrollingTextEndStep-top50songs"></div>
+      </div>
+
+      <div className="scrollingTextContainer-top50songs">
+        <div className="scrolling-text-top50songs">
+          <ReactMarkdown>{infoSteps[19]}</ReactMarkdown>
         </div>
         <div className="scrollingTextEndStep-top50songs"></div>
       </div>

@@ -12,14 +12,13 @@ export default function ScrollForCQT() {
 
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/top50songs-feature-cqt-text.md")
+    fetch("/data/text/zh/top50songs-feature-cqt-text.md")
       .then((res) => res.text())
       .then((text) => {
-        // 按标题（# step）分段
         const blocks = text
-          .split(/^#\s+(?=step\d+)/gm)
-          .filter((t) => t.trim().length > 0)
-          .map((t) => `# ${t.trim()}`); // 补回 #
+          .split(/<!--\s*step\d+\s*-->/gm)
+          .filter((block) => block.trim().length > 0)
+          .map((block) => block.trim());
         setFeatureSteps(blocks);
       })
       .catch((err) => console.error("加载 Markdown 出错:", err));
@@ -66,10 +65,10 @@ export default function ScrollForCQT() {
               baseRef.current?.showOverlay(); 
               baseRef.current?.showPulse(); // beats效果依赖RAF，每帧检查state, REACT异步更新延迟明显，所以在case7前提前设置。
               break;
-            case 7:
+            case 6:
               baseRef.current?.resetPlayback();
               break;
-            case 9:
+            case 8:
               baseRef.current?.enterExploreMode();
               break;
             default:
@@ -111,11 +110,11 @@ export default function ScrollForCQT() {
               baseRef.current?.hidePlayButton();  
               baseRef.current?.hideOverlay(); 
               break;
-            case 7:
+            case 6:
               baseRef.current?.resetPlayback();
               baseRef.current?.hidePulse(); // 这里也是一样，需要在回到case4之前就提前设置state。
               break;
-            case 9:
+            case 8:
               baseRef.current?.exitExploreMode();
               baseRef.current?.backToDefaultedSong();
               break;          

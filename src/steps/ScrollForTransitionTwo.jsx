@@ -10,14 +10,13 @@ export default function ScrollForTransitionTwo({ onContinue, onGoBack }){
   
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/transitionTwo.md")
+    fetch("/data/text/zh/transitionTwo.md")
       .then((res) => res.text())
       .then((text) => {
-        // 按标题（# step）分段
         const blocks = text
-          .split(/^#\s+(?=step\d+)/gm)
-          .filter((t) => t.trim().length > 0)
-          .map((t) => `# ${t.trim()}`); // 补回 #
+          .split(/<!--\s*step\d+\s*-->/gm)
+          .filter((block) => block.trim().length > 0)
+          .map((block) => block.trim());
         setSteps(blocks);
       })
       .catch((err) => console.error("加载 Markdown 出错:", err));
@@ -73,7 +72,6 @@ export default function ScrollForTransitionTwo({ onContinue, onGoBack }){
       </div>
       {/* 全局类名污染 —— .trigger-step 被所有组件共用，
       scrollama 一视同仁全扫进来,要给每一个组件单独设置类名！！！ */}
-      <div className="trigger-step-transition-two"></div>
       <div className="trigger-step-transition-two"></div>
       <div className="trigger-step-transition-two"></div>
     </div>

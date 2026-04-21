@@ -10,14 +10,13 @@ export default function ScrollForTransitionThree({ onContinue, onGoBack }){
   
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/transitionThree.md")
+    fetch("/data/text/zh/transitionThree.md")
       .then((res) => res.text())
       .then((text) => {
-        // 按标题（# step）分段
         const blocks = text
-          .split(/^#\s+(?=step\d+)/gm)
-          .filter((t) => t.trim().length > 0)
-          .map((t) => `# ${t.trim()}`); // 补回 #
+          .split(/<!--\s*step\d+\s*-->/gm)
+          .filter((block) => block.trim().length > 0)
+          .map((block) => block.trim());
         setSteps(blocks);
       })
       .catch((err) => console.error("加载 Markdown 出错:", err));

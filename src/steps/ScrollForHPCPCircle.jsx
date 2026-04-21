@@ -12,14 +12,13 @@ export default function ScrollForHPCPCircle() {
   
   // 从 public 文件夹中加载 单独text 文件
   useEffect(() => {    
-    fetch("/data/top50songs-feature-hpcp-circle-text-1.md")
+    fetch("/data/text/zh/top50songs-feature-hpcp-circle-text-1.md")
       .then((res) => res.text())
       .then((text) => {
-        // 按标题（# step）分段
         const blocks = text
-          .split(/^#\s+(?=step\d+)/gm)
-          .filter((t) => t.trim().length > 0)
-          .map((t) => `# ${t.trim()}`); // 补回 #
+          .split(/<!--\s*step\d+\s*-->/gm)
+          .filter((block) => block.trim().length > 0)
+          .map((block) => block.trim());
         setTextSteps(blocks);
       })
       .catch((err) => console.error("加载 单独text 出错:", err));
@@ -27,14 +26,13 @@ export default function ScrollForHPCPCircle() {
 
   // 从 public 文件夹中加载 circle组件内text 文件
   useEffect(() => {    
-    fetch("/data/top50songs-feature-hpcp-circle-text-2.md")
+    fetch("/data/text/zh/top50songs-feature-hpcp-circle-text-2.md")
       .then((res) => res.text())
       .then((text) => {
-        // 按标题（# step）分段
         const blocks = text
-          .split(/^#\s+(?=step\d+)/gm)
-          .filter((t) => t.trim().length > 0)
-          .map((t) => `# ${t.trim()}`); // 补回 #
+          .split(/<!--\s*step\d+\s*-->/gm)
+          .filter((block) => block.trim().length > 0)
+          .map((block) => block.trim());
         setFeatureSteps(blocks);
       })
       .catch((err) => console.error("加载 circle组件内text 出错:", err));

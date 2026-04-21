@@ -11,14 +11,13 @@ export default function ScrollForNebula() {
 
   // 从 public 文件夹中加载 单独text 文件
   useEffect(() => {    
-    fetch("/data/ending-nebula-text.md")
+    fetch("/data/text/zh/ending-nebula-text.md")
       .then((res) => res.text())
       .then((text) => {
-        // 按标题（# step）分段
         const blocks = text
-          .split(/^#\s+(?=step\d+)/gm)
-          .filter((t) => t.trim().length > 0)
-          .map((t) => `# ${t.trim()}`); // 补回 #
+          .split(/<!--\s*step\d+\s*-->/gm)
+          .filter((block) => block.trim().length > 0)
+          .map((block) => block.trim());
         setTextSteps(blocks);
       })
       .catch((err) => console.error("加载 单独text 出错:", err));
@@ -51,6 +50,10 @@ export default function ScrollForNebula() {
 
   return (
     <div ref={sectionRef} className="nebula">
+      <div className="text-nebula">
+        <ReactMarkdown>{textSteps[0]}</ReactMarkdown>
+      </div>
+
       <div className="nebula-stickyContainer">
         <Nebula ref={nebulaRef} />
       </div>

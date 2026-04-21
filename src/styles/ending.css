@@ -1,0 +1,157 @@
+/* styles/ending.css */
+.ending-section {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  position: relative;
+}
+
+/* 可选：加一点星尘效果 */
+.ending-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.15), transparent);
+  background-size: 50px 50px;
+  pointer-events: none;
+}
+
+.ending-container {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.ending-content {
+  color: #e0e0e0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+/* 标题样式 */
+.ending-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.ending-content h2 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #dddddd;
+  font-weight: 400;
+}
+
+/* 段落 */
+.ending-content p {
+  margin-bottom: 1.5rem;
+}
+
+/* 引用块（用于结尾感言） */
+.ending-content blockquote {
+  margin: 2rem 0;
+  padding: 1rem 2rem;
+  border-left: 3px solid #7dd3fc;
+  background: rgba(125, 211, 252, 0.05);
+  font-style: italic;
+  color: #cccccc;
+}
+
+/* CTA 按钮区域 */
+.ending-content .cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin: 2.5rem 0;
+}
+
+.ending-content .cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 40px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.ending-content .cta-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+/* 作者信息 */
+.ending-content .author-info {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  color: #888;
+}
+
+.ending-content .author-info a {
+  color: #7dd3fc;
+  text-decoration: none;
+}
+
+.ending-content .author-info a:hover {
+  text-decoration: underline;
+}
+
+/* 社交链接 */
+.ending-content .social-links {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.ending-content .social-links a {
+  color: #aaa;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.ending-content .social-links a:hover {
+  color: #ffffff;
+}
+
+/* 响应式 */
+@media (max-width: 600px) {
+  .ending-content {
+    font-size: 16px;
+  }
+  
+  .ending-content h1 {
+    font-size: 1.8rem;
+  }
+  
+  .ending-content .cta-button {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+  
+  .ending-container {
+    padding: 0 16px;
+  }
+}

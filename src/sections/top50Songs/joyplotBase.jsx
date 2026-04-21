@@ -45,8 +45,8 @@ const JoyplotBase = forwardRef((_, ref) => {
   const illustrationAreaRef = useRef(null);
   const [analysisMode, setAnalysisMode] = useState("amp60"); // "amplitude" | "spectral"
   const illustrationSources = {
-    amp60: "/data/ampIllustrationTexts.md",
-    spec60: "/data/specIllustrationTexts.md"
+    amp60: "/data/text/zh/ampIllustrationTexts.md",
+    spec60: "/data/text/zh/specIllustrationTexts.md"
   };
   const nextMode =
     analysisMode === "amp60" ? "spec60" : "amp60";
@@ -78,9 +78,9 @@ const JoyplotBase = forwardRef((_, ref) => {
       .then(res => res.text())
       .then(text => {
         const blocks = text
-          .split(/^#\s+(?=step\d+)/gm)
-          .filter(t => t.trim().length > 0)
-          .map(t => `# ${t.trim()}`)
+          .split(/<!--\s*step\d+\s*-->/gm)
+          .filter((block) => block.trim().length > 0)
+          .map((block) => block.trim());
 
         // ⚠️ 存进 ref，不触发 rerender
         illustrationBlocksRef.current = blocks

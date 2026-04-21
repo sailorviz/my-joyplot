@@ -10,14 +10,13 @@ export default function ScrollForIntro(){
   
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/intro-texts.md")
+    fetch("/data/text/zh/intro-texts.md")
       .then((res) => res.text())
       .then((text) => {
-        // 按标题（# step）分段
         const blocks = text
-          .split(/^#\s+(?=step\d+)/gm)
-          .filter((t) => t.trim().length > 0)
-          .map((t) => `# ${t.trim()}`); // 补回 #
+          .split(/<!--\s*step\d+\s*-->/gm)
+          .filter((block) => block.trim().length > 0)
+          .map((block) => block.trim());
         setSteps(blocks);
       })
       .catch((err) => console.error("加载 Markdown 出错:", err));
@@ -73,11 +72,15 @@ export default function ScrollForIntro(){
           <p className="published-time"></p>
         </div>
 
-        <div className={`scroll-intro ${steps[activeStep] ? "fade-in" : "fade-out"}`}>
-          <ReactMarkdown>{steps[activeStep]}</ReactMarkdown>
-        </div>
+        {activeStep !== null && activeStep >= 0 && steps[activeStep] && (
+          <div className={`scroll-intro fade-in`}>
+            <ReactMarkdown>{steps[activeStep]}</ReactMarkdown>
+          </div>
+        )}
       </div>
 
+      <div className="trigger-step"></div>
+      <div className="trigger-step"></div>
       <div className="trigger-step"></div>
       <div className="trigger-step"></div>
     </div>
