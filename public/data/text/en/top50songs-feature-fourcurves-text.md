@@ -1,32 +1,41 @@
-<!-- step1 -->  
-12. 四条曲线
+<!-- step1 -->
 
-<!-- step1 --> 
-下面这四条曲线，分别测量一首歌的不和谐性、BPM、舞蹈性及动态复杂性。
+These four curves represent the distribution of dissonance, BPM, danceability, and dynamic complexity across the fifty songs.
 
-<!-- step1 -->  
-首先是不和谐性，其数值越高代表声音越刺耳。 
+<!-- step1 -->
 
-<!-- step1 --> 
-我的歌总体和谐，我不爱听吵架一样的声音。（可以点击歌曲圆点，听一听不同歌曲的区别。）
+First, dissonance — higher values mean harsher sound.
 
-<!-- step1 -->  
-然后是BPM（节拍速度）。
+(You can click on the song dots to listen to the differences between songs.)
 
-<!-- step1 --> 
-集中在110左右，中快，不是舞曲那种疯快。
+<!-- step1 -->
 
-<!-- step1 --> 
-舞蹈性（0–3）
+My songs are generally consonant. I don't like sounds that sound like arguing.
 
-<!-- step1 -->  
-中等偏上，我喜欢律动，但不是广场舞那种。
+<!-- step1 -->
 
-<!-- step1 --> 
-动态复杂性（越复杂越激烈）
+Next, BPM (tempo).
 
-<!-- step1 --> 
-中等，我不爱太安静的背景音乐，也不爱太炸的爵士摇滚。
+<!-- step1 -->
 
-<!-- step1 --> 
-但数字就是数字。你可以忘记它们，直接听。
+Values are concentrated around 110 — medium-fast, not crazy fast like dance music.
+
+<!-- step1 -->
+
+Danceability (0–3)
+
+<!-- step1 -->
+
+Values are medium-high. Seems I like groove, but not the kind you'd hear in a club.
+
+<!-- step1 -->
+
+Dynamic complexity (higher = more intense)
+
+<!-- step1 -->
+
+Also medium. Seems I don't like overly quiet background music, nor overly explosive jazz or rock — pretty middle-of-the-road?
+
+<!-- step1 -->
+
+But numbers are just numbers. You can forget them, just listen, just feel.

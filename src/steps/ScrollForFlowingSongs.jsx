@@ -3,16 +3,19 @@ import scrollama from "scrollama";
 import FloatingSongs from "../sections/FlowingSongs/FloatingSongs";
 import "../styles/FloatingSongs.css";
 import ReactMarkdown from "react-markdown";
+import { useLanguage } from "../components/LanguageContext";
 
 export default function ScrollForFlowingSongs() {
   const floatingRef = useRef(null);
   const [artistSteps, setArtistSteps] = useState([]);
   const [albumSteps, setAlbumSteps] = useState([]);
   const scrollerRef = useRef(null);
-  
+  const { language } = useLanguage(); // 获取当前语言
+
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/text/zh/top30artists-texts.md")
+    const url = `/data/text/${language}/top30artists-texts.md`;
+    fetch(url)
       .then((res) => res.text())
       .then((text) => {
         // 按标题（# step）分段
@@ -28,7 +31,8 @@ export default function ScrollForFlowingSongs() {
 
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/text/zh/top30albums-texts.md")
+    const url = `/data/text/${language}/top30albums-texts.md`;
+    fetch(url)
       .then((res) => res.text())
       .then((text) => {
         // 按标题（# step）分段
@@ -58,34 +62,38 @@ export default function ScrollForFlowingSongs() {
               floatingRef.current.pause();
               floatingRef.current.triggerClustering();
               break;
+            case 1:
+              floatingRef.current.animateClusterWithImages();
+              break;
             case 2:
               floatingRef.current.focusTop1Artist();
               break;
-            case 4:
+            case 5:
               floatingRef.current.triggerPlottingTimeline();
               break;
-            case 5:
+            case 6:
               floatingRef.current.triggerClusterTimezone();
               break;   
-            case 6:
+            case 7:
               floatingRef.current.dropClusterToMap();
               break; 
-            case 7:
+            case 8:
               floatingRef.current.resetFloating();
               break; 
-            case 8:
+            case 9:
               floatingRef.current.pause();
               floatingRef.current.triggerClusteringByAlbum();
-              break;    
+              break;  
             case 11:
+              floatingRef.current.focusTop1Album();
+              break;   
+            case 12:
               floatingRef.current.cancelFocusClusterOfAlbum();
               break;    
-            case 13:
-              floatingRef.current.highlightAlbumFromBand();
-              break; 
             case 14:
+              floatingRef.current.highlightAlbumFromBand();
               floatingRef.current.triggerPlottingTimelineForAlbums();
-              break;
+              break; 
             case 15:
               floatingRef.current.triggerClusterTimezoneOfAlbum();
               break;
@@ -98,34 +106,28 @@ export default function ScrollForFlowingSongs() {
             case 18:
               floatingRef.current.backToInitialJumping();
               break;
-            case 20:
-              floatingRef.current.backToInitialJumpingF();
+            case 19:
+              floatingRef.current.continueToJumpOutFamily();
               break;
+            // case 20:
+            //   floatingRef.current.backToInitialJumpingF();
+            //   break;
               default:
               break;
           }
         }
         if (element.classList.contains("triggerStep") && direction === "down") {
           switch (index) {
-            case 1:
-              floatingRef.current.animateClusterWithImages();
-              break;
-            case 3:
+            case 4:
               floatingRef.current.cancelFocusCluster();
               floatingRef.current.highlightBands();
               break; 
-            case 9:
+            case 10:
               floatingRef.current.animateClusterOfAlbumWithImage();
               break; 
-            case 10:
-              floatingRef.current.focusTop1Album();
-              break; 
-            case 12:
+            case 13:
               floatingRef.current.animateClusterCompare();
               break; 
-            case 19:
-              floatingRef.current.continueToJumpOutFamily();
-              break;
             default:
               break;
           }
@@ -137,29 +139,34 @@ export default function ScrollForFlowingSongs() {
             case 0:
               floatingRef.current.resetFloating();
               break;
+            case 1:
+              floatingRef.current.hideImages();
+              floatingRef.current.triggerClustering();
+              break;
             case 2:
               floatingRef.current.cancelFocusCluster();
               break;
-            case 4:
+            case 5:
               floatingRef.current.timelineToLastStep();
               break;  
-            case 6:
+            case 7:
               floatingRef.current.backToTimeline();
               break; 
-            case 7:
+            case 8:
               floatingRef.current.pause();
               floatingRef.current.backToMap();
               break;
-            case 8:
+            case 9:
               floatingRef.current.resetFloating();
               break;
             case 11:
+              floatingRef.current.cancelFocusClusterOfAlbum();
+              break; 
+            case 12:
               floatingRef.current.focusTop1Album();
               break;   
-            case 13:
-              floatingRef.current.cancelHighlightBands();
-              break; 
             case 14:
+              floatingRef.current.cancelHighlightBands();
               floatingRef.current.timelineOfAlbumToLastStep();
               break; 
             case 16:
@@ -171,36 +178,29 @@ export default function ScrollForFlowingSongs() {
             case 18:
               floatingRef.current.continueToJumpOutB();
               break; 
-            case 20:
-              floatingRef.current.continueToJumpOutFamily();
-              break;                               
+            case 19:
+              floatingRef.current.backToInitialJumpingF();
+              break; 
+            // case 20:
+            //   floatingRef.current.continueToJumpOutFamily();
+            //   break;                               
             default:
               break;
           }
         }
         if (element.classList.contains("triggerStep") && direction === "up") {
           switch (index) {
-            case 1:
-              floatingRef.current.hideImages();
-              floatingRef.current.triggerClustering();
-              break;
-            case 3:
+            case 4:
               floatingRef.current.cancelHighlightBands();
               floatingRef.current.focusTop1Artist();
               break;
-            case 9:
+            case 10:
               floatingRef.current.hideCovers();
               floatingRef.current.triggerClusteringByAlbum();
               break;
-            case 10:
-              floatingRef.current.cancelFocusClusterOfAlbum();
-              break; 
-            case 12:
+            case 13:
               floatingRef.current.cancelComparing();
               break; 
-            case 19:
-              floatingRef.current.backToInitialJumpingF();
-              break;
             default:
               break;
           }
@@ -234,11 +234,23 @@ export default function ScrollForFlowingSongs() {
         <div className="scrollingTextEndStep"></div>
       </div>
 
-      <div className="triggerStep"></div>
-
       <div className="scrollingTextContainer">
         <div className="scrolling-text">
           <ReactMarkdown>{artistSteps[2]}</ReactMarkdown>
+        </div>
+        <div className="scrollingTextEndStep"></div>
+      </div>
+
+      <div className="scrollingTextContainer">
+        <div className="scrolling-text">
+          <ReactMarkdown>{artistSteps[3]}</ReactMarkdown>
+        </div>
+        <div className="scrollingTextEndStep"></div>
+      </div>
+
+      <div className="scrollingTextContainer">
+        <div className="scrolling-text">
+          <ReactMarkdown>{artistSteps[4]}</ReactMarkdown>
         </div>
         <div className="scrollingTextEndStep"></div>
       </div>
@@ -247,27 +259,17 @@ export default function ScrollForFlowingSongs() {
 
       <div className="scrollingTextContainer">
         <div className="scrolling-text">
-          <ReactMarkdown>{artistSteps[3]}</ReactMarkdown>
-        </div>
-        <div className="scrollingTextEndStep"></div>
-      </div> 
-
-      <div className="scrollingTextContainer">
-        <div className="scrolling-text">
-          <ReactMarkdown>{artistSteps[4]}</ReactMarkdown>
-        </div>
-        <div className="scrollingTextEndStep"></div>
-      </div> 
-
-      <div className="scrollingTextContainer">
-        <div className="scrolling-text">
           <ReactMarkdown>{artistSteps[5]}</ReactMarkdown>
         </div>
+        <div className="scrollingTextEndStep"></div>
+      </div> 
+
+      <div className="scrollingTextContainer">
         <div className="scrolling-text">
           <ReactMarkdown>{artistSteps[6]}</ReactMarkdown>
         </div>
         <div className="scrollingTextEndStep"></div>
-      </div>  
+      </div> 
 
       <div className="scrollingTextContainer">
         <div className="scrolling-text">
@@ -281,20 +283,36 @@ export default function ScrollForFlowingSongs() {
 
       <div className="scrollingTextContainer">
         <div className="scrolling-text">
+          <ReactMarkdown>{artistSteps[9]}</ReactMarkdown>
+        </div>
+        <div className="scrolling-text">
+          <ReactMarkdown>{artistSteps[10]}</ReactMarkdown>
+        </div>
+        <div className="scrollingTextEndStep"></div>
+      </div>  
+
+      <div className="scrollingTextContainer">
+        <div className="scrolling-text">
           <ReactMarkdown>{albumSteps[0]}</ReactMarkdown>
         </div>
         <div className="scrollingTextEndStep"></div>
       </div>
 
       <div className="triggerStep"></div>  
-      <div className="triggerStep"></div>  
 
       <div className="scrollingTextContainer">
         <div className="scrolling-text">
           <ReactMarkdown>{albumSteps[1]}</ReactMarkdown>
         </div>
+        <div className="scrollingTextEndStep"></div>
+      </div>
+
+      <div className="scrollingTextContainer">
         <div className="scrolling-text">
           <ReactMarkdown>{albumSteps[2]}</ReactMarkdown>
+        </div>
+        <div className="scrolling-text">
+          <ReactMarkdown>{albumSteps[3]}</ReactMarkdown>
         </div>
         <div className="scrollingTextEndStep"></div>
       </div>
@@ -303,7 +321,7 @@ export default function ScrollForFlowingSongs() {
 
       <div className="scrollingTextContainer">
         <div className="scrolling-text">
-          <ReactMarkdown>{albumSteps[3]}</ReactMarkdown>
+          <ReactMarkdown>{albumSteps[4]}</ReactMarkdown>
         </div>
       </div>
 
@@ -311,15 +329,8 @@ export default function ScrollForFlowingSongs() {
 
       <div className="scrollingTextContainer">
         <div className="scrolling-text">
-          <ReactMarkdown>{albumSteps[4]}</ReactMarkdown>
-        </div>
-        <div className="scrolling-text">
           <ReactMarkdown>{albumSteps[5]}</ReactMarkdown>
         </div>
-        <div className="scrollingTextEndStep"></div>
-      </div>
-
-      <div className="scrollingTextContainer">
         <div className="scrolling-text">
           <ReactMarkdown>{albumSteps[6]}</ReactMarkdown>
         </div>
@@ -337,12 +348,15 @@ export default function ScrollForFlowingSongs() {
         <div className="scrolling-text">
           <ReactMarkdown>{albumSteps[8]}</ReactMarkdown>
         </div>
+        <div className="scrolling-text">
+          <ReactMarkdown>{albumSteps[9]}</ReactMarkdown>
+        </div>
         <div className="scrollingTextEndStep"></div>
       </div>
 
       <div className="scrollingTextContainer">
         <div className="scrolling-text">
-          <ReactMarkdown>{albumSteps[9]}</ReactMarkdown>
+          <ReactMarkdown>{albumSteps[10]}</ReactMarkdown>
         </div>
       </div>
       
@@ -350,23 +364,28 @@ export default function ScrollForFlowingSongs() {
       
       <div className="scrollingTextContainer">
         <div className="scrolling-text">
-          <ReactMarkdown>{albumSteps[10]}</ReactMarkdown>
-        </div>
-        <div className="scrollingTextEndStep"></div>
-      </div>  
-
-      <div className="scrollingTextContainer">
-        <div className="scrolling-text">
           <ReactMarkdown>{albumSteps[11]}</ReactMarkdown>
         </div>
         <div className="scrollingTextEndStep"></div>
       </div>  
 
-      <div className="triggerStep"></div>  
-
       <div className="scrollingTextContainer">
         <div className="scrolling-text">
           <ReactMarkdown>{albumSteps[12]}</ReactMarkdown>
+        </div>
+        <div className="scrollingTextEndStep"></div>
+      </div>   
+
+      <div className="scrollingTextContainer">
+        <div className="scrolling-text">
+          <ReactMarkdown>{albumSteps[13]}</ReactMarkdown>
+        </div>
+        <div className="scrollingTextEndStep"></div>
+      </div>  
+
+      <div className="scrollingTextContainer">
+        <div className="scrolling-text">
+          <ReactMarkdown>{albumSteps[14]}</ReactMarkdown>
         </div>
         <div className="scrollingTextEndStep"></div>
       </div>      

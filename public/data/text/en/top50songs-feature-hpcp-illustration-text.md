@@ -1,12 +1,13 @@
-<!-- step1 -->  
-CQT 就像一张高清照片，记录了所有声音细节。
-HPCP 就是把这张照片压缩成 12 种颜色——你仍然能看出主色调，但丢掉了纹理。
-HPCP（harmonic pitch class profilo），即和声音高类别轮廓，把所有频率成分“折叠”到同一个八度内，按 12 个半音类（Pitch Class）统计能量（比如C3的能量，就归到 C）。
-以下是HPCP频谱图的大概解释。
+<!-- step1 -->
 
-<!-- step1 -->   
-下面我们来看看CQT与HPCP之间到底有什么区别吧！
+CQT is like a high-resolution photo, capturing all the sonic details.
 
+HPCP is like compressing that photo into 12 colors — you can still see the main hues, but you lose the texture.
 
+HPCP, or Harmonic Pitch Class Profile, "folds" all frequency components into the same octave and sums the energy by 12 pitch classes (e.g., the energy of C3 is assigned to C).
 
+Below is a rough explanation of the HPCP spectrogram.
 
+<!-- step1 -->
+
+Now let's look at the difference between CQT and HPCP!

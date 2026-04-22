@@ -1,8 +1,11 @@
-<!-- step1 --> 
-到此为止，我看到的都是“标签”：歌手、专辑、风格、情绪。
+<!-- step1 -->
 
-<!-- step1 -->  
-但我想知道的是声音本身。
+Up to this point, what I've seen are all "labels": artist, album, style, mood.
 
-<!-- step1 --> 
-所以我进一步分析了音乐的音频特征。
+<!-- step1 -->
+
+But what I wanted to know is the sound itself.
+
+<!-- step1 -->
+
+So I went further and analyzed the audio features of the music.

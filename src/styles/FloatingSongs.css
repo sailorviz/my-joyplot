@@ -1,6 +1,6 @@
 .floatingSongs {
   position: relative;   /* 参考定位，子元素 sticky 以此为边界 */
-  height: 4750vh;        /* 给滚动动画留出空间 */
+  height: auto;        /* 给滚动动画留出空间 */
   margin-bottom: 20vh;
 }
 

@@ -1,3 +1,3 @@
-<!-- step1 -->  
-可以看到，能量最强的声调不一定就是就是一首歌的主key。
+<!-- step1 -->
 
+As you can see, the pitch class with the strongest energy or the most variation is not necessarily the key of a song.

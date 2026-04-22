@@ -1,13 +1,13 @@
-<!-- step1 -->  
-14. CQT是什么？（不讲数学，只讲意思）
+<!-- step1 -->
 
-CQT的中文叫“常数Q变换”。名字吓人，但意思很简单：
-它把声音按“音高”而不是“频率”排列——更接近人耳的听法。
-低音区看得更细，高音区看得更粗。这就是我们听音乐的真实方式。
+What is CQT?
 
-以下是CQT频谱图的大概解释。
+CQT stands for Constant-Q Transform. The name is intimidating, but the idea is simple:
 
+It arranges sound by "pitch" rather than "frequency" — a way of listening that is closer to the human ear.
 
-<!-- step1 --> 
-接下来，让我们来看看，按照这个概念下，一首歌究竟“长什么样子”。
+Below is a graphical overview of the CQT spectrogram.
 
+<!-- step1 -->
+
+Now let's take a look, using this concept, at what a real song actually "looks like."

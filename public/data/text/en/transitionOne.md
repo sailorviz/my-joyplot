@@ -1,11 +1,11 @@
-<!-- step1 --> 
-7. 从专辑到歌曲
+<!-- step1 -->
 
-<!-- step1 --> 
-歌手和专辑都是“容器”。真正重要的是里面的歌。
+Artists and albums are "containers." What really matters are the songs inside.
 
-<!-- step1 -->  
-但网易云不给我播放次数数据。所以我用了一个笨办法：翻遍年度报告+重新听那2299首歌，手动选出了50首。
+<!-- step1 -->
 
-<!-- step1 --> 
-这50首歌，是我在某一天（2025.02.02）的答案。它会变，我也会变。但此刻，它是真的。
+But NetEase Cloud doesn't give me play count data. So I used a crude method: going through all my year-end reports + re-listening to those 2,299 songs, and manually selecting 50.
+
+<!-- step1 -->
+
+These 50 songs are my answer on one particular day (2025.02.02). They will change, and I will change. But at this moment, they are real.

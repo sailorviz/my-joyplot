@@ -2,15 +2,28 @@ import { useEffect, useRef, useState } from "react";
 import scrollama from "scrollama";
 import "../styles/intro.css";
 import ReactMarkdown from "react-markdown";
+import { useLanguage } from "../components/LanguageContext";
 
 export default function ScrollForIntro(){
   const [steps, setSteps] = useState([]);
   const [activeStep, setActiveStep] = useState(null);
   const scrollerRef = useRef(null);
+  const { language } = useLanguage(); // 获取当前语言
+  const textsUI = {
+      zh: { 
+          projectName: '皮皮帆的音乐自画像',  // 或者 '皮皮帆·音乐自画像'
+          creatorName: '来自 皮皮帆' 
+      },
+      en: { 
+          projectName: "Macy's Musical Self-Portrait",
+          creatorName: 'By Macy Yang' 
+      }
+  };
   
   useEffect(() => {
-    // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/text/zh/intro-texts.md")
+    // 根据语言动态拼接路径
+    const url = `/data/text/${language}/intro-texts.md`;
+    fetch(url)
       .then((res) => res.text())
       .then((text) => {
         const blocks = text
@@ -20,7 +33,7 @@ export default function ScrollForIntro(){
         setSteps(blocks);
       })
       .catch((err) => console.error("加载 Markdown 出错:", err));
-  }, []);
+  }, [language]);
 
   console.log(steps);
 
@@ -51,7 +64,6 @@ export default function ScrollForIntro(){
     const handleResize = () => scrollerRef.current?.resize();
     window.addEventListener("resize", handleResize);
 
-    // return () => window.removeEventListener("resize", handleResize);
     return () => {
       // 必须清理！！
       if (scrollerRef.current) {
@@ -66,9 +78,9 @@ export default function ScrollForIntro(){
     <div className="intro full-screen">
       <div className="sticky-container">
         <div className="sticky-headline">
-          <h1 className="title">Macy's Music Portrait</h1>
+        <h1 className="title">{textsUI[language].projectName}</h1>
           <p className="subtitle"></p>
-          <p className="author">By MacyYang</p>
+          <p className="author">{textsUI[language].creatorName}</p>
           <p className="published-time"></p>
         </div>
 

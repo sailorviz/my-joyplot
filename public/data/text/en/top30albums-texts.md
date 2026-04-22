@@ -1,40 +1,73 @@
-<!-- step1 -->  
-4. 哪些专辑被我反复听？
+<!-- step1 -->
 
-<!-- step1 --> 
-第一名是火星哥的《24K Magic》。
-这我自己都没想到——我平时不觉得自己是火星哥的“那种歌迷”。
-
-<!-- step1 -->  
-5. 一个有点伤心的发现
-
-<!-- step1 --> 
-左边是滚石杂志评的“最伟大的500张专辑”，右边是我最爱的30张。
-
-<!-- step1 -->  
-交集是0。
-一张都没有。
-
-<!-- step1 --> 
-那一刻我确认了一件事：我和“大众口味”，大概不在同一个坐标系里。
-
-<!-- step1 -->  
-6. 专辑发行年份 + 一个家庭小彩蛋
-
-<!-- step1 --> 
-我的前30张专辑，发行时间分布很怪：
-2010年之后有一大堆，1984年之前有3张，中间1984–2010这26年，只有3张。
+Which albums have I listened to repeatedly?
 
 <!-- step1 -->
-那26年发生了什么事？我不知道。也许是我没出生，也许是音乐史本身在拐弯。
 
-<!-- step1 -->  
-毫不意外的是，大部分TOP30专辑都来自于TOP30歌手中。
+Same as with artists, by clustering I got a ranking of the top 30 most-listened-to albums.
 
-<!-- step1 --> 
-而有些歌手甚至拥有超过两张TOP30专辑！
-看来我还真是很喜欢很喜欢他们！
+<!-- step1 -->
 
-<!-- step1 --> 
-小彩蛋：王菲、窦唯、窦靖童——一家三口，都在我的专辑榜上。
-这大概是我自己都没意识到的“家族情结”。他们可真是才华横溢！
+Topping the list is Bruno Mars' *24K Magic* from 2016.
+
+The first concert I ever attended in my life was his tour for this album — probably because I'd listened to it way too many times, haha!
+
+Who can resist Bruno Mars' charm?
+
+<!-- step1 -->
+
+I wanted to know if my music taste aligns with the mainstream, so I found some references.
+
+<!-- step1 -->
+
+On the left is *Rolling Stone*'s "500 Greatest Albums of All Time," on the right is my top 30 favorites.
+
+(You can also see if any of your favorites are in those 500 albums.)
+
+<!-- step1 -->
+
+The result: the intersection is zero.
+
+Not a single album in common.
+
+<!-- step1 -->
+
+In that moment, I confirmed one thing: I'm probably not in the same coordinate system as "mainstream taste."
+
+<!-- step1 -->
+
+So what years are these albums from?
+
+<!-- step1 -->
+
+Looks strange:
+
+A bunch from after 2010, three from before 1984, and in between — 1984 to 2010, 26 years — only three albums.
+
+<!-- step1 -->
+
+What happened in those 26 years? I don't know. Maybe music history itself was turning a corner.
+
+<!-- step1 -->
+
+Unsurprisingly, most of the top 30 albums are from the top 30 artists.
+
+(Try flipping the cards to see.)
+
+<!-- step1 -->
+
+And some artists even have more than two albums in the top 30!
+
+Guess I really, really like them!
+
+<!-- step1 -->
+
+Besides Bruno Mars and Tia Ray, it seems Leah Dou, Brian Culbertson, and Dabeull are also among my favorites — meaning they don't just have one or two "pension songs" (evergreen hits); their creative output is consistently strong.
+
+<!-- step1 -->
+
+Also, here's a little Easter egg: Faye Wong, Dou Wei, and Leah Dou — all three members of the same family — are on my album chart.
+
+<!-- step1 -->
+
+That's probably a "family complex" I didn't even realize I had. They are truly talented!

@@ -1,8 +1,12 @@
-<!-- step1 -->  
-谱质心曲线就是声音的亮度轮廓。
-就像低音鼓的谱质心很低，给人的感觉沉闷、厚重，而小提琴高音区的谱质心较高，给人的感觉尖锐又华丽。
+<!-- step1 -->
 
-<!-- step1 -->   
-跟振幅包络一样，开始探索吧！
+The spectral centroid curve is the brightness contour of the sound.
+
+Just like a kick drum has a very low spectral centroid (sounding dull and heavy), while the high register of a violin has a high spectral centroid (sounding bright and brilliant).
+
+<!-- step1 -->
+
+Same as with the amplitude envelope — start exploring!
+
 
 

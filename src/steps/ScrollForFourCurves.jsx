@@ -3,15 +3,18 @@ import scrollama from "scrollama";
 import FourCurvesBase from "../sections/top50Songs/fourCurvesBase";
 import "../styles/fourCurves.css";
 import ReactMarkdown from "react-markdown";
+import { useLanguage } from "../components/LanguageContext";
 
 export default function ScrollForFourCurves() {
   const baseRef = useRef(null);
   const [featureSteps, setFeatureSteps] = useState([]);
   const scrollerRef = useRef(null);
+  const { language } = useLanguage(); // 获取当前语言
   
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/text/zh/top50songs-feature-fourcurves-text.md")
+    const url = `/data/text/${language}/top50songs-feature-fourcurves-text.md`;
+    fetch(url)
       .then((res) => res.text())
       .then((text) => {
         const blocks = text
@@ -141,19 +144,23 @@ export default function ScrollForFourCurves() {
         <div className="scrolling-text-4curves">
           <ReactMarkdown>{featureSteps[0]}</ReactMarkdown>
         </div>
+        <div className="scrollingTextEndStep-4curves"></div>
+      </div>
+
+      <div className="scrollingTextContainer-4curves">
         <div className="scrolling-text-4curves">
           <ReactMarkdown>{featureSteps[1]}</ReactMarkdown>
         </div>
         <div className="scrollingTextEndStep-4curves"></div>
       </div>
-
+    
       <div className="scrollingTextContainer-4curves">
         <div className="scrolling-text-4curves">
           <ReactMarkdown>{featureSteps[2]}</ReactMarkdown>
         </div>
         <div className="scrollingTextEndStep-4curves"></div>
       </div>
-    
+
       <div className="scrollingTextContainer-4curves">
         <div className="scrolling-text-4curves">
           <ReactMarkdown>{featureSteps[3]}</ReactMarkdown>
@@ -193,19 +200,8 @@ export default function ScrollForFourCurves() {
         <div className="scrolling-text-4curves">
           <ReactMarkdown>{featureSteps[8]}</ReactMarkdown>
         </div>
-        <div className="scrollingTextEndStep-4curves"></div>
-      </div>
-
-      <div className="scrollingTextContainer-4curves">
         <div className="scrolling-text-4curves">
           <ReactMarkdown>{featureSteps[9]}</ReactMarkdown>
-        </div>
-        <div className="scrollingTextEndStep-4curves"></div>
-      </div>
-
-      <div className="scrollingTextContainer-4curves">
-        <div className="scrolling-text-4curves">
-          <ReactMarkdown>{featureSteps[10]}</ReactMarkdown>
         </div>
         <div className="scrollingTextEndStep-4curves"></div>
       </div>

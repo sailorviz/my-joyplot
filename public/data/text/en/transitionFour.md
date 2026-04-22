@@ -1,8 +1,11 @@
-<!-- step1 -->  
-包络线和谱质心只能看到“音量变化”和“亮度”。
+<!-- step1 -->
 
-<!-- step1 -->   
-我想看到一首歌真正的骨架。
+The amplitude envelope and spectral centroid only show "loudness changes" and "brightness."
 
-<!-- step1 -->  
-于是遇到了CQT频谱图。
+<!-- step1 -->
+
+I wanted to see the real skeleton of a song.
+
+<!-- step1 -->
+
+That's when I came across the CQT spectrogram.

@@ -1,30 +1,47 @@
-<!-- step1 -->  
-1. 谁是我听得最多的人？
+<!-- step1 -->
 
-<!-- step1 --> 
-把2299首歌按歌手聚类，前30名在这里。（鼠标悬停看细节）
+These flowing names are all the songs I've collected.
 
-<!-- step1 -->  
-第一名是袁娅维。不意外。她的歌和对音乐的执念，跟我对这件事的执念有点像。
+<!-- step1 -->
 
-<!-- step1 --> 
-另一个发现：前30名里，有10个是乐队。我好像比自己以为的更喜欢“一群人”的声音。
+I wanted to know: who have I listened to the most?
 
-<!-- step1 -->  
-2. 这些人是什么时代的？
+<!-- step1 -->
 
-<!-- step1 --> 
-两个时间块：1969–1998，以及2010–2019。
-中间那将近十年是空的。那段时间我在听什么？我自己也忘了。
+So by clustering the 2,299 songs by artist, I got a ranking of the top 30 most-listened-to artists!
 
-<!-- step1 --> 
-另一个发现：前30名里，有10个是乐队。
-我好像比自己以为的更喜欢“一群人”的声音。
+(Hover over the avatars to learn more about them)
 
-<!-- step1 -->  
-3. 他们来自哪里？
+<!-- step1 -->
 
-<!-- step1 --> 
-大部分来自中国、北美、西欧。
-没有惊喜。
-真正的惊喜在后面。
+Who is my favorite artist?
+
+<!-- step1 -->
+
+Number one is Tia Ray. Not surprising. Her songs and her obsession with music feel a bit like my own obsession with this project.
+
+<!-- step1 -->
+
+Another discovery: among the top 30, 10 are bands. I seem to like the sound of "a group of people" more than I realized.
+
+<!-- step1 -->
+
+What era are these people from?
+
+<!-- step1 -->
+
+Two time blocks: 1969–1998, and 2010–2019.
+
+The nearly ten years in between are empty. What was I listening to then? I don't remember either.
+
+<!-- step1 -->
+
+Where do they come from?
+
+<!-- step1 -->
+
+Mostly from China, North America, and Western Europe.
+
+No surprises.
+
+The real surprise comes later.

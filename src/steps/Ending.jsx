@@ -2,13 +2,16 @@
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import "../styles/ending.css";
+import { useLanguage } from "../components/LanguageContext";
 
 export default function Ending() {
   const [content, setContent] = useState("");
+  const { language } = useLanguage(); // 获取当前语言
 
   useEffect(() => {
     // 加载结尾 Markdown 文件
-    fetch("/data/text/zh/ending-text.md")
+    const url = `/data/text/${language}/ending-text.md`;
+    fetch(url)
       .then((res) => res.text())
       .then((text) => setContent(text))
       .catch((err) => console.error("加载 Ending 内容出错:", err));

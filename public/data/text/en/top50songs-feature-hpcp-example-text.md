@@ -1,9 +1,7 @@
-<!-- step1 -->  
-还是以holiday为例，从图上看，主要是C, C#, D四种声调在发声，holiday的调性是D大调，这与essentia的分析大致一样。
+<!-- step1 -->
 
-<!-- step1 -->   
-但要注意，并不是能量最强的声调就是一首歌的主key, 这与音乐的结构有关。
+Using "Holiday" as an example again: looking at the chart, the main pitch classes sounding are C, C#, and D. The key of "Holiday" is D major, which roughly matches Essentia's analysis.
 
+<!-- step1 -->
 
-
-
+But note: the pitch class with the strongest energy is not necessarily the key of the song (that depends on musical structure).

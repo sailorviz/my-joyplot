@@ -1,61 +1,80 @@
-<!-- step1 -->  
-8. 50首歌
+<!-- step1 -->
 
-<!-- step1 --> 
-这50首歌，每一首都给过我陪伴或震动。在我看来，它们是完美的。
-（点击可以听切片）
+Each of these 50 songs has given me companionship or a jolt of emotion.
 
-<!-- step1 --> 
-下面开始解剖它们。
+To me, they are perfect.
 
-<!-- step1 -->  
-9. 发行年份 & 流行度
+(Click to listen to slices.)
 
-<!-- step1 --> 
-时间分布：大部分在1980年代，以及2000年之后。
+<!-- step1 -->
 
-<!-- step1 -->  
-时间分布与TOP30歌手的出道时间有所重叠。
+Now let's start dissecting them.
 
-<!-- step1 --> 
-与TOP30专辑的发行时间似乎关系不大。
+<!-- step1 -->
 
-<!-- step1 --> 
-流行度（Spotify数据）：集中在40–60分（满分100）。不算大众，不算小众。
+Song release year & popularity
 
-<!-- step1 -->  
-对比我那2299首歌的平均流行度（约32分），这50首其实已经算是“我歌单里的主流”了。
+<!-- step1 -->
 
-<!-- step1 --> 
-结论：我总体偏小众，但这50首是我的“最大公约数”。
+Temporal distribution: mostly from the 1980s and post-2000.
 
-<!-- step1 -->  
-10. 风格 & 情绪
+<!-- step1 -->
 
-<!-- step1 --> 
-风格（通过Essentia模型分析）：
+The time distribution overlaps somewhat with the debut years of the top 30 artists.
 
-<!-- step1 --> 
-流行、摇滚、电子、放克。没有金属，没有乡村。我好像天生对某种声音过敏。
+<!-- step1 -->
 
-<!-- step1 -->  
-情绪（也是Essentia）：
+Seems unrelated to the release years of the top 30 albums.
 
-<!-- step1 --> 
-我把它归成三类：开心、平静、悲伤。
+<!-- step1 -->
 
-<!-- step1 -->  
-悲伤的歌很少。我选这50首歌的时候，可能自动过滤掉了让我更难过的东西——歌单是一种自我保护。
+Popularity (Spotify data): concentrated between 40–60 (out of 100). Not mainstream, not niche.
 
-<!-- step1 --> 
-11. 风格 × 情绪
+<!-- step1 -->
 
-<!-- step1 --> 
-风格和情绪有关系吗？（鼠标悬停看关系）
+Compared to the average popularity of my 2,299 songs (around 32), these 50 are actually the "mainstream within my playlist."
 
-<!-- step1 -->  
-比如“放克”几乎全是开心，“摇滚”则散落在三个情绪里。
+<!-- step1 -->
 
-<!-- step1 --> 
-这张图只对这50首歌负责，不代表宇宙真理。但它至少说明：我喜欢的“快乐”，是有特定声音载体的。
+Conclusion: I'm generally niche, but these 50 are my "greatest common divisor."
+
+<!-- step1 -->
+
+Song style & mood
+
+<!-- step1 -->
+
+Each color represents a style.
+
+(Data analyzed using the Essentia model.)
+
+<!-- step1 -->
+
+The song styles are diverse, but mainly concentrated in Pop, Rock, Electronic, and Funk.
+
+<!-- step1 -->
+
+Same as with styles, each color represents a mood.
+
+<!-- step1 -->
+
+I grouped them into three categories: happy, calm, sad.
+
+<!-- step1 -->
+
+Very few sad songs. When selecting these 50, I might have automatically filtered out things that would make me sadder — as the saying goes, "sad people don't listen to slow songs," haha.
+
+<!-- step1 -->
+
+Is there a relationship between style and mood?
+
+(Hover to see the relationship.)
+
+<!-- step1 -->
+
+For example, "Disco" is almost all happy, while "Love" can come from any style.
+
+<!-- step1 -->
+
+This chart is only responsible for these 50 songs; it's not universal truth. But it at least shows that the "happiness" I like has specific sonic carriers.
 

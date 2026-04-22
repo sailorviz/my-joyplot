@@ -1,12 +1,15 @@
-<!-- step1 -->  
-这是一个探索式图表，上面的图代表50首歌的振幅包络图，下面的图是筛选后的振幅包络曲线的平均值。
+<!-- step1 -->
 
-<!-- step1 -->   
-你可以通过筛选特定的流派或情绪来对歌曲进行分组，每种颜色代表一种特定的流派或情绪。当您选择一种流派时，歌曲的颜色表示三种不同的情绪，反之亦然。
+This is an exploratory chart. The upper section shows the amplitude envelope curves of the 50 songs; the lower section shows the average of the filtered amplitude envelope curves.
 
-<!-- step1 -->  
-你还可以通过音频特征、不协和度、舞蹈性、BPM、动态复杂度按降序排列歌曲，以检查歌曲的振幅包络波形是否存在某些模式。
+<!-- step1 -->
 
-<!-- step1 -->  
-快开始愉快地探索吧！
+You can group songs by filtering on specific genres or moods. Each color represents a specific genre or mood. When you select a genre, the song colors represent the three different moods, and vice versa.
 
+<!-- step1 -->
+
+You can also sort songs in descending order by audio features: dissonance, danceability, BPM, dynamic complexity, to check if there are any patterns in the amplitude envelope waveforms.
+
+<!-- step1 -->
+
+Go ahead and explore — have fun!

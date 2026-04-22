@@ -1,14 +1,16 @@
-<!-- step1 -->  
-18. CQT vs HPCP（同一个音，不同乐器）
+<!-- step1 -->
 
-<!-- step1 -->   
-同一个C4音，用钢琴、小提琴、人声分别演奏：
+Here are five different instruments each playing a C4 note.
 
-- CQT图：形状完全不同（因为音色不同）
-- HPCP图：都是C那一格最亮（因为音高相同）
+(You can switch modes to see the difference between CQT and HPCP; you can also click on the instrument names to hear the C4 note played by different instruments.)
 
-<!-- step1 -->  
-所以：CQT反映音色，HPCP反映调性。
+<!-- step1 -->
 
+- CQT plot: completely different shapes (because timbre differs)
+- HPCP plot: the C slot is brightest in all cases (because pitch is the same)
 
+<!-- step1 -->
 
+So a simple conclusion:
+
+CQT reflects timbre; HPCP reflects tonality.

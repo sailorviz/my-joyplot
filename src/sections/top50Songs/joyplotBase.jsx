@@ -11,6 +11,7 @@ import { setWaveformStates } from "./audioFeature/joyplots/setWaveformStates";
 import { zoomToFirstMinute } from "./audioFeature/joyplots/zoomToFirstMinute";
 import JoyplotControls from "./audioFeature/joyplots/JoyplotControls";
 import { createOverview } from "./audioFeature/joyplots/createOverview";
+import { useLanguage } from "../../components/LanguageContext";
 
 const JoyplotBase = forwardRef((_, ref) => {
   const [songInfo, setSongInfo] = useState([]);
@@ -44,10 +45,13 @@ const JoyplotBase = forwardRef((_, ref) => {
   const illustrationBlocksRef = useRef([]);
   const illustrationAreaRef = useRef(null);
   const [analysisMode, setAnalysisMode] = useState("amp60"); // "amplitude" | "spectral"
+  
+  const { language } = useLanguage(); // 获取当前语言
   const illustrationSources = {
-    amp60: "/data/text/zh/ampIllustrationTexts.md",
-    spec60: "/data/text/zh/specIllustrationTexts.md"
+    amp60: `/data/text/${language}/ampIllustrationTexts.md`,
+    spec60: `/data/text/${language}/specIllustrationTexts.md`
   };
+
   const nextMode =
     analysisMode === "amp60" ? "spec60" : "amp60";
   const nextModeLabel =

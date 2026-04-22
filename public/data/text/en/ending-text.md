@@ -1,25 +1,29 @@
-这朵呼吸着的“生命体”，也是我生命里重要的一部分。
+These 2,299 songs have condensed into my musical universe — and this universe is still expanding.
 
-音乐是一个人的私密宝库。也谢谢你打开我的宝库看了一眼。
+Some galaxies are huge, with many rich bodies; some are like lone comets, flashing through this universe for a moment...
 
-这个项目开始于“音乐救我狗命”，结束于“我还是不知道它怎么救的，但我知道它确实救了”。
+They have all left their marks, deep or shallow, on my world.
 
-感谢这世上还有音乐。
+This breathing "living being" is also an important part of my life, bringing me so much color and vitality.
+
+Thank goodness music exists in this world.
+
+This project started with "Music saved my damn life" and ends with "I still don't know *how* it saved me, but I know it did."
+
+Music is a person's private treasure vault. Thank you for opening my vault and taking a look.
 
 ---
 
-如果你想看看这一切是怎么构建的——
+If you want to see how all of this was built —
 
-👉 代码和数据都在这里：[GitHub链接]
+👉 The code and data are here: [GitHub link]
 
-如果你也做过类似的“音乐自画像”——我很想看看。
+If you've made a similar "musical self-portrait" — I'd love to see it.
 
-👉 分享你的那首“定义你自己的歌”，记得叫我：@[你的Twitter/Instagram]
+👉 Share the song that "defines you," and be sure to tag me: @[your Twitter/Instagram]
 
-或者只是打个招呼：）
+Or just say hello :)
 
-谢谢陪我滑到最后。🎧
+Thanks for scrolling to the end with me. 🎧
 
-—— [你的名字]
-
-
+--- [Your Name]

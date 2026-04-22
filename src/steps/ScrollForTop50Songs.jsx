@@ -3,17 +3,18 @@ import scrollama from "scrollama";
 import BaseSquares from "../sections/top50Songs/BaseSquares";
 import "../styles/top50Songs.css";
 import ReactMarkdown from "react-markdown";
+import { useLanguage } from "../components/LanguageContext";
 
 export default function ScrollForTop50Songs() {
   const baseRef = useRef(null);
   const [infoSteps, setInfoSteps] = useState([]);
   const scrollerRef = useRef(null);
-  console.log("baseRef.current =", baseRef.current);
-
+  const { language } = useLanguage(); // 获取当前语言
   
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/text/zh/top50songs-info-texts.md")
+    const url = `/data/text/${language}/top50songs-info-texts.md`;
+    fetch(url)    
       .then((res) => res.text())
       .then((text) => {
         const blocks = text
@@ -58,9 +59,6 @@ export default function ScrollForTop50Songs() {
             case 5:
               baseRef.current.triggerDrawPopularityDensity();
               break;
-            case 6:
-              baseRef.current.triggerDrawPopularityDensityOfAllSongs();
-              break;
             case 7:
               baseRef.current.backToBaseSquaresAgain();
               break;
@@ -86,15 +84,15 @@ export default function ScrollForTop50Songs() {
               break;
           }
         }
-        // if (element.classList.contains("triggerStep-top50songs") && direction === "down") {
-        //   switch (index) {
-        //     case 1:
-        //       baseRef.current.animateClusterWithImages();
-        //       break;
-        //     default:
-        //       break;
-        //   }
-        // }
+        if (element.classList.contains("triggerStep-top50songs") && direction === "down") {
+          switch (index) {
+            case 6:
+              baseRef.current.triggerDrawPopularityDensityOfAllSongs();
+              break;        
+            default:
+              break;
+          }
+        }
       })
       .onStepExit(({ element, index, direction }) => {
         if (element.classList.contains("scrollingTextEndStep-top50songs") && direction === "up") {
@@ -116,9 +114,6 @@ export default function ScrollForTop50Songs() {
               break;
             case 5:
               baseRef.current.backToPopularitiesForSongs();
-              break;
-            case 6:
-              baseRef.current.backToOneKDE();
               break;
             case 7:
               baseRef.current.backTo2KDE();
@@ -145,16 +140,15 @@ export default function ScrollForTop50Songs() {
               break;
           }
         }
-        // if (element.classList.contains("triggerStep-top50songs") && direction === "up") {
-        //   switch (index) {
-        //     case 1:
-        //       baseRef.current.hideImages();
-        //       baseRef.current.triggerClustering();
-        //       break;
-        //     default:
-        //       break;
-        //   }
-        // }
+        if (element.classList.contains("triggerStep-top50songs") && direction === "up") {
+          switch (index) {
+            case 6:
+              baseRef.current.backToOneKDE();
+              break;
+            default:
+              break;
+          }
+        }
       });
 
     const handleResize = () => scrollerRef.current?.resize();
@@ -212,20 +206,22 @@ export default function ScrollForTop50Songs() {
         <div className="scrolling-text-top50songs">
           <ReactMarkdown>{infoSteps[5]}</ReactMarkdown>
         </div>
+        <div className="scrollingTextEndStep-top50songs"></div>
+      </div>
+
+      <div className="scrollingTextContainer-top50songs">
         <div className="scrolling-text-top50songs">
           <ReactMarkdown>{infoSteps[6]}</ReactMarkdown>
         </div>
         <div className="scrollingTextEndStep-top50songs"></div>
       </div>
 
+      <div className="triggerStep-top50songs"></div>      
+
       <div className="scrollingTextContainer-top50songs">
         <div className="scrolling-text-top50songs">
           <ReactMarkdown>{infoSteps[7]}</ReactMarkdown>
         </div>
-        <div className="scrollingTextEndStep-top50songs"></div>
-      </div>
-
-      <div className="scrollingTextContainer-top50songs">
         <div className="scrolling-text-top50songs">
           <ReactMarkdown>{infoSteps[8]}</ReactMarkdown>
         </div>
@@ -271,43 +267,23 @@ export default function ScrollForTop50Songs() {
         <div className="scrolling-text-top50songs">
           <ReactMarkdown>{infoSteps[14]}</ReactMarkdown>
         </div>
+        <div className="scrolling-text-top50songs">
+          <ReactMarkdown>{infoSteps[15]}</ReactMarkdown>
+        </div>
         <div className="scrollingTextEndStep-top50songs"></div>
       </div>
 
       <div className="scrollingTextContainer-top50songs">
         <div className="scrolling-text-top50songs">
-          <ReactMarkdown>{infoSteps[15]}</ReactMarkdown>
-        </div>
-        <div className="scrolling-text-top50songs">
           <ReactMarkdown>{infoSteps[16]}</ReactMarkdown>
         </div>
-        <div className="scrollingTextEndStep-top50songs"></div>
-      </div>
-    
-      <div className="scrollingTextContainer-top50songs">
         <div className="scrolling-text-top50songs">
           <ReactMarkdown>{infoSteps[17]}</ReactMarkdown>
         </div>
         <div className="scrollingTextEndStep-top50songs"></div>
       </div>
 
-      <div className="scrollingTextContainer-top50songs">
-        <div className="scrolling-text-top50songs">
-          <ReactMarkdown>{infoSteps[18]}</ReactMarkdown>
-        </div>
-        <div className="scrollingTextEndStep-top50songs"></div>
-      </div>
-
-      <div className="scrollingTextContainer-top50songs">
-        <div className="scrolling-text-top50songs">
-          <ReactMarkdown>{infoSteps[19]}</ReactMarkdown>
-        </div>
-        <div className="scrollingTextEndStep-top50songs"></div>
-      </div>
-
       {/* <div className="triggerStep-top50songs"></div> */}
-
-      <div style={{ height: '100vh', pointerEvents: 'auto' }} />
     </div>
   );
 }

@@ -3,16 +3,19 @@ import scrollama from "scrollama";
 import BaseCQT from "../sections/top50Songs/BaseCQT";
 import "../styles/cqt.css";
 import ReactMarkdown from "react-markdown";
+import { useLanguage } from "../components/LanguageContext";
 
 export default function ScrollForCQT() {
   const baseRef = useRef(null);
   const [featureSteps, setFeatureSteps] = useState([]);
   const scrollerRef = useRef(null);
   const [currentText, setCurrentText] = useState(featureSteps[0]);
+  const { language } = useLanguage(); // 获取当前语言
 
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/text/zh/top50songs-feature-cqt-text.md")
+    const url = `/data/text/${language}/top50songs-feature-cqt-text.md`;
+    fetch(url)
       .then((res) => res.text())
       .then((text) => {
         const blocks = text

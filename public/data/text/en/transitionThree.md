@@ -1,11 +1,15 @@
-<!-- step1 -->  
-以上仍然是基于音频本身提炼出来的一种抽象的，用算法估值的概念。我好像还是不知道到底是什么吸引了我？
+<!-- step1 -->
 
-<!-- step1 --> 
-为什么是这些歌曲而不是其他最吸引我？
+But still, these are abstract, algorithm-estimated concepts distilled from the audio itself. I still don't seem to know what exactly attracts me.
 
-<!-- step1 -->  
-为什么他们给了我不一样的感觉？
+<!-- step1 -->
 
-<!-- step1 --> 
-我想我需要从声音本身开始分析。
+Why these songs and not others?
+
+<!-- step1 -->
+
+Why do they give me different feelings?
+
+<!-- step1 -->
+
+I think I need to start analyzing from the sound itself.

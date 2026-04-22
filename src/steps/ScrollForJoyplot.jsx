@@ -3,6 +3,7 @@ import scrollama from "scrollama";
 import JoyplotBase from "../sections/top50Songs/joyplotBase";
 import "../styles/joyplot.css";
 import ReactMarkdown from "react-markdown";
+import { useLanguage } from "../components/LanguageContext";
 
 export default function ScrollForJoyplot() {
   const baseRef = useRef(null);
@@ -17,6 +18,7 @@ export default function ScrollForJoyplot() {
   // 每个step都有必须满足的前置条件，若是滚动太快，前序被跳过，后续的step就可能不会正常触发
   // 同一个 step index，只允许执行一次完整状态切换
   const lastAppliedStepRef = useRef(null);
+  const { language } = useLanguage(); // 获取当前语言
 
   // 新增滚动函数
   const scrollToFirstIllustrationTrigger = (mode) => {
@@ -61,7 +63,8 @@ export default function ScrollForJoyplot() {
   // 加载texts文件
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/text/zh/top50songs-feature-joyplot-text.md")
+    const url = `/data/text/${language}/top50songs-feature-joyplot-text.md`;
+    fetch(url)
       .then((res) => res.text())
       .then((text) => {
         const blocks = text
@@ -158,17 +161,10 @@ export default function ScrollForJoyplot() {
           lastAppliedStepRef.current = index;
 
           switch (index) {
-            case 0:
-              baseRef.current.pauseWaveformInteraction();
-              baseRef.current.addZoomFrame();
-              break;
             case 1:
               baseRef.current.zoomToFirstMinute();
               baseRef.current.pauseWaveformClick();
               baseRef.current.resetWaveformInteraction();
-              break;
-            case 2:
-              baseRef.current.changeTo60sAmplitude();
               break;
             case 3:
               baseRef.current.moveWaveformsToExploratoryChart();
@@ -196,10 +192,22 @@ export default function ScrollForJoyplot() {
               break;
           }
         }
-        // if (element.classList.contains("triggerStep-joyplot") && direction === "down") {
-        //   const step = Number(element.dataset.illustrationStep);
-        //   baseRef.current.showIllustration(step);
-        // }
+        if (element.classList.contains("triggerStep-joyplot") && direction === "down") {
+          if (lastAppliedStepRef.current === index) return;
+          lastAppliedStepRef.current = index;
+
+          switch(index){
+            case 0:
+              baseRef.current.pauseWaveformInteraction();
+              baseRef.current.addZoomFrame();
+              break;
+            case 2:
+              baseRef.current.changeTo60sAmplitude();
+              break;
+            default:
+              break;
+          }
+        }
       })
       .onStepExit(({ element, index, direction }) => {
         if (element.classList.contains("scrollingTextEndStep-joyplot") && direction === "up") {
@@ -209,17 +217,10 @@ export default function ScrollForJoyplot() {
           }
           
           switch (index) {
-            case 0:
-              baseRef.current.hideZoomFrame();
-              baseRef.current.resetWaveformInteraction();
-              break;
             case 1:
               baseRef.current.backToInitialDomain();
               baseRef.current.resetWaveformClick();
               baseRef.current.pauseWaveformInteraction();
-              break;
-            case 2:
-              baseRef.current.changeToFullAmplitude();
               break;
             case 3:
               destroyIllustrationScroll();   // ⭐ 销毁第二时间轴
@@ -237,14 +238,23 @@ export default function ScrollForJoyplot() {
               break;
           }
         }
-        // if (element.classList.contains("triggerStep-joyplot") && direction === "up") {
-        //   const step = Number(element.dataset.illustrationStep);
-        //   if (step === 0) {
-        //     baseRef.current.hideIllustration();
-        //   } else {
-        //     baseRef.current.showIllustration(step - 1);
-        //   }
-        // }
+        if (element.classList.contains("triggerStep-joyplot") && direction === "up") {
+          if (lastAppliedStepRef.current === index) {
+            lastAppliedStepRef.current = index - 1;
+          }
+
+          switch(index){
+            case 0:
+              baseRef.current.hideZoomFrame();
+              baseRef.current.resetWaveformInteraction();
+              break;
+            case 2:
+              baseRef.current.changeToFullAmplitude();
+              break;
+            default:
+              break;
+          }
+        }
       });
 
     // const handleResize = () => scrollerRef.current?.resize();
@@ -277,15 +287,13 @@ export default function ScrollForJoyplot() {
         <div className="scrolling-text-joyplot">
           <ReactMarkdown>{featureSteps[1]}</ReactMarkdown>
         </div>
-        <div className="scrollingTextEndStep-joyplot"></div>
-      </div>
-
-      <div className="scrollingTextContainer-joyplot">
         <div className="scrolling-text-joyplot">
           <ReactMarkdown>{featureSteps[2]}</ReactMarkdown>
         </div>
-        <div className="scrollingTextEndStep-joyplot"></div>
       </div>
+
+      <div style={{ height: '150vh', pointerEvents: 'auto' }} />
+      <div className="triggerStep-joyplot"></div>
 
       <div className="scrollingTextContainer-joyplot">
         <div className="scrolling-text-joyplot">
@@ -293,6 +301,8 @@ export default function ScrollForJoyplot() {
         </div>
         <div className="scrollingTextEndStep-joyplot"></div>
       </div>
+
+      <div className="triggerStep-joyplot"></div>
 
       <div className="scrollingTextContainer-joyplot">
         <div className="scrolling-text-joyplot">
@@ -340,13 +350,16 @@ export default function ScrollForJoyplot() {
       ))} */}
       {currentAnalysisMode === 'spec60' && illustrationSteps?.length > 0 && (
         <div className="triggers-spec60">
-          {illustrationSteps.map((_, i) => (
-            <div
-              key={`ampFull-${i}`}         // 或 `b-${i}`
-              className="triggerStep-illustration spec60"
-              data-illustration-step={i}
-            />
-          ))}
+          <div
+            key={`spec60-0`}         // 或 `b-${i}`
+            className="triggerStep-illustration spec60"
+            data-illustration-step="0"
+          />
+          <div
+            key={`spec60-1`}         // 或 `b-${i}`
+            className="triggerStep-illustration spec60"
+            data-illustration-step="1"
+          />
         </div>
       )}
 
@@ -356,8 +369,6 @@ export default function ScrollForJoyplot() {
         </div>
         <div className="scrollingTextEndStep-joyplot"></div>
       </div>
-
-      <div style={{ height: '100vh', pointerEvents: 'auto' }} />
     </div>
   );
 }

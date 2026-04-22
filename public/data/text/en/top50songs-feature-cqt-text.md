@@ -1,28 +1,39 @@
-<!-- step1 -->  
-这是麦当娜很经典的一首Holiday的前60s音频切片，作为案例分析。
-竖轴是音高（从低到高），横轴是时间，颜色越亮＝能量越强。
-你会发现：能量主要集中在某几行——那是这首歌的“骨架音”。
+<!-- step1 -->
 
-<!-- step1 --> 
-如果我们从这个频谱图中切掉一帧，并将其水平放置，那么我们就得到一个八度条。
+This is the first 60 seconds of a classic Madonna song, "Holiday."
 
-<!-- step1 -->  
-正如你所见，它表示哪些声调在发声。 
+On the spectrogram, the vertical axis is pitch (low to high), the horizontal axis is time, and brighter colors = stronger energy.
 
-<!-- step1 --> 
-比如，在Holiday这首歌的第一帧中，所有声调都暂时没有发声。
+You'll notice that the energy is mainly concentrated on a few lines — those are the "skeletal tones" of the song.
 
-<!-- step1 -->  
-（点击播放，看能量跳动）
+<!-- step1 -->
 
-<!-- step1 --> 
-如果我们再加上节拍呢？
+If we cut one frame from this spectrogram and lay it horizontally, we get an octave strip.
 
-<!-- step1 --> 
-重新播放再看：重拍落下去的时候，最亮的那一行会闪一下。
+<!-- step1 -->
 
-<!-- step1 -->  
-Essentia说这首歌是D大调。从图上看，D4那一行确实一直亮着。
+As you can see, it shows which pitch classes are sounding.
 
-<!-- step1 --> 
-现在请自由探索，看看其他音乐“长什么样子”。
+<!-- step1 -->
+
+For example, in the first frame of "Holiday," none of the pitch classes are sounding.
+
+<!-- step1 -->
+
+(Click play and watch the energy move.)
+
+<!-- step1 -->
+
+What if we add the beat as well?
+
+<!-- step1 -->
+
+Play it again: when the downbeat hits, the brightest line flashes.
+
+<!-- step1 -->
+
+Essentia says this song is in D major. Looking at the chart, the line near D4 does stay bright.
+
+<!-- step1 -->
+
+Now feel free to explore and see what other music "looks like."

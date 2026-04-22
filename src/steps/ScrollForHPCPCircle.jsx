@@ -3,16 +3,19 @@ import scrollama from "scrollama";
 import HPCPCircle from "../sections/top50Songs/HPCPCircle";
 import "../styles/hpcpCircle.css";
 import ReactMarkdown from "react-markdown";
+import { useLanguage } from "../components/LanguageContext";
 
 export default function ScrollForHPCPCircle() {
   const baseRef = useRef(null);
   const [textSteps, setTextSteps] = useState([]);
   const [featureSteps, setFeatureSteps] = useState([]);
   const scrollerRef = useRef(null);
+  const { language } = useLanguage(); // 获取当前语言
   
   // 从 public 文件夹中加载 单独text 文件
   useEffect(() => {    
-    fetch("/data/text/zh/top50songs-feature-hpcp-circle-text-1.md")
+    const url = `/data/text/${language}/top50songs-feature-hpcp-circle-text-1.md`;
+    fetch(url)
       .then((res) => res.text())
       .then((text) => {
         const blocks = text
@@ -25,8 +28,9 @@ export default function ScrollForHPCPCircle() {
   }, []);
 
   // 从 public 文件夹中加载 circle组件内text 文件
-  useEffect(() => {    
-    fetch("/data/text/zh/top50songs-feature-hpcp-circle-text-2.md")
+  useEffect(() => {
+    const url = `/data/text/${language}/top50songs-feature-hpcp-circle-text-2.md`;
+    fetch(url)    
       .then((res) => res.text())
       .then((text) => {
         const blocks = text

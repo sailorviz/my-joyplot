@@ -1,8 +1,11 @@
-<!-- step1 -->  
-CQT告诉你“哪些音在响”。
+<!-- step1 -->
 
-<!-- step1 -->   
-但如果你想回答“这首歌是什么调的”，CQT太啰嗦了。
+CQT tells you "which pitches are sounding."
 
-<!-- step1 -->  
-这时候需要HPCP。
+<!-- step1 -->
+
+But if you want to answer "what key is this song in," CQT is too verbose.
+
+<!-- step1 -->
+
+That's when you need HPCP.

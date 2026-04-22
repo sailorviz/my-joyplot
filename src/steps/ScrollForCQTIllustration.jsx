@@ -3,15 +3,18 @@ import scrollama from "scrollama";
 import CQTIllustration from "../sections/top50Songs/CQTIllustration";
 import "../styles/cqtIllustration.css";
 import ReactMarkdown from "react-markdown";
+import { useLanguage } from "../components/LanguageContext";
 
 export default function ScrollForCQTIllustration() {
   const baseRef = useRef(null);
   const [featureSteps, setFeatureSteps] = useState([]);
   const scrollerRef = useRef(null);
+  const { language } = useLanguage(); // 获取当前语言
 
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/text/zh/top50songs-feature-cqt-illustration-text.md")
+    const url = `/data/text/${language}/top50songs-feature-cqt-illustration-text.md`;
+    fetch(url)
       .then((res) => res.text())
       .then((text) => {
         const blocks = text

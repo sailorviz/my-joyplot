@@ -1,4 +1,7 @@
 import { useRef } from "react";
+import './styles/app.css';
+import { LanguageProvider, useLanguage } from "./components/LanguageContext";
+import { VolumeProvider, useVolume } from "./components/VolumeContext";
 import ScrollForFlowingSongs from "./steps/ScrollForFlowingSongs";
 import ScrollForIntro from "./steps/ScrollForIntro";
 import ScrollForTransitionOne from "./steps/ScrollForTransitionOne";
@@ -18,7 +21,11 @@ import ScrollForHPCPCircle from "./steps/ScrollForHPCPCircle";
 import ScrollForNebula from "./steps/ScrollForNebula";
 import Ending from "./steps/Ending";
 
-export default function App() {
+
+function AppContent() {
+  const { language, toggleLanguage } = useLanguage();
+  const { rawVolume, setVolume, isMuted, toggleMute } = useVolume();
+
   const introRef = useRef(null);
   const flowingSongsRef = useRef(null);
   const transitionOneRef = useRef(null);
@@ -40,6 +47,30 @@ export default function App() {
 
   return (
     <div className="app-container">
+      <div className="global-controls">
+        <button className="global-controls__lang-btn" onClick={toggleLanguage}>
+          {language === 'zh' ? 'English' : '中文'}
+        </button>
+        
+        <div className="global-controls__volume-panel">
+          <button className="global-controls__mute-btn" onClick={toggleMute}>
+            {isMuted ? '🔇' : '🔊'}
+          </button>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={rawVolume}
+            onChange={(e) => setVolume(parseFloat(e.target.value))}
+            className="global-controls__slider"
+          />
+          <span className="global-controls__volume-label">
+            {isMuted ? 'Muted' : `${Math.round(rawVolume * 100)}%`}
+          </span>
+        </div>
+      </div>
+
       <div ref={introRef}>
         <ScrollForIntro />
       </div>
@@ -110,5 +141,15 @@ export default function App() {
         <Ending />
       </div>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <VolumeProvider>        {/* 必须包裹 AppContent */}
+        <AppContent />
+      </VolumeProvider>
+    </LanguageProvider>
   );
 }

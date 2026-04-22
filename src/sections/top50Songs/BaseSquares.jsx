@@ -29,16 +29,25 @@ import { drawMoodTreemap } from "./info/drawMoodTreemap";
 import { moodCompareToGenreTreemap } from "./info/moodCompareToGenreTreemap";
 import { drawSankeyChart } from "./info/drawSankeyChart";
 import { sankeyChartToMoodTreemap } from "./info/sankeyChartToMoodTreemap";
+import { useVolume } from "../../components/VolumeContext";
 
 const BaseSquares = forwardRef((_, ref) => {
   const [songs, setSongs] = useState([]);
   const containerRef = useRef(null);
-  // 👈 只创建一次
-  const audioPlayer = new Audio();
   const currentClusterRef = useRef(null);
   const timelineContextForSongsRef = useRef(null);
   const popularityContextRef = useRef(null);
   const kdeContextFromStep1Ref = useRef(null);
+
+  // 👈 只创建一次
+  const audioPlayerRef = useRef(new Audio());
+  const audioPlayer = audioPlayerRef.current;
+  const { volume } = useVolume(); // 这个 volume 已经是静音处理后的值
+
+  // 同步全局音量到音频元素
+  useEffect(() => {
+    audioPlayer.volume = volume;
+  }, [volume]);
 
   useEffect(() => {
     fetch("/data/top50_songs.csv")

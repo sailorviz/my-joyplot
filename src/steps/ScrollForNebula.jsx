@@ -2,16 +2,18 @@ import { useEffect, useRef, useState } from "react";
 import Nebula from "../sections/nebula/Nebula";
 import "../styles/nebula.css";
 import ReactMarkdown from "react-markdown";
-
+import { useLanguage } from "../components/LanguageContext";
 
 export default function ScrollForNebula() {
   const nebulaRef = useRef(null);
   const sectionRef = useRef(null);
   const [textSteps, setTextSteps] = useState([]);
+  const { language } = useLanguage(); // 获取当前语言
 
   // 从 public 文件夹中加载 单独text 文件
-  useEffect(() => {    
-    fetch("/data/text/zh/ending-nebula-text.md")
+  useEffect(() => {
+    const url = `/data/text/${language}/ending-nebula-text.md`;
+    fetch(url)    
       .then((res) => res.text())
       .then((text) => {
         const blocks = text

@@ -1,27 +1,41 @@
-<!-- step1 -->  
-13. 振幅包络 & 谱质心
+<!-- step1 -->
 
-<!-- step1 --> 
-声音的本质就是能量的振动，一条音波就是一首歌。
-而声音的原始波形太密了，像一团乱麻。
-振幅包络就是把这团乱麻的‘外轮廓’画出来，代表声音的响度随时间的变化。
-你一眼就能看出：这首歌的开头是突然爆发的（打击乐），还是慢慢渗进来的（弦乐）。
-我试着画了所有歌的“振幅包络”——就是声音从起到落的样子。
-（你可以点击任意一条曲线，收听相应的音频切片。）
+What is the "shape" of a song?
 
-<!-- step1 -->  
-为了便于分析，截取所有音频的前60s=的振幅包络曲线。 
+<!-- step1 -->
 
-<!-- step1 --> 
-这是放大后的前60s振幅包络线。
+A song is rhythmic sound, and the essence of sound is the vibration of energy.
 
-<!-- step1 -->  
-坦白说，我盯着这些曲线看了很久，并没有找到一个完美的规律。
-你可以在这里玩一下：按风格或情绪筛选，看看有没有你眼熟的形状。
+One soundwave is one song.
 
-<!-- step1 -->  
-如果说振幅包络告诉我们声音‘多响’，那谱质心就告诉我们声音‘多亮’。
-你还可以试试进一步探索音波的另一种表现形式：谱质心曲线。
+<!-- step1 -->
 
-<!-- step1 -->  
-有些探索的答案就是“没有明显答案”。但这不代表探索本身没用。
+I tried to draw what they look like, but the raw waveform is too dense — like a tangled mess.
+
+So I used the amplitude envelope curve method from audio signal analysis to draw the "outer contour" of that mess, representing how loudness changes over time.
+
+At a glance, you can see when a song is quiet, when it's loud, when it evolves regularly, and when it changes abruptly.
+
+(You can click on any curve to listen to the corresponding audio slice.)
+
+<!-- step1 -->
+
+For easier analysis, I took the first 60 seconds of each audio track.
+
+<!-- step1 -->
+
+Honestly, I stared at these curves for a long time and didn't find a perfect pattern.
+
+You can play around here: filter by style or mood and see if any shapes look familiar to you.
+
+<!-- step1 -->
+
+If the amplitude envelope tells us "how loud" the sound is, then the spectral centroid tells us "how bright" the sound is.
+
+You can also try exploring another representation of soundwaves: the spectral centroid curve.
+
+<!-- step1 -->
+
+No obvious pattern seems to emerge.
+
+Sometimes the answer to an exploration is "there is no clear answer," but that doesn't mean the exploration itself is useless.

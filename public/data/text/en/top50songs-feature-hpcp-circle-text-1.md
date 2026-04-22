@@ -1,22 +1,27 @@
-<!-- step1 -->  
-19. HPCP圆环
+<!-- step1 -->
 
-我把每首歌的HPCP画成一个圆环。每一格是一个音名（C, C#, D……），
-分别计算其平均值和方差，以观察声调的平均能量和变化程度。
+I drew the HPCP of these 50 songs as a circle chart.
 
-你可以自由探索。
+Each grid is a pitch name (C, C#, D...),
 
+with the mean and variance calculated separately to observe the average energy and degree of variation of each pitch class.
 
-<!-- step1 --> 
-可以看出我喜欢的歌曲，大部分都是以C，D为主KEY，以大调为主。
-是不是很无聊的答案？折腾了8个月，最后得出“我喜欢C和D”。
+Feel free to explore.
 
-但有趣的地方不在这里。
+<!-- step1 -->
 
-有趣的地方是：同样是C大调，有些歌让我快乐，有些歌让我平静，有些歌我听了一遍就删了。
+You can see that most of the songs I like are primarily in C and D, and mainly in major keys.
 
-那个差异，数据抓不到。
+Pretty boring answer, right? After months of work, I end up with "I like C and D."
 
-数据能抓到的是：我偏爱律动、偏爱中快速度、偏爱不刺耳的声音、偏爱2010年后的专辑、偏爱袁娅维和火星哥和那一家人。
+But that's not where the fun lies.
 
-但数据抓不到的是：为什么《Holiday》的前奏一响，我就想笑。
+The fun part is: even in C major, some songs make me happy, some make me calm, and some I delete after one listen.
+
+That difference — data cannot capture.
+
+Data cannot capture why the intro of "Holiday" makes me happy as soon as it starts.
+
+What data *can* capture is that I prefer groove, medium-fast tempo, non-harsh sounds, albums from after 2010, and artists like Tia Ray, Bruno Mars, and the Faye Wong family.
+
+Data is abstract, but my liking is very concrete.

@@ -2,15 +2,23 @@ import { useEffect, useState, useRef } from "react";
 import scrollama from "scrollama";
 import "../styles/transitionOne.css";
 import ReactMarkdown from "react-markdown";
+import { useLanguage } from "../components/LanguageContext";
 
 export default function ScrollForTransitionOne({ onContinue, onGoBack }){
   const [steps, setSteps] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
   const scrollerRef = useRef(null);
+  const { language } = useLanguage();
+  
+  const textsUI = {
+    zh: { continue: '继续', back: '返回' },
+    en: { continue: 'Continue', back: 'Back' }
+  };
   
   useEffect(() => {
     // 从 public 文件夹中加载 Markdown 文件
-    fetch("/data/text/zh/transitionOne.md")
+    const url = `/data/text/${language}/transitionOne.md`;
+    fetch(url)    
       .then((res) => res.text())
       .then((text) => {
         const blocks = text
@@ -66,15 +74,14 @@ export default function ScrollForTransitionOne({ onContinue, onGoBack }){
           <ReactMarkdown>{steps[activeStep]}</ReactMarkdown>
           {activeStep === steps.length - 1 && (
             <div className="buttons">
-              <button onClick={onContinue}>Continue to read</button>
-              <button onClick={onGoBack}>Go back to beginning</button>
+              <button onClick={onContinue}>{textsUI[language].continue}</button>
+              <button onClick={onGoBack}>{textsUI[language].back}</button>
             </div>
           )}
         </div>
       </div>
       {/* 全局类名污染 —— .trigger-step 被所有组件共用，
       scrollama 一视同仁全扫进来,要给每一个组件单独设置类名！！！ */}
-      <div className="trigger-step-transition-one"></div>
       <div className="trigger-step-transition-one"></div>
       <div className="trigger-step-transition-one"></div>
     </div>
