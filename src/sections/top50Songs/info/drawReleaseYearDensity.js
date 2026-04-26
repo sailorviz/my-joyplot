@@ -3,7 +3,7 @@ import { kernelGaussian } from "../../../components/kernelGaussian";
 import { kernelDensityEstimator } from "../../../components/kernelDensityEstimator";
 import { updateLegend } from "../../../components/updateLegend";
 
-export function drawReleaseYearDensity(svg, releaseYears, xScale, timelineHeight, offsetY, legend) {
+export function drawReleaseYearDensity(svg, releaseYears, xScale, timelineHeight, offsetY, legend, language) {
   if (!releaseYears || releaseYears.length === 0) return;
 
   // KDE 计算
@@ -97,7 +97,7 @@ export function drawReleaseYearDensity(svg, releaseYears, xScale, timelineHeight
     )
     .style("opacity", 0.2);
 
-  updateLegend(legend, "kde");
+  updateLegend(legend, "kde", language);
 
   // 统计每年歌曲数量
   const countByYear = d3.rollup(
@@ -105,6 +105,18 @@ export function drawReleaseYearDensity(svg, releaseYears, xScale, timelineHeight
     v => v.length,
     d => d.getFullYear()
   );
+
+  const uiTexts = {
+    zh: {
+      year: '年份',
+      songsCount: '歌曲数量',
+    },
+    en: {
+      year: 'Year',
+      songsCount: 'Songs Count',
+    }
+  };
+  const t = uiTexts[language] || uiTexts.en;
 
   svg.on("mousemove", (event) => {
     let [mouseX] = d3.pointer(event);
@@ -164,7 +176,7 @@ export function drawReleaseYearDensity(svg, releaseYears, xScale, timelineHeight
     // tooltip
     tooltip
       .style("opacity", 1)
-      .html(`<strong>${year}</strong><br/>Songs: ${count}`)
+      .html(`${t.year}: <strong>${year}</strong><br/>${t.songsCount}: ${count}`)
       .style("left", (event.pageX + 12) + "px")
       .style("top", (event.pageY - 28) + "px");
   });

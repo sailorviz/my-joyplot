@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { genreColorMap } from "../../../../components/genreColorMap";
 import { moodColorMap } from "../../../../components/moodColorMap";
 
-export function createJoyplot(container, initialSongs, tooltip, allInteractionLockedRef, clickLockedRef) {
+export function createJoyplot(container, initialSongs, tooltip, allInteractionLockedRef, clickLockedRef, language) {
   // data: [{ id, song, artist, mood, waveform, ... }]
 
   // ---------------- layout ----------------
@@ -28,6 +28,27 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
   let topOneSong = null;
   let tooltipStage = "waveform";
   let currentSeriesType = "full";
+
+  // ✅ 新增：缓存当前音量
+  let currentVolume = 0.5;
+
+  const joyplotTexts = {
+    zh: {
+      clickToPlay: '点击波形播放 / 暂停',
+      genre: '风格',
+      mood: '情绪',
+      value: '数值',
+      diffWithTop: '与榜首差值'
+    },
+    en: {
+      clickToPlay: 'Click waveform to play / pause',
+      genre: 'Genre',
+      mood: 'Mood',
+      value: 'Value',
+      diffWithTop: 'Diff with top one'
+    }
+  };
+  const tx = joyplotTexts[language] || joyplotTexts.en;
 
   // ---------------- title / legend / close ----------------
 
@@ -437,7 +458,7 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
     if (tooltipStage === "waveform") {
       tooltip.innerHTML =
         focusedSongId === d.id
-          ? "Click waveform to play / pause"
+          ? tx.clickToPlay
           : `<strong>${d.song} - ${d.artist}</strong>`;
     } else if (tooltipStage === "exploratory") {
       const {
@@ -449,10 +470,10 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
 
       tooltip.innerHTML = `
         <strong>${d.song} - ${d.artist}</strong>
-        ${genre !== null ? `<div>${filter.type === "genre" ? "Genre" : "Mood"}: ${genre}</div>` : ""}
-        ${enriched ? `<div>${filter.type === "genre" ? "Mood" : "Genre"}: ${enriched}</div>` : ""}
-        ${sortValue !== null ? `<div>Value: ${sortValue}</div>` : ""}
-        ${sortDiff !== null ? `<div>Diff with top one: ${sortDiff}</div>` : ""}
+        ${genre !== null ? `<div>${tx[filter?.type === "genre" ? "genre" : "mood"]}: ${genre}</div>` : ""}
+        ${enriched ? `<div>${tx[filter?.type === "genre" ? "mood" : "genre"]}: ${enriched}</div>` : ""}
+        ${sortValue !== null ? `<div>${tx.value}: ${sortValue}</div>` : ""}
+        ${sortDiff !== null ? `<div>${tx.diffWithTop}: ${sortDiff}</div>` : ""}
       `;
     }
   }
@@ -546,6 +567,9 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
     const audioURL = `/audios/trimed_10s_audio/${d.song}.mp3`;
     currentAudio = new Audio(audioURL);
 
+    // ✅ 修改：使用缓存的 currentVolume 设置音量
+    currentAudio.volume = currentVolume;
+
     currentAudio.onloadedmetadata = () => {
       interactionLocked = true;
       currentAudio.play();
@@ -569,6 +593,23 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
 
     currentAudio.onended = resetFocus;
     closeBtn.transition().style("opacity", 1);
+  }
+
+  // ✅ 新增：设置音量的方法
+  function setVolume(volume) {
+    // 确保音量在 [0, 1] 范围内
+    const clampedVolume = Math.min(1, Math.max(0, volume));
+    currentVolume = clampedVolume;
+    
+    // 如果有正在播放的音频，立即更新其音量
+    if (currentAudio) {
+      currentAudio.volume = clampedVolume;
+    }
+  }
+
+  // ✅ 新增：获取当前音量的方法（可选，用于调试）
+  function getVolume() {
+    return currentVolume;
   }
 
   // ---------------- focus animation ----------------
@@ -726,13 +767,6 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
         width: svg.attr("width"),
       };
     },
-    // zoomWaveform({ newDomain }) {
-    //   if (newDomain) {
-    //     xScale.domain(newDomain);
-    //   }
-    //   updateScales();  // ✅ 更新 scales
-    //   redrawWaveforms();
-    // },
     zoomWaveform({ newDomain }) {
       if (newDomain && Array.isArray(newDomain) && newDomain.length === 2) {
         // 优先使用用户传入的 domain
@@ -763,6 +797,9 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
     updateEncoding,
     updateSort,
     updateTooltipStage,
+
+    setVolume,
+    getVolume,
   };
 }
 

@@ -1,6 +1,6 @@
 import { drawReleaseYearDensity } from "./drawReleaseYearDensity";
 
-export function triggerDrawReleaseYearDensity(containerRef, context) {
+export function triggerDrawReleaseYearDensity(containerRef, context, language) {
   const { timelineSvg, releaseYear, xScale, timelineHeight, offsetY, legend } = context;
   if (!timelineSvg) {
     console.warn("Timeline SVG not found. Did you call triggerPlottingTimeline() first?");
@@ -14,7 +14,7 @@ export function triggerDrawReleaseYearDensity(containerRef, context) {
     el.style.pointerEvents = "none";
   });
   // 计算密度曲线
-  const kdeControls = drawReleaseYearDensity(timelineSvg, releaseYear, xScale, timelineHeight, offsetY, legend);
+  const kdeControls = drawReleaseYearDensity(timelineSvg, releaseYear, xScale, timelineHeight, offsetY, legend, language);
   // 再切换回来显示 KDE
   kdeControls.show();
 }

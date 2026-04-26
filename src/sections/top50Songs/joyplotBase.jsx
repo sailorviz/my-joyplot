@@ -12,6 +12,7 @@ import { zoomToFirstMinute } from "./audioFeature/joyplots/zoomToFirstMinute";
 import JoyplotControls from "./audioFeature/joyplots/JoyplotControls";
 import { createOverview } from "./audioFeature/joyplots/createOverview";
 import { useLanguage } from "../../components/LanguageContext";
+import { useVolume } from "../../components/VolumeContext";
 
 const JoyplotBase = forwardRef((_, ref) => {
   const [songInfo, setSongInfo] = useState([]);
@@ -59,6 +60,9 @@ const JoyplotBase = forwardRef((_, ref) => {
   // 保存父组件传入的回调
   const callbackRef = useRef(null);
   const callbackToggleRef = useRef(null);
+
+  // 从 Context 获取音量控制
+  const { volume: effectiveVolume } = useVolume();
 
 
   // 加载 completedWaveforms 数据文件
@@ -321,8 +325,7 @@ const JoyplotBase = forwardRef((_, ref) => {
     container.appendChild(tooltip);
 
     // 绘制joyplot,用“全量初始数据”:mergedSongs
-    const initialJoyplot = createJoyplot(containerRef.current, mergedSongs , tooltip, allInteractionLockedRef, clickLockedRef);
-    // const initialJoyplot = createJoyplot(containerRef.current, derivedSongs , tooltip, allInteractionLockedRef, clickLockedRef);
+    const initialJoyplot = createJoyplot(containerRef.current, mergedSongs , tooltip, allInteractionLockedRef, clickLockedRef, language);
     xScaleRef.current = initialJoyplot.xScale;
     domainRef.current = initialJoyplot.domain;
     initialJoyplotRef.current = initialJoyplot;
@@ -356,6 +359,25 @@ const JoyplotBase = forwardRef((_, ref) => {
     initialJoyplotRef.current.updateTooltipStage(tooltipStage);
   }, [tooltipStage]);
 
+  // ✅ 关键：监听音量变化，实时更新
+  useEffect(() => {
+    if (initialJoyplotRef.current) {
+      initialJoyplotRef.current.setVolume(effectiveVolume);
+    }
+  }, [effectiveVolume]);
+
+  const exploratoryTexts = {
+    zh: {
+      ampTitle: 'Top50歌曲的振幅包络图',
+      specTitle: 'Top50歌曲的谱质心图',
+    },
+    en: {
+      ampTitle: 'Amplitude Envelope of Top50 Songs',
+      specTitle: 'Spectral Centroid of Top50 Songs',
+    }
+  };
+  const tx = exploratoryTexts[language] || exploratoryTexts.en;
+
   // 设置 toggle 切换内容
   useEffect(() => {
     if (!initialJoyplotRef.current) return;
@@ -370,7 +392,7 @@ const JoyplotBase = forwardRef((_, ref) => {
         amplitudeFactor : amplitudeFactorRef.current
       }); 
       joyplotTitleRef.current.innerHTML =
-        `<strong>Amplitude Envelope of songs</strong>`;
+        `<strong>${tx.ampTitle}</strong>`;
     }
 
     if (analysisMode === "spec60") {
@@ -380,9 +402,9 @@ const JoyplotBase = forwardRef((_, ref) => {
         amplitudeFactor : amplitudeFactorRef.current - 1
       }); 
       joyplotTitleRef.current.innerHTML =
-        `<strong>Spectral Centroid of songs</strong>`;
+        `<strong>${tx.specTitle}</strong>`;
     }
-  }, [analysisMode]);
+  }, [analysisMode, language]);
 
 
    // 当 analysisMode 改变时，调用父组件回调函数
@@ -456,7 +478,7 @@ const JoyplotBase = forwardRef((_, ref) => {
       zoomFrameStatesRef.current?.updateLayout(svgArea);
       setTooltipStage("exploratory");
       joyplotTitleRef.current.innerHTML =
-        `<strong>Amplitude Envelope of songs</strong>`;
+        `<strong>${tx.ampTitle}</strong>`;
     },
     backToWaveforms: () => {
       // ✅ 新增：重置 exploratoryState 为初始值
@@ -556,7 +578,10 @@ const JoyplotBase = forwardRef((_, ref) => {
               }
             }}
           >
-            Toggle to {nextModeLabel} Data
+            {language === 'zh'
+              ? (nextMode === 'amp60' ? '切换到振幅包络数据' : '切换到谱质心数据')
+              : (nextMode === 'amp60' ? 'Toggle to Amplitude Envelope Data' : 'Toggle to Spectral Centroid Data')
+            }
           </button>,
           toggleRef.current
         )

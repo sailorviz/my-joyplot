@@ -1,4 +1,4 @@
-export function animateClusterCompare(containerRef, albumInfos, greatestAlbumInfos) {
+export function animateClusterCompare(containerRef, albumInfos, greatestAlbumInfos, language) {
   if (!containerRef?.current) return;
 
   const container = containerRef.current;
@@ -21,6 +21,17 @@ export function animateClusterCompare(containerRef, albumInfos, greatestAlbumInf
   const gapY = 60;
   const rightCenterX = viewportWidth * 0.75;
   const rightCenterY = viewportHeight / 2;
+  const tooltipTexts = {
+    zh: {
+      artists: '艺人',
+      year: '年份',
+    },
+    en: {
+      artists: 'Artists',
+      year: 'Year',
+    }
+  };
+  const t = tooltipTexts[language] || tooltipTexts.en;
 
   rightClusters.forEach((cluster, i) => {
     const album = cluster.dataset.album;
@@ -62,8 +73,8 @@ export function animateClusterCompare(containerRef, albumInfos, greatestAlbumInf
 
       tooltip.innerHTML = `
         <strong>《${album}》</strong><br/>
-        <strong>Artists</strong>: ${info?.artist_name || "Unknown"}<br/>
-        <strong>Year</strong>: ${info?.release_year || "Unknown"}<br/>
+        <strong>${t.artists}</strong>: ${info?.artist_name || "Unknown"}<br/>
+        <strong>${t.year}</strong>: ${info?.release_year || "Unknown"}<br/>
       `;
 
       tooltip.style.left = `${e.clientX - containerRect.left + 10}px`;
@@ -181,8 +192,8 @@ export function animateClusterCompare(containerRef, albumInfos, greatestAlbumInf
 
         tooltip.innerHTML = `
           <strong>《${info.album_name}》</strong><br/>
-          <strong>Artist:</strong> ${info.artist_name}<br/>
-          <strong>Year:</strong> ${info.release_year}
+          <strong>${t.artists}:</strong> ${info.artist_name}<br/>
+          <strong>${t.year}:</strong> ${info.release_year}
         `;
 
         // 定位 tooltip

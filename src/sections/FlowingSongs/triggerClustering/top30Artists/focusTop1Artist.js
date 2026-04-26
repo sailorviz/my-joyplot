@@ -1,4 +1,4 @@
-export function focusTop1Artist(container, artistInfos){
+export function focusTop1Artist(container, artistInfos, language){
   const clusterEls = container.querySelectorAll(".clusterForArtist");
   const clusterElsArray = Array.from(clusterEls);
   const top1Artist = clusterElsArray[0];
@@ -46,13 +46,28 @@ export function focusTop1Artist(container, artistInfos){
     transition: "opacity 0.5s ease"
   });
 
+  const textsUI = {
+    zh: { 
+      gender: '性别',
+      country: '国家',
+      genre: '风格',
+      songsCollected: '歌曲收藏数'
+    },
+    en: { 
+      gender: 'Gender',
+      country: 'Country',
+      genre: 'Genre',
+      songsCollected: 'Songs Collected'
+    }
+  };
+
   // 设置 info 内容
   const info = artistInfos[top1Artist.dataset.artist];
   infoDiv.innerHTML = `
     <strong>${top1Artist.dataset.artist}</strong><br>
-    Genre: ${info?.Genre || "Unknown"}<br>
-    Country: ${info?.Country || "Unknown"}<br>
-    Songs Collected: ${info?.song_count || 0}
+    ${textsUI[language].genre}: ${info?.Genre || "Unknown"}<br>
+    ${textsUI[language].country}: ${info?.Country || "Unknown"}<br>
+    ${textsUI[language].songsCollected}: ${info?.song_count || 0}
   `;
 
   // 将 infoDiv 添加到 clusterEl 下

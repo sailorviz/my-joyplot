@@ -1,6 +1,6 @@
 import { drawPopularityDensity } from "./drawPopularityDensity";
 
-export function backToPopularitiesForSongs(songs, popContext) {
+export function backToPopularitiesForSongs(songs, popContext, language) {
   const { timelineSvg, yScale, legend, axisX, clusterElsArray } = popContext;
   if (!timelineSvg) {
     console.warn("Timeline SVG not found. Did you call triggerPlottingTimeline() first?");
@@ -14,7 +14,7 @@ export function backToPopularitiesForSongs(songs, popContext) {
   });
 
   // 计算密度曲线
-  const kdeControls = drawPopularityDensity(songs, timelineSvg, yScale, legend, axisX);
+  const kdeControls = drawPopularityDensity(songs, timelineSvg, yScale, legend, axisX, language);
   // 再切换回来显示 KDE
   kdeControls.hide();
 }

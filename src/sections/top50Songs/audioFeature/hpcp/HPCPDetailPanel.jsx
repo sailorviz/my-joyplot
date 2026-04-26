@@ -1,8 +1,25 @@
+import { useLanguage } from "../../../../components/LanguageContext";
+
 export default function HPCPDetailPanel({
   hover,
   songs,
   pitchToSongsMap
 }) {
+  const { language } = useLanguage();
+
+  const detailTexts = {
+    zh: {
+      hoverHint: '👈👈👈 悬停到圆圈上',
+      key: '调性',
+      pitch: '音高'
+    },
+    en: {
+      hoverHint: 'Hover something 👈👈👈👈👈',
+      key: 'Key',
+      pitch: 'Pitch'
+    }
+  };
+  const t = detailTexts[language] || detailTexts.en;
 
   const pitchNames = [
     "C","C#","D","D#","E","F",
@@ -10,7 +27,7 @@ export default function HPCPDetailPanel({
   ];
 
   if (!hover) {
-    return <div>Hover something 👈👈👈👈👈</div>;
+    return <div>{t.hoverHint}</div>;
   }
 
   if (hover.type === "song") {
@@ -33,7 +50,7 @@ export default function HPCPDetailPanel({
         <h2>{song.song}</h2>
         <p>{song.artist}</p>
         <p>{song.album}</p>
-        <p>Key: {song.key} {song.scale}</p>
+        <p>{t.key}: {song.key} {song.scale}</p>   {/* ← 翻译 */}
       </div>
     );
   }
@@ -44,7 +61,7 @@ export default function HPCPDetailPanel({
 
     return (
       <div className="hpcp-pitch-detail">
-        <h2>Pitch: {pitchNames[hover.pitchIndex]}</h2>
+        <h2>{t.pitch}: {pitchNames[hover.pitchIndex]}</h2>   {/* ← 翻译 */}
 
         {pitchSongs.map((s, i) => {
           const isMatch = s.key === currentPitch;

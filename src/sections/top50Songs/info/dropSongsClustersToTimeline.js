@@ -2,7 +2,7 @@ import { registerHandlers } from "../../../components/registerHandlers";
 import { switchHandlers } from "../../../components/switchHandlers";
 import { updateLegend } from "../../../components/updateLegend";
 
-export function dropSongsClustersToTimeline(containerRef, clusterElsArray, timelineSvg, titleLegendSvg, timelineOriginalP, songs, xScale, timelineHeight, offsetY, legend) {
+export function dropSongsClustersToTimeline(containerRef, clusterElsArray, timelineSvg, titleLegendSvg, timelineOriginalP, songs, xScale, timelineHeight, offsetY, legend, language) {
   const timelineTranslateY = -70; // timeline 上升量 vh
   const durationY = 1500; // 下落动画时间 ms
   const durationX = 1500; // X 方向平移时间 ms
@@ -61,6 +61,11 @@ export function dropSongsClustersToTimeline(containerRef, clusterElsArray, timel
     const tooltip = containerRef.current.querySelector(".songs-tooltip");
     const rect = containerRef.current.getBoundingClientRect();
 
+    const t = {
+      zh: { year: '年份' },
+      en: { year: 'Year' }
+    }[language] || { year: 'Year' };
+
     clusterElsArray.forEach(cluster => {
       // 使用缓存 tx/ty（字符串记得 parseFloat）
       const tx = parseFloat(cluster.dataset.tx) || 0;
@@ -89,7 +94,10 @@ export function dropSongsClustersToTimeline(containerRef, clusterElsArray, timel
 
         cluster.style.transform = `translate(${tx}px, ${ty}px) scale(0.35)`;
         tooltip.textContent = "";
-        tooltip.innerHTML = `${song} - ${artist}<br>${releaseYear}`;
+        tooltip.innerHTML = `
+          ${song} - ${artist}<br>
+          ${t.year}: ${releaseYear}
+        `;
         tooltip.style.left = `${e.clientX - rect.left + 10}px`;
         tooltip.style.top = `${e.clientY - rect.top - 40}px`;
         tooltip.style.opacity = 1;
@@ -134,7 +142,7 @@ export function dropSongsClustersToTimeline(containerRef, clusterElsArray, timel
       .duration(500)
       .style("opacity", 1);
 
-    updateLegend(legend, "songs");
+    updateLegend(legend, "songs", language);
   }, durationY + durationX + 500);
 }
 

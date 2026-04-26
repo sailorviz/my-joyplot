@@ -4,10 +4,25 @@ import { kernelGaussianForPopularity } from "../../../components/kernelGaussianF
 import { kernelDensityEstimatorForPopularity } from "../../../components/kernelDensityEstimatorForPopularity";
 import { updateLegend } from "../../../components/updateLegend";
 
-export function addPopularitiesKDEForAllSongs(svg, yScale, legend, axisX, 
+export function addPopularitiesKDEForAllSongs(svg, yScale, legend, axisX, language, 
   kdeTop50,
   xScaleDensity50,
   groupTop50){
+
+  // 翻译字典
+  const kdeTexts = {
+    zh: {
+      popularity: '流行度',
+      top50Density: 'TOP50歌曲密度',
+      allSongsDensity: '全部歌曲密度'
+    },
+    en: {
+      popularity: 'Popularity',
+      top50Density: 'Top50 songs density',
+      allSongsDensity: 'All songs density'
+    }
+  };
+  const t = kdeTexts[language] || kdeTexts.en;
 
   const xPosition = axisX + 20;
   const color = "orange";
@@ -175,9 +190,9 @@ export function addPopularitiesKDEForAllSongs(svg, yScale, legend, axisX,
             .style("left", event.pageX + 15 + "px")
             .style("top", event.pageY + 15 + "px")
             .html(`
-              <div>Popularity: <b>${p}</b></div>
-              <div>Top50 songs density: ${d50 ? d50[1].toFixed(4) : "-"}</div>
-              <div>All songs density: ${dAll[1].toFixed(4)}</div>
+              <div>${t.popularity}: <b>${p}</b></div>
+              <div>${t.top50Density}: ${d50 ? d50[1].toFixed(4) : "-"}</div>
+              <div>${t.allSongsDensity}: ${dAll[1].toFixed(4)}</div>
             `);
         })
         .on("mouseout", () => {
@@ -192,13 +207,13 @@ export function addPopularitiesKDEForAllSongs(svg, yScale, legend, axisX,
   return {
     show() {
       svg.select(".all-popularity-kde-group").attr("display", null);
-      if (legend) updateLegend(legend, "kdeOfTwo");
+      if (legend) updateLegend(legend, "kdeOfTwo", language);
       overlay?.style("pointer-events", "all");
     },
     hide() {
       overlay?.style("pointer-events", "none");
       svg.select(".all-popularity-kde-group").attr("display", "none");
-      if (legend) updateLegend(legend, "kde");
+      if (legend) updateLegend(legend, "kde", language);
     }
   };
 }

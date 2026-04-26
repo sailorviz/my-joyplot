@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react";
 import Papa from "papaparse";
 import * as d3 from "d3-force";
+import { useLanguage } from "../../components/LanguageContext";
 
 // 0.00 — 0.15  → flowing
 // 0.15 — 0.22 → freeze
@@ -50,6 +51,26 @@ const Nebula = forwardRef((_, ref) => {
   });
   
   const tooltipRef = useRef(null);
+
+  const { language } = useLanguage();
+
+  // 翻译字典（放在组件顶部，所有 hooks 之后）
+  const nebulaTexts = {
+    zh: {
+      popularity: '热度',
+      sameArtist: '同艺人',
+      songs: '首',
+      sameAlbum: '同专辑（其他艺人）'
+    },
+    en: {
+      popularity: 'Popularity',
+      sameArtist: 'Same Artist',
+      songs: 'songs',
+      sameAlbum: 'Same Album (other artists)'
+    }
+  };
+  const tx = nebulaTexts[language] || nebulaTexts.en;
+
 
   function isInteractionActive() {
     return stateRef.current.breath > INTERACTION_THRESHOLD;
@@ -733,7 +754,7 @@ const Nebula = forwardRef((_, ref) => {
             </div>
             {tooltip.song.popularity > 0 && (
               <div className="tooltip-popularity">
-                Popularity: {tooltip.song.popularity}
+                {tx.popularity}: {tooltip.song.popularity}   {/* ← 翻译 */}
               </div>
             )}
           </div>
@@ -741,7 +762,7 @@ const Nebula = forwardRef((_, ref) => {
           {tooltip.sameArtistSongs.length > 1 && (
             <div className="tooltip-section">
               <div className="tooltip-section-title">
-                Same Artist ({tooltip.sameArtistSongs.length} songs)
+                {tx.sameArtist} ({tooltip.sameArtistSongs.length} {tx.songs})  {/* ← 翻译 */}
               </div>
               <div className="tooltip-song-list">
                 {tooltip.sameArtistSongs
@@ -756,7 +777,7 @@ const Nebula = forwardRef((_, ref) => {
           {tooltip.sameAlbumSongs.length > 0 && (
             <div className="tooltip-section">
               <div className="tooltip-section-title">
-                Same Album (other artists)
+                {tx.sameAlbum}   {/* ← 翻译 */}
               </div>
               <div className="tooltip-song-list">
                 {tooltip.sameAlbumSongs.map((item, idx) => (

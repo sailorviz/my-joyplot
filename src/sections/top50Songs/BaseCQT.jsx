@@ -5,6 +5,8 @@ import "../../styles/cqt.css";
 import LegendBar from "./audioFeature/hpcp/LegendBar";
 import CreateCQTCanvas from "./audioFeature/cqt/CreateCQTCanvas";
 import FrameBar from "./audioFeature/cqt/FrameBar";
+import { useLanguage } from "../../components/LanguageContext";
+import { useVolume } from "../../components/VolumeContext";
 
 const BaseCQT = forwardRef((_, ref) => {
   const [modeState, setModeState] = useState("story");
@@ -31,8 +33,12 @@ const BaseCQT = forwardRef((_, ref) => {
   const [domain, setDomain] = useState([0, 1]);
 
   const audioRef = useRef(null);  // 绑定音频
+  const { volume: effectiveVolume } = useVolume();  // 使用 effectiveVolume（已考虑静音）
+
   const overlayRef = useRef(null);
   const playheadRef = useRef(null);
+
+  const { language } = useLanguage();
 
   // animation相关
   const isPlayingRef = useRef(false);
@@ -392,6 +398,36 @@ const BaseCQT = forwardRef((_, ref) => {
     };
   }, []);
 
+  // ✅ 新增：监听全局音量变化，实时更新当前播放的音频
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = effectiveVolume;
+    }
+  }, [effectiveVolume]);
+
+  // ✅ 修改：切换 currentSong 时，确保新音频使用当前音量
+  useEffect(() => {
+    if (currentSong?.audioPath && audioRef.current) {
+      // 重置播放状态
+      resetPlayback();
+      // ✅ 设置音量（确保使用最新的 effectiveVolume）
+      audioRef.current.volume = effectiveVolume;
+    }
+  }, [currentSong]);  // 已有或新增此 useEffect
+
+  const cqtPlayerTexts = {
+    zh: {
+      spectrogram: '频谱图',
+      pause: '⏸ 暂停',
+      play: '▶ 播放'
+    },
+    en: {
+      spectrogram: 'Spectrogram of',
+      pause: '⏸ Pause',
+      play: '▶ Play'
+    }
+  };
+  const t = cqtPlayerTexts[language] || cqtPlayerTexts.en;
   
   // 暴露给 Scrollama 调用的方法
   useImperativeHandle(ref, () => ({
@@ -452,7 +488,7 @@ const BaseCQT = forwardRef((_, ref) => {
       <div className="cqt-left">
         <div className="cqt-stage">
           {/* Header */}
-          <div className="cqt-header-container">
+          {/* <div className="cqt-header-container">
             <div className="cqt-header">
               <h2 className="cqt-title">
                 Spectrogram of "{currentSong?.song || ''}"
@@ -460,6 +496,18 @@ const BaseCQT = forwardRef((_, ref) => {
               {showPlayButton && (
                 <button className="cqt-play" onClick={handlePlayPause}>
                   {isPlaying ? "⏸ Pause" : "▶ Play"}
+                </button>
+              )}
+            </div>
+          </div> */}
+          <div className="cqt-header-container">
+            <div className="cqt-header">
+              <h2 className="cqt-title">
+                {t.spectrogram} - "{currentSong?.song || ''}"
+              </h2>
+              {showPlayButton && (
+                <button className="cqt-play" onClick={handlePlayPause}>
+                  {isPlaying ? t.pause : t.play}
                 </button>
               )}
             </div>

@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { shrinkClusters } from "./shrinkClusters";
 import { dropSongsClustersToTimeline } from "./dropSongsClustersToTimeline";
 
-export function triggerPlottingTimelineForSongs(containerRef, songs){
+export function triggerPlottingTimelineForSongs(containerRef, songs, language){
   //获取clusters移动元素
   if (!containerRef?.current) return;
   const clusterEls = containerRef.current.querySelectorAll(".top50-songs");
@@ -11,6 +11,16 @@ export function triggerPlottingTimelineForSongs(containerRef, songs){
 
   // 清除旧svg（避免重复绘制）
   d3.select(containerRef.current).select(".songs-timeline").remove();
+
+  const timelineTexts = {
+    zh: {
+      title: '歌曲发行时间线',
+    },
+    en: {
+      title: 'Songs Release Timeline',
+    }
+  };
+  const t = timelineTexts[language] || timelineTexts.en;
 
   // 创建 timeline SVG
   const timelineHeight = 450;
@@ -56,7 +66,7 @@ export function triggerPlottingTimelineForSongs(containerRef, songs){
     .attr("font-weight", "bold")
     .attr("fill", "#333")
     .attr("opacity", 0)
-    .text("Songs Release Timeline");     // 标题内容
+    .text(t.title);     // 标题内容
 
   // 创建图例容器
   const legend = titleLegendSvg.append("g")
@@ -140,7 +150,7 @@ export function triggerPlottingTimelineForSongs(containerRef, songs){
 
   // dropClustersToTimeline动画
   setTimeout(() => {
-  dropSongsClustersToTimeline(containerRef, clusterElsArray, timelineSvg, titleLegendSvg, timelineOriginalP, songs, xScale, timelineHeight, offsetY, legend);
+  dropSongsClustersToTimeline(containerRef, clusterElsArray, timelineSvg, titleLegendSvg, timelineOriginalP, songs, xScale, timelineHeight, offsetY, legend, language);
 }, 1000);
 
   // ✅ 返回 context，供其他函数使用

@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { shrinkClusters } from "./shrinkClusters";
 import { dropClustersToTimeline } from "./dropClustersToTimeline";
 
-export function triggerPlottingTimeline(containerRef, artistInfos){
+export function triggerPlottingTimeline(containerRef, artistInfos, language){
   //获取clusters移动元素
   if (!containerRef?.current) return;
   const clusterEls = containerRef.current.querySelectorAll(".clusterForArtist");
@@ -49,6 +49,23 @@ export function triggerPlottingTimeline(containerRef, artistInfos){
   .style("top", `30vh`) //初始位置，在视口之外下方
   // .style("border", "1px solid red")
 
+  // 翻译字典
+  const timelineTexts = {
+    zh: {
+      title: '艺人出道时间线',
+      band: '乐队',
+      soloArtist: '独立音乐人'
+    },
+    en: {
+      title: 'Artist Debut Timeline',
+      band: 'Band',
+      soloArtist: 'Solo Artist'
+    }
+  };
+
+  // 使用传入的 language 获取当前翻译
+  const t = timelineTexts[language] || timelineTexts.en;
+
   // 添加标题
   titleLegendSvg.append("text")
     .attr("class", "title")
@@ -59,7 +76,7 @@ export function triggerPlottingTimeline(containerRef, artistInfos){
     .attr("font-weight", "bold")
     .attr("fill", "#333")
     .attr("opacity", 0)
-    .text("Artist Debut Timeline");     // 标题内容
+    .text(t.title);     // 标题内容
 
   // 创建图例容器
   const legend = titleLegendSvg.append("g")
@@ -69,8 +86,8 @@ export function triggerPlottingTimeline(containerRef, artistInfos){
 
   // 图例数据
   const legendData = [
-    { label: "Band", color: "steelblue" },
-    { label: "Solo Artist", color: "orange" }
+    { label: t.band, color: "steelblue" },
+    { label: t.soloArtist, color: "orange" }
   ];
 
   // 绘制每个图例项

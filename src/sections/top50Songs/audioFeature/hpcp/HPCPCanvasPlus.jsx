@@ -1,8 +1,10 @@
 import { useRef, useEffect, useState } from "react";
+import { useLanguage } from "../../../../components/LanguageContext";
 
 export default function HPCPCanvasPlus({ dataPath, onDataReady, colorScale }) {
   const canvasRef = useRef(null);
   const [data, setData] = useState(null);
+  const {language} = useLanguage();
 
   useEffect(() => {
     if (!dataPath) return;
@@ -95,6 +97,12 @@ export default function HPCPCanvasPlus({ dataPath, onDataReady, colorScale }) {
       }
     }
 
+    const hpcpCanvasTexts = {
+      zh: { pitchClass: '音高类别', time: '时间' },
+      en: { pitchClass: 'Pitch Class', time: 'Time' }
+    };
+    const t = hpcpCanvasTexts[language] || hpcpCanvasTexts.en;
+
     // ====================
     // 📍 纵轴（显示全部 labels）
     // ====================
@@ -115,7 +123,7 @@ export default function HPCPCanvasPlus({ dataPath, onDataReady, colorScale }) {
     ctx.rotate(-Math.PI / 2);
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("Pitch Class", 0, 0);
+    ctx.fillText(t.pitchClass, 0, 0);
     ctx.restore();
 
     // ====================
@@ -138,7 +146,7 @@ export default function HPCPCanvasPlus({ dataPath, onDataReady, colorScale }) {
 
     ctx.font = "18px sans-serif";
     ctx.fillText(
-      "Time",
+      t.time,
       margin.left + drawWidth / 2,
       margin.top + drawHeight + 35
     );

@@ -4,11 +4,24 @@ import Papa from "papaparse";
 import "../../styles/hpcpExample.css";
 import LegendBar from "./audioFeature/hpcp/LegendBar";
 import HPCPCanvasPlus from "./audioFeature/hpcp/HPCPCanvasPlus";
+import { useLanguage } from "../../components/LanguageContext";
 
 const HPCPExample = forwardRef((_, ref) => {
   const [songs, setSongs] = useState(false);
   const [mergedSongs, setMergedSongs] = useState([]);
   const [domain, setDomain] = useState([0, 1]);
+  const { language } = useLanguage();
+
+  // 翻译字典
+  const hpcpExampleTexts = {
+    zh: {
+      title: 'HPCP 频谱图',
+    },
+    en: {
+      title: 'HPCP Spectrogram of',
+    }
+  };
+  const t = hpcpExampleTexts[language] || hpcpExampleTexts.en;
 
   // ⭐ NEW：当前歌曲（这里先写死 Holiday，后面可以扩展）
   const [currentSong, setCurrentSong] = useState(null);
@@ -106,7 +119,7 @@ const HPCPExample = forwardRef((_, ref) => {
           <div className="hpcp-example-header-container">
             <div className="hpcp-example-header">
               <h2 className="hpcp-example-title">
-                HPCP Spectrogram of "{currentSong?.song || ''}"
+                {t.title} - "{currentSong?.song || ''}"
               </h2>
             </div>
           </div>

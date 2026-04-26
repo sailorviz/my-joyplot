@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import { interpolateInferno } from "d3-scale-chromatic";
+import { useLanguage } from "../../../../components/LanguageContext";
 
 const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady }, ref) => {
   const canvasRef = useRef(null);
   const plotAreaRef = useRef(null);
   const [cqtData, setCqtData] = useState(null);
   const dataRef = useRef(null);
+  const { language } = useLanguage(); 
 
   // 加载数据
   useEffect(() => {
@@ -110,6 +112,12 @@ const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady }, ref) => {
       }
     }
 
+    const cqtTexts = {
+      zh: { pitch: '音高', time: '时间' },
+      en: { pitch: 'Pitch', time: 'Time' }
+    };
+    const t = cqtTexts[language] || cqtTexts.en;
+
     // 绘制坐标轴（保持你原来的逻辑）
     ctx.font = "14px sans-serif";
     ctx.fillStyle = "white";
@@ -130,7 +138,7 @@ const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady }, ref) => {
     ctx.rotate(-Math.PI / 2);
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("Pitch", 0, 0);
+    ctx.fillText(t.pitch, 0, 0);
     ctx.restore();
 
     // 横轴刻度
@@ -148,7 +156,7 @@ const CreateCQTCanvas = forwardRef(({ dataPath, onDataReady }, ref) => {
       }
     }
 
-    ctx.fillText("Time", margin.left + drawWidth / 2, margin.top + drawHeight + 38);  // 关键：下移
+    ctx.fillText(t.time, margin.left + drawWidth / 2, margin.top + drawHeight + 38);  // 关键：下移
 
     // 轴线
     ctx.strokeStyle = "rgba(255,255,255,0.5)";

@@ -10,6 +10,7 @@ export function drawPopularityDensity(
   yScale,        // yScale.domain may be [-20,100], but KDE uses 0..100
   legend,
   axisX,
+  language
 ) {
   const xPosition = axisX + 20;
   const color = "steelblue";
@@ -77,11 +78,11 @@ export function drawPopularityDensity(
   return {
     show() {
       group.attr("display", null);
-      if (legend) updateLegend(legend, "kde");
+      if (legend) updateLegend(legend, "kde", language);
     },
     hide() {
       group.attr("display", "none");
-      if (legend) updateLegend(legend, "songs");
+      if (legend) updateLegend(legend, "songs", language);
     },
 
       // ↓↓↓ 新增内容 ↓↓↓

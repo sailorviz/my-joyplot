@@ -5,11 +5,16 @@
  * @param {string} featureKey - 要投射的 feature，比如 "bpm"、"dissonance" 等
  */
 export function projectSongsToFeature(container, featureScales, featureKey) {
-  const songDivs = container.querySelectorAll(".four-curves-songs");
+  console.log('featureScales:', featureScales);
+  console.log('featureScales[featureKey]:', featureScales[featureKey]);
+  
   const xScale = featureScales[featureKey];
+  if (!xScale) {
+    console.warn(`xScale for ${featureKey} is missing!`);
+    return;
+  }
 
-  if (!xScale) return;
-
+  const songDivs = container.querySelectorAll(".four-curves-songs");
   // 获取对应 KDE card 的 SVG 和 x-axis
   const card = container.querySelector(`.kde-card-${featureKey}`);
   if (!card) return;
@@ -33,8 +38,8 @@ export function projectSongsToFeature(container, featureScales, featureKey) {
       // 🔑 关键：告诉 div 当前 feature 是什么
       div.dataset.featureKey = featureKey;
       const x = svgLeftRelative + xScale(value) * scale;
-      const yJitter = (Math.random() - 0.5) * jitter * 2; // [-jitter, +jitter]
-      
+      // const yJitter = (Math.random() - 0.5) * jitter * 2; // [-jitter, +jitter]
+      const yJitter = 0; // [-jitter, +jitter]      
       div.style.left = `${x}px`;
       div.style.top = `${baseTop + baseTopOffset + yJitter}px`;
       div.style.display = "block";

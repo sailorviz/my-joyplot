@@ -1,4 +1,4 @@
-export function focusTop1Album(container, albumInfos){
+export function focusTop1Album(container, albumInfos, language){
   const clusterEls = container.querySelectorAll(".clusterForAlbum");
   const clusterElsArray = Array.from(clusterEls);
   const top1Album = clusterElsArray[0];
@@ -49,17 +49,40 @@ export function focusTop1Album(container, albumInfos){
     zIndex: 1000 // 高于 top1Album
   });
 
+  const tooltipTexts = {
+    zh: {
+      artists: '艺人',
+      genre: '风格',
+      year: '年份',
+      language: '语言',
+      songsCollected: '收录歌曲',
+      totalTracks: '总曲目数',
+      collectionRate: '收录率'
+    },
+    en: {
+      artists: 'Artists',
+      genre: 'Genre',
+      year: 'Year',
+      language: 'Language',
+      songsCollected: 'Songs Collected',
+      totalTracks: 'Total Tracks',
+      collectionRate: 'Collection Rate'
+    }
+  };
+
+  const t = tooltipTexts[language] || tooltipTexts.en;
+
   // 设置 info 内容
   const info = albumInfos[top1Album.dataset.album];
   infoDiv.innerHTML = `
     <strong>《${top1Album.dataset.album}》</strong><br>
-    <strong>Artists</strong>: ${info?.artist_name || "Unknown"}<br/>
-    <strong>Genre</strong>: ${info?.Genre || "Unknown"}<br/>
-    <strong>Released</strong>: ${info?.release_year || "Unknown"}<br/>
-    <strong>Language</strong>: ${info?.Language || "Unknown"}<br/>
-    <strong>Songs Collected</strong>: ${info?.song_count || 0}<br/>
-    <strong>Total Tracks</strong>: ${info?.total_tracks || 0}<br/>
-    <strong>Collection Rate</strong>: ${info?.collection_rate || 0}%
+    <strong>${t.artists}</strong>: ${info?.artist_name || "Unknown"}<br/>
+    <strong>${t.genre}</strong>: ${info?.Genre || "Unknown"}<br/>
+    <strong>${t.year}</strong>: ${info?.release_year || "Unknown"}<br/>
+    <strong>${t.language}</strong>: ${info?.Language || "Unknown"}<br/>
+    <strong>${t.songsCollected}</strong>: ${info?.song_count || 0}<br/>
+    <strong>${t.totalTracks}</strong>: ${info?.total_tracks || 0}<br/>
+    <strong>${t.collectionRate}</strong>: ${info?.collection_rate || 0}%
   `;
 
 

@@ -5,6 +5,7 @@ import "../../styles/hpcpCircle.css";
 import CreateHPCPCircle from "./audioFeature/hpcp/CreateHPCPCircle";
 import LegendBar from "./audioFeature/hpcp/LegendBar";
 import HPCPDetailPanel from "./audioFeature/hpcp/HPCPDetailPanel";
+import { useLanguage } from "../../components/LanguageContext";
 
 const HPCPCircle = forwardRef((_, ref) => {
   const [songs, setSongs] = useState(false);
@@ -13,7 +14,19 @@ const HPCPCircle = forwardRef((_, ref) => {
   const [domainMean, setDomainMean] = useState([0, 1]); // 全局all songs的hpcp值之domain
   const [domainVar, setDomainVar] = useState([0, 1]);
   const [hover, setHover] = useState(null);
-
+  const { language } = useLanguage();
+  const hpcpCircleTexts = {
+    zh: {
+      energyMean: '能量（均值）',
+      energyVariance: '能量（方差）',
+    },
+    en: {
+      energyMean: 'Energy (Mean)',
+      energyVariance: 'Energy (Variance)',
+    }
+  };
+  const t = hpcpCircleTexts[language] || hpcpCircleTexts.en;
+  
   const colorScaleMean = useMemo(() => {
     return d3.scaleSequential()
       .domain(domainMean)
@@ -236,7 +249,7 @@ const HPCPCircle = forwardRef((_, ref) => {
               <LegendBar
                 colorScale={colorScaleMean}
                 domain={domainMean}
-                label="Energy (Mean)"
+                label={t.energyMean}
               />
               <div className="legend-labels">
                 <span>low</span>
@@ -248,7 +261,7 @@ const HPCPCircle = forwardRef((_, ref) => {
               <LegendBar
                 colorScale={colorScaleVar}
                 domain={domainVar}
-                label="Energy (Variance)"
+                label={t.energyVariance}
               />
               <div className="legend-labels">
                 <span>low</span>

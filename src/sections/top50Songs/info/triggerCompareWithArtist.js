@@ -1,7 +1,7 @@
 import { compareWithArtistOrAlbum } from "./compareWithArtistOrAlbum";
 import { updateLegend } from "../../../components/updateLegend";
 
-export function triggerCompareWithArtist(containerRef, songs, context) {
+export function triggerCompareWithArtist(containerRef, songs, context, language) {
   const { timelineSvg, releaseYear, xScale, timelineHeight, offsetY, legend } = context;
   if (!timelineSvg) {
     console.warn("Timeline SVG not found. Did you call triggerPlottingTimeline() first?");
@@ -14,5 +14,5 @@ export function triggerCompareWithArtist(containerRef, songs, context) {
   // 回滚
   comparator.reset();
   comparator.compareWithArtist();
-  updateLegend(legend, "songsWithArtist");
+  updateLegend(legend, "songsWithArtist", language);
 }

@@ -5,7 +5,7 @@ import { clusteringData } from "./clusteringData";
 
 const clusterEls = {}; 
 
-export function animateClusterOfAlbumWithImage(containerRef, allSongs, albumInfos) {
+export function animateClusterOfAlbumWithImage(containerRef, allSongs, albumInfos, language) {
   if (!containerRef?.current) return;
   const albumCovers = loadAlbumCover();
   const artistPhotos = loadArtistPhoto();
@@ -119,15 +119,38 @@ export function animateClusterOfAlbumWithImage(containerRef, allSongs, albumInfo
       const info = albumInfos[artist];
       if (!info) return;
 
+      const tooltipTexts = {
+        zh: {
+          artists: '艺人',
+          genre: '风格',
+          year: '年份',
+          language: '语言',
+          songsCollected: '收录歌曲',
+          totalTracks: '总曲目数',
+          collectionRate: '收录率'
+        },
+        en: {
+          artists: 'Artists',
+          genre: 'Genre',
+          year: 'Year',
+          language: 'Language',
+          songsCollected: 'Songs Collected',
+          totalTracks: 'Total Tracks',
+          collectionRate: 'Collection Rate'
+        }
+      };
+
+      const t = tooltipTexts[language] || tooltipTexts.en;
+
       tooltip.innerHTML = `
         <strong>《${artist}》</strong><br/>
-        <strong>Artists</strong>: ${info?.artist_name || "Unknown"}<br/>
-        <strong>Genre</strong>: ${info?.Genre || "Unknown"}<br/>
-        <strong>Year</strong>: ${info?.release_year || "Unknown"}<br/>
-        <strong>Language</strong>: ${info?.Language || "Unknown"}<br/>
-        <strong>Songs Collected</strong>: ${info?.song_count || 0}<br/>
-        <strong>Total Tracks</strong>: ${info?.total_tracks || 0}<br/>
-        <strong>Collection Rate</strong>: ${info?.collection_rate || 0}%
+        <strong>${t.artists}</strong>: ${info?.artist_name || "Unknown"}<br/>
+        <strong>${t.genre}</strong>: ${info?.Genre || "Unknown"}<br/>
+        <strong>${t.year}</strong>: ${info?.release_year || "Unknown"}<br/>
+        <strong>${t.language}</strong>: ${info?.Language || "Unknown"}<br/>
+        <strong>${t.songsCollected}</strong>: ${info?.song_count || 0}<br/>
+        <strong>${t.totalTracks}</strong>: ${info?.total_tracks || 0}<br/>
+        <strong>${t.collectionRate}</strong>: ${info?.collection_rate || 0}%
       `;
 
       tooltip.style.left = `${e.clientX - rect.left + 10}px`;

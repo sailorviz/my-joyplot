@@ -1,4 +1,4 @@
-export function clustersJumpingOut(containerRef, albumInfos){
+export function clustersJumpingOut(containerRef, albumInfos, language){
   // 获取元素
   const albumTimeline = containerRef.current.querySelector(".albumTimeline");
   const albumTitleLegend = containerRef.current.querySelector(".albumTitleLegend");
@@ -20,6 +20,18 @@ export function clustersJumpingOut(containerRef, albumInfos){
       cluster.dataset.topArtist = "false";
     }
   });
+
+  const uiTexts = {
+    zh: {
+      mainArtist: '主要音乐人',
+      year: '年份',
+    },
+    en: {
+      mainArtist: 'Main Artist',
+      year: 'Year',
+    }
+  };
+  const t = uiTexts[language] || uiTexts.en;
 
   // timelinesvg, titlelegendsvg, 及if_top30artists为0的clusters，调为黑白，降低明度，增加透明度
   Object.assign(albumTimeline.style, {
@@ -107,7 +119,7 @@ export function clustersJumpingOut(containerRef, albumInfos){
       
       img.src = el.dataset.artistPhoto;
 
-      tooltip.innerHTML = `<strong>${album}</strong><br>Main Artist: ${mainArtist}<br>Year: ${releaseYear}`;
+      tooltip.innerHTML = `<strong>${album}</strong><br>${t.mainArtist}: ${mainArtist}<br>${t.year}: ${releaseYear}`;
       tooltip.style.left = `${e.clientX - rectContainer.left + 10}px`;
       tooltip.style.top = `${e.clientY - rectContainer.top - 40}px`;
       tooltip.style.opacity = 1;

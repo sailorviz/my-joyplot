@@ -1,28 +1,75 @@
-// 人性化名称映射
 const nameMap = {
-  acousticguitar: "Acoustic Guitar",
-  piano: "Piano",
-  violin: "Violin",
-  bass: "Bass",
-  flute: "Flute",
-  // 可继续添加
+  zh: {
+    acousticguitar: "原声吉他",
+    piano: "钢琴",
+    violin: "小提琴",
+    bass: "贝斯",
+    flute: "长笛",
+  },
+  en: {
+    acousticguitar: "Acoustic Guitar",
+    piano: "Piano",
+    violin: "Violin",
+    bass: "Bass",
+    flute: "Flute",
+  }
 };
 
 // 要加载的音频文件名列表（无需扩展名）
 const audioFiles = ["acousticguitar", "piano", "violin", "bass", "flute"];
 
-export async function loadInstrumentsData() {
+// export async function loadInstrumentsData() {
+//   const instruments = [];
+
+//   for (const baseName of audioFiles) {
+//     const humanName = nameMap[baseName] || baseName;
+
+//     // 构造路径
+//     const audioPath = `audios/instruments/${baseName}.mp3`;
+//     const cqtPath = `data/instruments/cqt/${baseName}_CQT.json`;
+//     const hpcpPath = `data/instruments/hpcp/${baseName}_HPCP.json`;
+
+//     // 异步 fetch JSON 数据
+//     const [cqtResp, hpcpResp] = await Promise.all([
+//       fetch(cqtPath),
+//       fetch(hpcpPath)
+//     ]);
+
+//     const cqtJson = await cqtResp.json();
+//     const hpcpJson = await hpcpResp.json();
+
+//     instruments.push({
+//       baseName: baseName,
+//       name: humanName,
+//       audio: audioPath,
+//       cqtData: {
+//         values: cqtJson.values,
+//         times: cqtJson.times,
+//         note_labels: cqtJson.note_labels
+//       },
+//       hpcpData: {
+//         values: hpcpJson.values,
+//         times: hpcpJson.times,
+//         note_labels: hpcpJson.note_labels
+//       }
+//     });
+//   }
+
+//   return instruments;
+// }
+
+
+export async function loadInstrumentsData(language = 'en') {
   const instruments = [];
+  const map = nameMap[language] || nameMap.en;
 
   for (const baseName of audioFiles) {
-    const humanName = nameMap[baseName] || baseName;
+    const humanName = map[baseName] || baseName;
 
-    // 构造路径
     const audioPath = `audios/instruments/${baseName}.mp3`;
     const cqtPath = `data/instruments/cqt/${baseName}_CQT.json`;
     const hpcpPath = `data/instruments/hpcp/${baseName}_HPCP.json`;
 
-    // 异步 fetch JSON 数据
     const [cqtResp, hpcpResp] = await Promise.all([
       fetch(cqtPath),
       fetch(hpcpPath)
@@ -32,7 +79,7 @@ export async function loadInstrumentsData() {
     const hpcpJson = await hpcpResp.json();
 
     instruments.push({
-      baseName: baseName,
+      baseName,
       name: humanName,
       audio: audioPath,
       cqtData: {

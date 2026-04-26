@@ -6,13 +6,15 @@ import { loadInstrumentsData } from "./audioFeature/hpcp/loadInstrumentsData";
 import HPCPCanvas from "./audioFeature/hpcp/HPCPCanvas";
 import CQTCanvas from "./audioFeature/hpcp/CQTCanvas";
 import LegendBar from "./audioFeature/hpcp/LegendBar";
+import { useLanguage } from "../../components/LanguageContext";
+import { useVolume } from "../../components/VolumeContext";
 
 const HPCPComparision = forwardRef((_, ref) => {
   // mode state
   const [mode, setMode] = useState("cqt");
   const [playingIndex, setPlayingIndex] = useState(null);
 
-  const audioRef = useRef(null);
+  const {language} = useLanguage();
 
   // ✅ NEW: progress state（按 instrument 存）
   const [progressMap, setProgressMap] = useState({});
@@ -50,6 +52,7 @@ const HPCPComparision = forwardRef((_, ref) => {
     }
 
     const audio = new Audio(audioPath);
+    audio.volume = effectiveVolume;  // ← 新增这一行
     audio.play();
 
     audioRef.current = audio;
@@ -80,15 +83,19 @@ const HPCPComparision = forwardRef((_, ref) => {
     };
   };
 
+  const audioRef = useRef(null);
+  const { volume: effectiveVolume } = useVolume();
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = effectiveVolume;
+    }
+  }, [effectiveVolume]);
+
   // 加载数据
   const [instruments, setInstruments] = useState([]);
   useEffect(() => {
-    loadInstrumentsData().then(data => setInstruments(data));
+    loadInstrumentsData(language).then(data => setInstruments(data));
   }, []);
-
-  useImperativeHandle(ref, () => ({
-    showCaptureBox: () => {},
-  }));
 
   // 计算domain and colorScale
   const [cqtDomain, setCqtDomain] = useState([0, 1]);
@@ -137,6 +144,20 @@ const HPCPComparision = forwardRef((_, ref) => {
   const hpcpScale = d3.scaleSequential(d3.interpolateViridis)
     .domain(hpcpDomain);
 
+  const hpcpTexts = {
+    zh: {
+      title: '音色对比：CQT 与 HPCP',
+      cqtEnergy: 'CQT 能量',
+      hpcpEnergy: 'HPCP 能量',
+    },
+    en: {
+      title: 'Timbre Comparison: CQT vs HPCP',
+      cqtEnergy: 'CQT Energy',
+      hpcpEnergy: 'HPCP Energy',
+    }
+  };
+  const t = hpcpTexts[language] || hpcpTexts.en;
+
 
   return (
     <div id="hpcp-comparision-container">
@@ -146,7 +167,7 @@ const HPCPComparision = forwardRef((_, ref) => {
 
           {/* 🔧 MODIFIED: Title 区域去掉 instrument title */}
           <div className="hpcp-comparision-title">
-            <h2>Timbre Comparision: CQT vs HPCP</h2>
+            <h2>{t.title}</h2>
 
             <div className="hpcp-comparision-selector">
               <label>
@@ -227,7 +248,7 @@ const HPCPComparision = forwardRef((_, ref) => {
               <LegendBar 
                 colorScale={mode === "cqt" ? cqtScale : hpcpScale}
                 domain={mode === "cqt" ? cqtDomain : hpcpDomain}
-                label={mode === "cqt" ? "CQT Energy" : "HPCP Energy"}
+                label={mode === "cqt" ? t.cqtEnergy : t.hpcpEnergy}
               />
               <div className="hpcp-legend-labels">
                 <span>low</span>

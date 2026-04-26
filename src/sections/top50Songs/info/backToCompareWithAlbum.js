@@ -3,7 +3,7 @@ import { updateLegend } from "../../../components/updateLegend";
 import { compareWithArtistOrAlbum } from "./compareWithArtistOrAlbum";
 import { switchHandlers } from "../../../components/switchHandlers";
 
-export function backToCompareWithAlbum(containerRef, songs, context) { 
+export function backToCompareWithAlbum(containerRef, songs, context, language) { 
   const { timelineSvg, releaseYear, xScale, timelineHeight, offsetY, legend, timelineWidth, offsetX, titleLegendSvg, title } = context;
 
   if (!timelineSvg) {
@@ -16,7 +16,7 @@ export function backToCompareWithAlbum(containerRef, songs, context) {
   // 回到基础 timeline 状态
   const comparator = compareWithArtistOrAlbum(containerRef, songs, timelineSvg, timelineHeight, offsetY, xScale);
   comparator.compareWithAlbum();
-  updateLegend(legend, "songsWithAlbum");
+  updateLegend(legend, "songsWithAlbum", language);
 
   // ----------------------------
   // remove 新增的元素
@@ -27,13 +27,23 @@ export function backToCompareWithAlbum(containerRef, songs, context) {
   timelineSvg.selectAll(".y-expand").remove();
   timelineSvg.select(".frame").remove();
 
+    const uiTexts = {
+      zh: {
+        title: '歌曲发行时间线',
+      },
+      en: {
+        title: 'Songs Release Timeline',
+      }
+    };
+    const t = uiTexts[language] || uiTexts.en;
+
   // titleLegend 移动 & 更新文本
   const titleLegendTy = 0;
   const durationY = 500;
   titleLegendSvg
     .style("transition", `transform ${durationY}ms ease-out`)
     .style("transform", `translateY(${titleLegendTy}px)`);
-  title.text("Songs Release Timeline");
+  title.text(t.title);
 
   // ----------------------------
   // Tooltip & Move clusters

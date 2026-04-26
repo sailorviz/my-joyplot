@@ -1,6 +1,6 @@
 import { addPopularitiesKDEForAllSongs } from "./addPopularitiesKDEForAllSongs";
 
-export function triggerDrawPopularityDensityOfAllSongs(popContext, kdeContextFromStep1) {
+export function triggerDrawPopularityDensityOfAllSongs(popContext, kdeContextFromStep1, language) {
   const { timelineSvg, yScale, legend, axisX, clusterElsArray } = popContext;
   if (!timelineSvg) {
     console.warn("Timeline SVG not found. Did you call triggerPlottingTimeline() first?");
@@ -14,6 +14,7 @@ export function triggerDrawPopularityDensityOfAllSongs(popContext, kdeContextFro
     yScale,
     legend,
     axisX,
+    language,
 
     // ★ 传入这三个
     kdeContextFromStep1.kdeTop50,

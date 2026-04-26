@@ -4,7 +4,7 @@ import { moodColorMap } from '../../../components/moodColorMap';
 import { genreColorMap } from '../../../components/genreColorMap';
 import { updateLegend } from '../../../components/updateLegend';
 
-export function drawSankeyChart(container, songs){
+export function drawSankeyChart(container, songs, language){
   // 移除已有的 sankey / treemap
   d3.select(container).select(".sankey")?.remove();
   d3.select(container).select(".Mood-treemap")?.remove();
@@ -12,14 +12,26 @@ export function drawSankeyChart(container, songs){
   // show timeline title&legend SVG
   const oldTitleLegend = d3.select(container).select(".songs-titleLegend");
 
+  const uiTexts = {
+    zh: {
+      songsCount: '歌曲数量',
+      title: '风格与情绪关系图'
+    },
+    en: {
+      songsCount: 'Songs Count',
+      title: 'Genre – Mood Sankey Diagram'
+    }
+  };
+  const ts = uiTexts[language] || uiTexts.en;
+
   if (!oldTitleLegend.empty()) {
     const title = oldTitleLegend.select(".title");
     if (!title.empty()) {
-      title.text("Genre – Mood Sankey Diagram");
+      title.text(ts.title);
     }
     const legend = oldTitleLegend.select(".legend");
     if (!legend.empty()) {
-      updateLegend(legend, "hide");
+      updateLegend(legend, "hide", language);
     }
     setTimeout(() => oldTitleLegend.style("opacity", 1), 500);
   }
@@ -234,6 +246,7 @@ export function drawSankeyChart(container, songs){
   // -----------------------------------------
   // 4️⃣ Link hover（节点高亮修复）
   // -----------------------------------------
+
   svg.selectAll(".sankey-link")
     .on("mouseover", function(e, d) {
       const s = d.source;
@@ -254,7 +267,7 @@ export function drawSankeyChart(container, songs){
         .style("opacity", 1)
         .html(`
           <div><strong>${s.name} → ${t.name}</strong></div>
-          <div>Songs Count: ${d.value}</div>
+          <div>${ts.songsCount}: ${d.value}</div>
         `);
     })
     .on("mousemove", function(e){

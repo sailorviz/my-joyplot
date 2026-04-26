@@ -2,7 +2,7 @@ import { drawReleaseYearDensity } from "./drawReleaseYearDensity";
 import { updateLegend } from "../../../components/updateLegend";
 import { compareWithArtistOrAlbum } from "./compareWithArtistOrAlbum";
 
-export function backToTimelineWithKDE(containerRef, songs, context) {
+export function backToTimelineWithKDE(containerRef, songs, context, language) {
   const { timelineSvg, releaseYear, xScale, timelineHeight, offsetY, legend } = context;
   if (!timelineSvg) {
     console.warn("Timeline SVG not found. Did you call triggerPlottingTimeline() first?");
@@ -23,5 +23,5 @@ export function backToTimelineWithKDE(containerRef, songs, context) {
   const kdeControls = drawReleaseYearDensity(timelineSvg, releaseYear, xScale, timelineHeight, offsetY, legend);
   // 再切换回来显示 KDE
   kdeControls.show();
-  updateLegend(legend, "kde");
+  updateLegend(legend, "kde", language);
 }

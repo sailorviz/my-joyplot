@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import { dropAlbumClusterToTimeline } from "./dropAlbumClusterToTimeline";
 
-export function triggerPlottingTimelineForAlbums(containerRef, albumInfos){
+export function triggerPlottingTimelineForAlbums(containerRef, albumInfos, language){
   //获取clusters移动元素
   if (!containerRef?.current) return;
   const clusterEls = containerRef.current.querySelectorAll(".clusterForAlbum");
@@ -13,6 +13,21 @@ export function triggerPlottingTimelineForAlbums(containerRef, albumInfos){
 
   // 清除旧svg（避免重复绘制）
   d3.select(containerRef.current).select(".albumTimeline").remove();
+
+  // 翻译字典
+  const timelineTexts = {
+    zh: {
+      title: '专辑发行时间线',
+      band: '乐队',
+      soloArtist: '独立音乐人'
+    },
+    en: {
+      title: 'Album Release Timeline',
+      band: 'Band',
+      soloArtist: 'Solo Artist'
+    }
+  };
+  const t = timelineTexts[language] || timelineTexts.en;
 
   // 创建 timeline SVG
   const timelineHeight = 300;
@@ -58,7 +73,7 @@ export function triggerPlottingTimelineForAlbums(containerRef, albumInfos){
     .attr("font-weight", "bold")
     .attr("fill", "#333")
     .attr("opacity", 0)
-    .text("Album Release Timeline");     // 标题内容
+    .text(t.title);     // 标题内容
 
   // 创建图例容器
   const legend = titleLegendSvg.append("g")
@@ -68,8 +83,8 @@ export function triggerPlottingTimelineForAlbums(containerRef, albumInfos){
 
   // 图例数据
   const legendData = [
-    { label: "Band", color: "steelblue" },
-    { label: "Solo Artist", color: "orange" }
+    { label: t.band, color: "steelblue" },         // ← 翻译
+    { label: t.soloArtist, color: "orange" }       // ← 翻译
   ];
 
   // 绘制每个图例项
@@ -168,7 +183,7 @@ export function triggerPlottingTimelineForAlbums(containerRef, albumInfos){
 
   // dropClustersToTimeline动画
   setTimeout(() => {
-  dropAlbumClusterToTimeline(containerRef, clusterElsMap, timelineSvg, titleLegendSvg, timelineOriginalP, albumInfos, xScale, timelineHeight, offsetY);
+  dropAlbumClusterToTimeline(containerRef, clusterElsMap, timelineSvg, titleLegendSvg, timelineOriginalP, albumInfos, xScale, timelineHeight, offsetY, language);
 }, 1000);
 
   // ✅ 返回 context，供其他函数使用

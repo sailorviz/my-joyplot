@@ -1,5 +1,6 @@
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import * as d3 from "d3";
+import { useLanguage } from "../../../../components/LanguageContext";
 
 export default function CreateHPCPCircle({
   songs,
@@ -11,6 +12,21 @@ export default function CreateHPCPCircle({
   const containerRef = useRef(null);
   const [size, setSize] = useState({ width: 600, height: 600 });
   const [layoutReady, setLayoutReady] = useState(false);
+
+  const { language } = useLanguage();
+
+  // 翻译字典
+  const hpcpGuideTexts = {
+    zh: {
+      fanArea: '扇形区域 = 一首歌',
+      ringArea: '环形区域 = 一个音高类别'
+    },
+    en: {
+      fanArea: 'Fan-shaped area = one song',
+      ringArea: 'Circular area = one pitch class'
+    }
+  };
+  const t = hpcpGuideTexts[language] || hpcpGuideTexts.en;
 
   // =========================
   // resize
@@ -374,8 +390,8 @@ export default function CreateHPCPCircle({
         }}
       >
         <span style={{ opacity: 0.9 }}>
-          Fan-shaped area = one song<br />
-          Circular area = one pitch class
+          {t.fanArea}<br />
+          {t.ringArea}
         </span>
       </div>
     </div>

@@ -30,6 +30,7 @@ import { moodCompareToGenreTreemap } from "./info/moodCompareToGenreTreemap";
 import { drawSankeyChart } from "./info/drawSankeyChart";
 import { sankeyChartToMoodTreemap } from "./info/sankeyChartToMoodTreemap";
 import { useVolume } from "../../components/VolumeContext";
+import { useLanguage } from "../../components/LanguageContext";
 
 const BaseSquares = forwardRef((_, ref) => {
   const [songs, setSongs] = useState([]);
@@ -38,6 +39,7 @@ const BaseSquares = forwardRef((_, ref) => {
   const timelineContextForSongsRef = useRef(null);
   const popularityContextRef = useRef(null);
   const kdeContextFromStep1Ref = useRef(null);
+  const { language } = useLanguage(); // 获取当前语言
 
   // 👈 只创建一次
   const audioPlayerRef = useRef(new Audio());
@@ -147,7 +149,7 @@ const BaseSquares = forwardRef((_, ref) => {
         if (el.dataset.audioStatus !== "playing") {
           el.style.transform = `scale(1.1)`;
         }
-        updateTooltip(el);
+        updateTooltip(el, language);
         tooltip.style.opacity = 1;
       };
       const initialMouseMove = (e) => {
@@ -192,7 +194,7 @@ const BaseSquares = forwardRef((_, ref) => {
 
           currentClusterRef.current = el;
         }
-        updateTooltip(el);
+        updateTooltip(el, language);
       };
 
       el.style.pointerEvents = "auto";
@@ -216,21 +218,36 @@ const BaseSquares = forwardRef((_, ref) => {
         currentClusterRef.current.dataset.audioStatus = "idle";
         currentClusterRef.current.classList.remove("playing-highlight");
         currentClusterRef.current.style.transform = "scale(1)";
-        updateTooltip(currentClusterRef.current);
+        updateTooltip(currentClusterRef.current, language);
         currentClusterRef.current = null;
       }
     });
 
-    function updateTooltip(el) {
+    function updateTooltip(el, language) {
+      const tooltipTexts = {
+        zh: {
+          idle: '点击试听歌曲片段',
+          playing: '点击暂停',
+          paused: '点击继续'
+        },
+        en: {
+          idle: 'Click to listen a song clip',
+          playing: 'Click to pause',
+          paused: 'Click to continue'
+        }
+      };
+      
+      const t = tooltipTexts[language] || tooltipTexts.en;
+
       switch(el.dataset.audioStatus) {
         case "idle":
-          tooltip.textContent = "Click to listen a song clip";
+          tooltip.textContent = t.idle;
           break;
         case "playing":
-          tooltip.textContent = "Click to pause";
+          tooltip.textContent = t.playing;
           break;
         case "paused":
-          tooltip.textContent = "Click to continue";
+          tooltip.textContent = t.paused;
           break;
       }
     }
@@ -239,29 +256,29 @@ const BaseSquares = forwardRef((_, ref) => {
   useImperativeHandle(ref, () => ({
     pause: () => stopPlayback(audioPlayer, currentClusterRef.current),
     triggerPlottingTimelineForSongs: () => {
-      const context = triggerPlottingTimelineForSongs(containerRef, songs);
+      const context = triggerPlottingTimelineForSongs(containerRef, songs, language);
       timelineContextForSongsRef.current = context;
     },
     backToBaseSquares: () => backToBaseSquares(containerRef, songs),
-    triggerDrawReleaseYearDensity: () => triggerDrawReleaseYearDensity(containerRef, timelineContextForSongsRef.current),
-    backToTimelineWithSquares: () => backToTimelineWithSquares(containerRef, timelineContextForSongsRef.current),
-    triggerCompareWithArtist: () => triggerCompareWithArtist(containerRef, songs, timelineContextForSongsRef.current),
-    triggerCompareWithAlbum: () => triggerCompareWithAlbum(containerRef, songs, timelineContextForSongsRef.current),
-    backToTimelineWithKDE: () => backToTimelineWithKDE(containerRef, songs, timelineContextForSongsRef.current),
+    triggerDrawReleaseYearDensity: () => triggerDrawReleaseYearDensity(containerRef, timelineContextForSongsRef.current, language),
+    backToTimelineWithSquares: () => backToTimelineWithSquares(containerRef, timelineContextForSongsRef.current, language),
+    triggerCompareWithArtist: () => triggerCompareWithArtist(containerRef, songs, timelineContextForSongsRef.current, language),
+    triggerCompareWithAlbum: () => triggerCompareWithAlbum(containerRef, songs, timelineContextForSongsRef.current, language),
+    backToTimelineWithKDE: () => backToTimelineWithKDE(containerRef, songs, timelineContextForSongsRef.current, language),
     addPopularitiesForSongs: () => {
-      const popContext = addPopularitiesForSongs(containerRef, songs, timelineContextForSongsRef.current);
+      const popContext = addPopularitiesForSongs(containerRef, songs, timelineContextForSongsRef.current, language);
       popularityContextRef.current = popContext;
     },
-    backToCompareWithAlbum: () => backToCompareWithAlbum(containerRef, songs, timelineContextForSongsRef.current),
+    backToCompareWithAlbum: () => backToCompareWithAlbum(containerRef, songs, timelineContextForSongsRef.current, language),
     triggerDrawPopularityDensity: () => {
-      const top50Context = triggerDrawPopularityDensity(songs, popularityContextRef.current);
+      const top50Context = triggerDrawPopularityDensity(songs, popularityContextRef.current, language);
       kdeContextFromStep1Ref.current = top50Context;
     },
-    backToPopularitiesForSongs: () => backToPopularitiesForSongs(songs, popularityContextRef.current),
-    triggerDrawPopularityDensityOfAllSongs: () => triggerDrawPopularityDensityOfAllSongs(popularityContextRef.current, kdeContextFromStep1Ref.current),  
-    backToOneKDE: () => backToOneKDE(popularityContextRef.current, kdeContextFromStep1Ref.current),
+    backToPopularitiesForSongs: () => backToPopularitiesForSongs(songs, popularityContextRef.current, language),
+    triggerDrawPopularityDensityOfAllSongs: () => triggerDrawPopularityDensityOfAllSongs(popularityContextRef.current, kdeContextFromStep1Ref.current, language),  
+    backToOneKDE: () => backToOneKDE(popularityContextRef.current, kdeContextFromStep1Ref.current, language),
     backToBaseSquaresAgain: () => backToBaseSquaresAgain(containerRef, songs),
-    backTo2KDE: () => backTo2KDE(containerRef),
+    backTo2KDE: () => backTo2KDE(containerRef, language),
     genreCompare: () => genreCompare(containerRef, songs),
     drawGenreTreemap: () => drawGenreTreemap(containerRef.current),
     genreCompareToBaseSquares: () => genreCompareToBaseSquares(containerRef, songs),
@@ -272,7 +289,7 @@ const BaseSquares = forwardRef((_, ref) => {
     moodCompareToGenreTreemap: () => moodCompareToGenreTreemap(containerRef.current),
     moodCategoryCompareToMoodCompare: () => switchMoodGroup(containerRef, "mood"),
     moodTreemapToMoodCategoryCompare: () => treemapToGenreCompare("Mood", containerRef.current),
-    drawSankeyChart: () => drawSankeyChart(containerRef.current, songs),
+    drawSankeyChart: () => drawSankeyChart(containerRef.current, songs, language),
     sankeyChartToMoodTreemap: () => sankeyChartToMoodTreemap(containerRef.current)
   }));
 

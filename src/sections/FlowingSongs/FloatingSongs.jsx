@@ -35,6 +35,7 @@ import { continueToJumpOutB } from "./triggerClustering/top30Albums/continueToJu
 import { backToInitialJumping } from "./triggerClustering/top30Albums/backToInitialJumping";
 import { continueToJumpOutFamily } from "./triggerClustering/top30Albums/continueToJumpOutFamily";
 import { backToInitialJumpingF } from "./triggerClustering/top30Albums/backToInitialJumpingF";
+import { useLanguage } from "../../components/LanguageContext";
 
 const FloatingSongs = forwardRef((_, ref) => {
   const [songs, setSongs] = useState([]);
@@ -50,6 +51,7 @@ const FloatingSongs = forwardRef((_, ref) => {
   const timelineContextRef = useRef(null);
   const hoverVersionRef = useRef(0);
   const albumTimelineContextRef = useRef(null);
+  const { language } = useLanguage();
 
   useEffect(() => {
     fetch("/data/2296_all_songs.csv")
@@ -169,39 +171,39 @@ const FloatingSongs = forwardRef((_, ref) => {
     pause: () => { runningRef.current = false; cancelAnimationFrame(animationRef.current); },
     resetFloating: () => resetFloating(containerRef, runningRef, animateRef, positionsRef, opacityRef, speedRef, MAX_VISIBLE),
     triggerClustering: () => triggerClustering(containerRef, songs),
-    animateClusterWithImages: () => animateClusterWithImages(containerRef, songs, artistInfos),
+    animateClusterWithImages: () => animateClusterWithImages(containerRef, songs, artistInfos, language),
     hideImages: () => hideImages(containerRef.current),
-    focusTop1Artist: () => focusTop1Artist(containerRef.current, artistInfos),
+    focusTop1Artist: () => focusTop1Artist(containerRef.current, artistInfos, language),
     cancelFocusCluster: () => cancelFocusCluster(containerRef.current),
     highlightBands: () => highlightBands(containerRef.current, artistInfos),
     cancelHighlightBands: () => cancelHighlightBands(containerRef.current),
     triggerPlottingTimeline: () => {
-      const context = triggerPlottingTimeline(containerRef, artistInfos);
+      const context = triggerPlottingTimeline(containerRef, artistInfos, language);
       timelineContextRef.current = context; // 存起来
     },
     timelineToLastStep: () => timelineToLastStep(containerRef, artistInfos, songs),
     triggerClusterTimezone : () => triggerClusterTimezone(timelineContextRef.current, artistInfos, containerRef),
     dropClustersToTimeline : () => dropClustersToTimeline(containerRef, artistInfos),
-    dropClusterToMap : () => dropClusterToMap(containerRef, artistInfos, hoverVersionRef),
+    dropClusterToMap : () => dropClusterToMap(containerRef, artistInfos, hoverVersionRef, language),
     backToTimeline : () => backToTimeline(containerRef),
     backToMap : () => backToMap(containerRef, MAX_VISIBLE),
     triggerClusteringByAlbum : () => triggerClusteringByAlbum(containerRef, songs),
-    animateClusterOfAlbumWithImage : () => animateClusterOfAlbumWithImage(containerRef, songs, albumInfos),
+    animateClusterOfAlbumWithImage : () => animateClusterOfAlbumWithImage(containerRef, songs, albumInfos, language),
     hideCovers : () => hideCovers(containerRef.current),
-    focusTop1Album : () => focusTop1Album(containerRef.current, albumInfos),
+    focusTop1Album : () => focusTop1Album(containerRef.current, albumInfos, language),
     cancelFocusClusterOfAlbum : () => cancelFocusClusterOfAlbum(containerRef.current),
-    animateClusterCompare : () => animateClusterCompare(containerRef, albumInfos, greatestAlbumInfos),
+    animateClusterCompare : () => animateClusterCompare(containerRef, albumInfos, greatestAlbumInfos, language),
     cancelComparing : () => cancelComparing(containerRef.current),
     highlightAlbumFromBand : () => highlightAlbumFromBand(containerRef.current, albumInfos),
     triggerPlottingTimelineForAlbums : () => {
-      const albumContext = triggerPlottingTimelineForAlbums(containerRef, albumInfos);
+      const albumContext = triggerPlottingTimelineForAlbums(containerRef, albumInfos, language);
       albumTimelineContextRef.current = albumContext;
     },
     timelineOfAlbumToLastStep : () => timelineOfAlbumToLastStep(containerRef),
     triggerClusterTimezoneOfAlbum : () => triggerClusterTimezoneOfAlbum(albumTimelineContextRef.current, albumInfos, containerRef),
-    clustersJumpingOut : () => clustersJumpingOut(containerRef, albumInfos),
+    clustersJumpingOut : () => clustersJumpingOut(containerRef, albumInfos, language),
     backToAlbumTimeline : () => backToAlbumTimeline(containerRef, albumInfos),
-    continueToJumpOutB : () => continueToJumpOutB(containerRef, albumInfos),
+    continueToJumpOutB : () => continueToJumpOutB(containerRef, albumInfos, language),
     backToInitialJumping : () => backToInitialJumping(containerRef),
     continueToJumpOutFamily : () => continueToJumpOutFamily(containerRef, albumInfos),
     backToInitialJumpingF : () => backToInitialJumpingF(containerRef)

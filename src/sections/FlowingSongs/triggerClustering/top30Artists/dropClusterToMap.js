@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
-export function dropClusterToMap(containerRef, artistInfos, hoverVersionRef){
+export function dropClusterToMap(containerRef, artistInfos, hoverVersionRef, language){
   const timelineSvg = containerRef.current.querySelector(".timeline");
   const titleLegendSvg = containerRef.current.querySelector(".timelineTitle");
   const clusterEls = containerRef.current.querySelectorAll(".clusterForArtist");
@@ -188,6 +188,17 @@ export function dropClusterToMap(containerRef, artistInfos, hoverVersionRef){
       cluster.style.transform = `translate(${tx}px, ${ty}px) scale(0.15)`;
     });
 
+    // 翻译字典
+    const mapTexts = {
+      zh: {
+        country: '国家',
+      },
+      en: {
+        country: 'Country',
+      }
+    };
+    const t = mapTexts[language] || mapTexts.en;
+
     // 重启交互，改变tooltip._handlers设置
     setTimeout(() => {
       // 改变 cluster hovering 状态（改变元素的位置）
@@ -223,7 +234,7 @@ export function dropClusterToMap(containerRef, artistInfos, hoverVersionRef){
           cluster.style.transform = `translate(${prevTx}px, ${prevTy}px) scale(0.35)`;
 
           // cluster tooltip 设置
-          tooltip.innerHTML = `<strong>${artist}</strong><br>Country: ${countryRaw}`;
+          tooltip.innerHTML = `<strong>${artist}</strong><br>${t.country}: ${countryRaw}`;
           tooltip.style.left = `${e.clientX - rect.left + 10}px`;
           tooltip.style.top = `${e.clientY - rect.top - 40}px`;
           tooltip.style.opacity = 1;

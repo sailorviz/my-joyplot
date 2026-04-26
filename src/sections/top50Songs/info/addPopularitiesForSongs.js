@@ -4,7 +4,7 @@ import { compareWithArtistOrAlbum } from "./compareWithArtistOrAlbum";
 import { registerHandlers } from "../../../components/registerHandlers";
 import { switchHandlers } from "../../../components/switchHandlers";
 
-export function addPopularitiesForSongs(containerRef, songs, context) { 
+export function addPopularitiesForSongs(containerRef, songs, context, language) { 
   const { timelineSvg, releaseYear, xScale, timelineHeight, offsetY, legend, timelineWidth, offsetX, titleLegendSvg, title } = context;
 
   if (!timelineSvg) {
@@ -17,12 +17,31 @@ export function addPopularitiesForSongs(containerRef, songs, context) {
   // 回到基础 timeline 状态
   const comparator = compareWithArtistOrAlbum(containerRef, songs, timelineSvg, timelineHeight, offsetY, xScale);
   comparator.reset();
-  updateLegend(legend, "songs");
+  updateLegend(legend, "songs", language);
 
   // 获取 clusters
   if (!containerRef?.current) return;
   const clusterEls = containerRef.current.querySelectorAll(".top50-songs");
   const clusterElsArray = Array.from(clusterEls);
+
+  // 翻译字典
+  const popTexts = {
+    zh: {
+      xAxis: '发行年份',
+      yAxis: '流行度 (0–100)',
+      title: '歌曲发行时间线与流行度',
+      year: '年份',
+      popularity: '流行度'
+    },
+    en: {
+      xAxis: 'Release Year',
+      yAxis: 'Popularity (0–100)',
+      title: 'Songs Release Timeline & Popularity',
+      year: 'Year',
+      popularity: 'Popularity'
+    }
+  };
+  const t = popTexts[language] || popTexts.en;
 
   // ----------------------------
   // Y 轴 & scale
@@ -132,7 +151,7 @@ export function addPopularitiesForSongs(containerRef, songs, context) {
     .attr("font-size", 16)
     .attr("font-weight", "bold")
     .attr("fill", "#333")
-    .text("Release Year");
+    .text(t.xAxis);
 
   // Y 轴标题
   timelineSvg.append("text")
@@ -144,7 +163,7 @@ export function addPopularitiesForSongs(containerRef, songs, context) {
     .attr("font-size", 16)
     .attr("font-weight", "bold")
     .attr("fill", "#333")
-    .text("Popularity (0–100)");
+    .text(t.yAxis);
 
   // titleLegend 移动 & 更新文本
   const titleLegendTy = -150;
@@ -152,7 +171,7 @@ export function addPopularitiesForSongs(containerRef, songs, context) {
   titleLegendSvg
     .style("transition", `transform ${durationY}ms ease-out`)
     .style("transform", `translateY(${titleLegendTy}px)`);
-  title.text("Songs Release Timeline & Popularity");
+  title.text(t.title);
 
   // ----------------------------
   // Tooltip & Move clusters
@@ -195,7 +214,7 @@ export function addPopularitiesForSongs(containerRef, songs, context) {
     const popMouseEnter = (e) => {
       if (el.dataset.state !== "pop") return;
       el.style.transform = `translate(${popTx}px, ${popTy}px) scale(0.35)`;
-      tooltip.innerHTML = `${song} - ${artist}<br>Year: ${songReleaseYear}<br>Popularity: ${pop || "null"}`;
+      tooltip.innerHTML = `${song} - ${artist}<br>${t.year}: ${songReleaseYear}<br>${t.popularity}: ${pop || "null"}`;
       tooltip.style.left = `${e.clientX - rect.left + 10}px`;
       tooltip.style.top = `${e.clientY - rect.top - 40}px`;
       tooltip.style.opacity = 1;

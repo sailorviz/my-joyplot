@@ -1,6 +1,6 @@
 import { drawPopularityDensity } from "./drawPopularityDensity";
 
-export function triggerDrawPopularityDensity(songs, popContext) {
+export function triggerDrawPopularityDensity(songs, popContext, language) {
   const { timelineSvg, yScale, legend, axisX, clusterElsArray } = popContext;
   if (!timelineSvg) {
     console.warn("Timeline SVG not found. Did you call triggerPlottingTimeline() first?");
@@ -14,7 +14,7 @@ export function triggerDrawPopularityDensity(songs, popContext) {
   });
 
   // 计算密度曲线
-  const kdeControls = drawPopularityDensity(songs, timelineSvg, yScale, legend, axisX);
+  const kdeControls = drawPopularityDensity(songs, timelineSvg, yScale, legend, axisX, language);
   // 再切换回来显示 KDE
   kdeControls.show();
   // ★ 这里保存 step1 的结果

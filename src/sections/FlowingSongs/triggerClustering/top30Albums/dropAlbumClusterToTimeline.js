@@ -1,4 +1,4 @@
-export function dropAlbumClusterToTimeline(containerRef, clusterElsMap, timelineSvg, titleLegendSvg, timelineOriginalP, albumInfos, xScale, timelineHeight, offsetY) {
+export function dropAlbumClusterToTimeline(containerRef, clusterElsMap, timelineSvg, titleLegendSvg, timelineOriginalP, albumInfos, xScale, timelineHeight, offsetY, language) {
   const timelineTranslateY = -70; // timeline 上升量 vh
   const durationY = 1000; // 下落动画时间 ms
   const durationX = 1500; // X 方向平移时间 ms
@@ -63,6 +63,11 @@ export function dropAlbumClusterToTimeline(containerRef, clusterElsMap, timeline
     const tooltip = containerRef.current.querySelector(".album-tooltip");
     const rect = containerRef.current.getBoundingClientRect();
 
+    const t = {
+      zh: { year: '年份' },
+      en: { year: 'Year' }
+    }[language] || {year: 'Year' };
+
     Object.entries(clusterElsMap).forEach(([album, cluster]) => {
       const releaseYear = albumInfos[album].release_year;
       cluster.style.pointerEvents = "auto"; // 🔓 允许交互
@@ -81,7 +86,7 @@ export function dropAlbumClusterToTimeline(containerRef, clusterElsMap, timeline
         const ty = parseFloat(cluster.dataset.dropTy) || 0;
         cluster.style.transform = `translate(${tx}px, ${ty}px) scale(0.35)`;
 
-        tooltip.innerHTML = `<strong>${album}</strong><br>Year: ${releaseYear}`;
+        tooltip.innerHTML = `<strong>${album}</strong><br>${t.year}: ${releaseYear}`;
         tooltip.style.left = `${e.clientX - rect.left + 10}px`;
         tooltip.style.top = `${e.clientY - rect.top - 40}px`;
         tooltip.style.opacity = 1;

@@ -11,21 +11,15 @@ import { clusteringData } from "./clusteringData";
 
 const clusterEls = {}; // artist -> DOM
 
-export function animateClusterWithImages(containerRef, allSongs, artistInfos) {
+export function animateClusterWithImages(containerRef, allSongs, artistInfos, language) {
   if (!containerRef?.current) return;
   const artistPhotos = loadArtistPhoto();
-
-  console.log("=== animateClusterWithImages ===");
-  console.log("containerRef:", containerRef.current);
-  console.log("clusterEls keys:", Object.keys(clusterEls));
 
   Object.keys(artistPhotos).forEach(a => {
     if (!artistPhotos[a]) console.warn("❌ Missing photo:", a);
   });
 
   const clusterData = clusteringData(containerRef.current, allSongs);
-  // const artistInfos = loadArtistInfo("/data/top30_artists.csv");
-  // console.log("✅ artistInfos loaded:", artistInfos[0]);
   const rect = containerRef.current.getBoundingClientRect();
 
   // 创建 tooltip 元素
@@ -96,11 +90,6 @@ export function animateClusterWithImages(containerRef, allSongs, artistInfos) {
     clusterEl.dataset.tx = 0;
     clusterEl.dataset.ty = 0;
 
-    // clusterEl.dataset.initialLeft = rect.left;
-    // clusterEl.dataset.initialTop = rect.top;
-    // clusterEl.dataset.initialRight = rect.right;
-    // clusterEl.dataset.initialWidth = rect.width;
-
     clusterEl.appendChild(img);
     
     // 淡入动画（加帧延迟）
@@ -135,12 +124,27 @@ export function animateClusterWithImages(containerRef, allSongs, artistInfos) {
       const info = artistInfos[artist];
       if (!info) return;
 
+      const textsUI = {
+        zh: { 
+          gender: '性别',
+          country: '国家',
+          genre: '风格',
+          songsCollected: '歌曲收藏数'
+        },
+        en: { 
+          gender: 'Gender',
+          country: 'Country',
+          genre: 'Genre',
+          songsCollected: 'Songs Collected'
+        }
+      };
+
       tooltip.innerHTML = `
         <strong>${artist}</strong><br/>
-        Gender: ${info?.singer_sex || "Unknown"}<br/>
-        Country: ${info?.Country || "Unknown"}<br/>
-        Genre: ${info?.Genre || "Unknown"}<br/>
-        Songs_Collected: ${info?.song_count || 0}
+        ${textsUI[language].gender}: ${info?.singer_sex || "Unknown"}<br/>
+        ${textsUI[language].country}: ${info?.Country || "Unknown"}<br/>
+        ${textsUI[language].genre}: ${info?.Genre || "Unknown"}<br/>
+        ${textsUI[language].songsCollected}: ${info?.song_count || 0}
       `;
 
       tooltip.style.left = `${e.clientX - rect.left + 10}px`;
