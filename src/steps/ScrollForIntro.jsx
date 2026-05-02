@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import scrollama from "scrollama";
 import "../styles/intro.css";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";  // 👈 新增
 import { useLanguage } from "../components/LanguageContext";
 
 export default function ScrollForIntro(){
@@ -86,7 +87,9 @@ export default function ScrollForIntro(){
 
         {activeStep !== null && activeStep >= 0 && steps[activeStep] && (
           <div className={`scroll-intro fade-in`}>
-            <ReactMarkdown>{steps[activeStep]}</ReactMarkdown>
+            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+              {steps[activeStep]}
+            </ReactMarkdown>
           </div>
         )}
       </div>

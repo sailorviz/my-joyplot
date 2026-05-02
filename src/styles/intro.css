@@ -1,9 +1,10 @@
 .intro {
   width: 100%;
   height: auto;
-  color: #a0c4ff;
+  color: var(--color-text-secondary); 
   position: relative;
   margin-bottom: 20vh;
+  background: var(--color-background-base);
 }
 
 .sticky-container {
@@ -21,11 +22,22 @@
 }
 
 .scroll-intro {
+  /* 窄宽度居中 */
+  max-width: 560px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  
+  /* 原有的定位（底部固定位置） */
   position: absolute;
-  bottom: 20%; /* 根据需要调整垂直位置 */
+  bottom: 15%;           /* 从 20% 微调到 15% 让视觉平衡 */
   left: 0;
   right: 0;
-  text-align: center;
+  
+  /* 文字样式 */
+  text-align: left;
+  
+  /* 过渡 */
   transition: opacity 0.3s ease;
 }
 
@@ -44,4 +56,51 @@
   margin-top: 20vh;
 }
 
+.intro .title {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-wider);
+  color: var(--color-text-primary);
+  /* ... */
+}
+
+.scroll-intro strong {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);  /* 主色粉紫 */
+}
+
+/* ========== intro 文本强调样式 ========== */
+
+/* 主强调：粉紫色 + 粗体 + 微背景（情绪词/动作词/核心名词） */
+.scroll-intro .highlight {
+  color: var(--color-primary, #C355F5);
+  font-weight: var(--font-weight-semibold, 600);
+  background: linear-gradient(120deg, rgba(195, 85, 245, 0.08) 0%, rgba(195, 85, 245, 0.15) 100%);
+  padding: 0 4px;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+/* 数字强强调：黄绿色 + 更粗 + 轻微放大（数字/数据/时间） */
+.scroll-intro .highlight-number {
+  color: var(--color-secondary, #BFFC46);
+  font-weight: var(--font-weight-bold, 700);
+  font-size: 1.05em;
+  display: inline-block;
+  background: rgba(191, 252, 70, 0.08);
+  padding: 0 3px;
+  border-radius: 4px;
+}
+
+/* 次要强调：下划线 + 正常字重（过渡词/转折词/动作引导） */
+.scroll-intro .highlight-subtle {
+  color: var(--color-text-secondary, #8B92A8);
+  font-weight: var(--font-weight-regular, 400);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--color-primary, #C355F5);
+  text-underline-offset: 3px;
+}
 

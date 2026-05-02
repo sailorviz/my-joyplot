@@ -18,6 +18,7 @@
     "react-dom": "^19.1.1",
     "react-markdown": "^10.1.0",
     "react-scrollama": "^2.4.2",
+    "rehype-raw": "^7.0.0",
     "scrollama": "^3.2.0",
     "topojson-client": "^3.1.0"
   },
