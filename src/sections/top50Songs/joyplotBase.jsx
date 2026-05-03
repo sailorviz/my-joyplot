@@ -476,6 +476,7 @@ const JoyplotBase = forwardRef((_, ref) => {
       zoomFrameStatesRef.current?.updateX(zoomXScale);
       const svgArea = initialJoyplotRef.current?.getSVGArea();
       zoomFrameStatesRef.current?.updateLayout(svgArea);
+      zoomFrameStatesRef.current?.hide();
       setTooltipStage("exploratory");
       joyplotTitleRef.current.innerHTML =
         `<strong>${tx.ampTitle}</strong>`;
@@ -501,6 +502,7 @@ const JoyplotBase = forwardRef((_, ref) => {
       zoomFrameStatesRef.current?.updateX(zoomXScale);
       const svgArea = initialJoyplotRef.current?.getSVGArea();
       zoomFrameStatesRef.current?.updateLayout(svgArea);
+      zoomFrameStatesRef.current?.show();
 
       // remove overview-svg
       overviewRef.current?.remove();
@@ -565,6 +567,7 @@ const JoyplotBase = forwardRef((_, ref) => {
       {showToggle && toggleRef.current &&
         createPortal(
           <button 
+            className="mode-toggle-btn"  // 👈 添加这个类名
             onClick={() => {
               const newMode = nextMode;  // "spec60" 或 "amp60"
               setAnalysisMode(newMode);

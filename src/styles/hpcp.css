@@ -1,3 +1,56 @@
+.hpcp-comparision {
+  position: relative;   /* 参考定位，子元素 sticky 以此为边界 */
+  margin-bottom: 20vh;
+  background: var(--color-background-base);
+}
+
+.hpcp-comparision-stickyContainer {
+  position: sticky;
+  top: 0;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+#hpcp-comparision-container {
+  width: 70%;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 左侧图示区 */
+.hpcp-comparision-left{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0; /* 顶部间距 */
+}
+
+/* 右侧文字区 */
+.hpcp-comparision-right{
+  top: 0;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 35vh;
+  padding-left: 1vw;
+  padding-right: 2vw;
+  text-align: left;
+}
+
+.hpcp-comparision-stage{
+  width: 90%;
+  max-width: 900px;
+
+  display: flex;
+  flex-direction: column;
+  /* gap: 1.2rem; */
+  margin-top: 1vh;
+  height: 100%;
+}
+
 .hpcp-comparision-title {
   text-align: center;
   height: 10%;        /* 占左侧 panel 总高度的 10% */
@@ -5,19 +58,24 @@
 }
 
 .hpcp-comparision-title h2 {
-  font-size: clamp(1rem, 2.5vw, 1.5rem);
-  display: inline-flex;
-  align-items: center;
+  color: var(--color-text-primary);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 2vh;
 }
 
 .hpcp-comparision-selector {
   display: flex;
   justify-content: center;
+  gap: 2vw;
 }
 
 .hpcp-comparision-selector label {
-  font-size: clamp(0.7rem, 1.5vw, 1rem);
-  margin: 0 0.5rem;
+  font-family: var(--font-family-base);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  letter-spacing: var(--letter-spacing-wide);
 }
 
 .instrument-blocks {
@@ -39,13 +97,13 @@
 .instrument-button {
   position: relative;
   width: 100%;
-  padding: 0.6rem 1rem;
+  padding: 0.3rem 1rem;
   margin-bottom: 0.5rem;
 
-  background: #222;
-  color: #fff;
-  border: none;
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
   border-radius: 6px;
+  background: transparent;
 
   cursor: pointer;
   overflow: hidden;
@@ -53,7 +111,9 @@
 }
 
 .instrument-button:hover {
-  background: linear-gradient(145deg, #555, #3a3a3a);
+  background: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-primary);
 
   transform: translateY(-1px);
 
@@ -65,12 +125,13 @@
 
   box-shadow: 0 1px 2px rgba(0,0,0,0.6);
 
-  background: linear-gradient(145deg, #2f2f2f, #444);
+  background: transparent;
 }
 
 .instrument-button.playing {
-  background: linear-gradient(145deg, #ff6b6b, #d64545);
-  border-color: #ff6b6b;
+  background: var(--color-primary);
+  border-color: var(--color-text-primary);
+  color: var(--color-text-primary);
 }
 
 /* ✅ NEW: progress */
@@ -79,7 +140,8 @@
   left: 0;
   top: 0;
   height: 100%;
-  background: rgba(255,255,255,0.15);
+  background: var(--color-secondary);
+  
   z-index: 0;
   transition: width 0.1s linear;
 }
@@ -87,6 +149,7 @@
 .instrument-button.paused {
   background: #2a2a2a;
   opacity: 0.8;
+  color: var(--color-text-primary);
 }
 
 /* label 在上层 */
@@ -148,73 +211,6 @@
   color: #ddd;
   margin-top: 6px;
   padding: 0 2px;                   /* 轻微左右内边距，让文字不贴边 */
-}
-
-.hpcp-comparision {
-  position: relative;   /* 参考定位，子元素 sticky 以此为边界 */
-  margin-bottom: 20vh;
-  outline: 3px solid yellow;
-}
-
-.hpcp-comparision-stickyContainer {
-  position: sticky;
-  top: 0;
-  display: flex;
-  width: 100%;
-  height: 100vh;
-}
-
-#hpcp-comparision-container {
-  width: 75%;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: rgba(245, 85, 85, 0.5);
-  overflow: hidden;
-}
-
-/* 左侧图示区 */
-.hpcp-comparision-left{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 1rem 0; /* 顶部间距 */
-}
-
-/* 右侧文字区 */
-.hpcp-comparision-right{
-  top: 0;
-  width: 25%;
-  padding: 4rem 2rem;
-  display: flex;
-  align-items: center;
-}
-
-.hpcp-comparision-stage{
-  width: 80%;
-  max-width: 900px;
-
-  display: flex;
-  flex-direction: column;
-  /* gap: 1.2rem; */
-  margin-top: 1vh;
-  height: 100%;
-}
-
-.hpcp-comparision-title{
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.hpcp-comparision-playhead{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-
-  width: 2px;
-  background: white;
-
-  left: 0;
 }
 
 .hpcp-comparision-text{

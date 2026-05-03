@@ -31,24 +31,15 @@
   gap: 40vh;
 }
 
-/* .scrolling-text {
-  font-size: 1.5rem;
-  color: white;
-  text-align: center;
-  height: 40vh;
-  background: var(--color-surface);
-  opacity: 0.3;
-} */
-
 .scrolling-text {
-  width: 80%;           /* 根据需要设置宽度 */
-  max-width: 600px;     /* 限制最大宽度，保证可读性 */
+  width: 65%;           /* 根据需要设置宽度 */
+  max-width: 500px;     /* 限制最大宽度，保证可读性 */
   height: auto;         /* 高度自动，随内容撑开 */
-  background-color: rgba(17, 24, 39, 0.8);  /* 80% 不透明度的深蓝灰，文字不受影响 */
-  border-radius: 16px;  /* 可选：圆角 */
+  background-color: rgba(114, 140, 52, 0.9);  /* 80% 不透明度的深蓝灰，文字不受影响 */
+  border-radius: 8px;  /* 可选：圆角 */
   padding: 24px 32px;   /* 可选：内边距，让文字不贴边 */
   margin: 0 auto;       /* 可选：水平居中 */
-  text-align: center;
+  text-align: left;
 }
 
 .scrolling-text * {
@@ -59,7 +50,7 @@
 .song {
   position: absolute;
   white-space: nowrap;
-  color: #a0c4ff;
+  color: var(--color-flowing-song);
 }
 
 .triggerStep {
@@ -75,12 +66,83 @@
 }
 
 .band-highlight {
-  box-shadow: 0 0 25px #a0c4ff;
-  border: 5px solid #a0c4ff;
+  box-shadow: 0 0 25px rgba(195, 85, 245, 0.6);
+  border: 3px solid var(--color-primary);
   transition: all 0.3s ease;
   border-radius: 17px;
+  transform: scale(1.01);
 }
 
+.band-highlight:hover {
+  box-shadow: 0 0 35px rgba(195, 85, 245, 0.8);
+  transform: scale(1.02);
+}
 
+.artist-tooltip, .album-tooltip {
+  position: absolute;
+  padding: 10px 14px;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(12px);
+  color: var(--color-text-primary);
+  border-radius: 10px;
+  font-family: var(--font-family-base);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  max-width: 240px;
+  white-space: normal;
+}
 
+.artist-tooltip strong, .album-tooltip strong{
+  color: var(--color-secondary);
+  font-size: 1rem;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.artist-tooltip .tooltip-value, .album-tooltip .tooltip-value {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+
+.artist-info, .album-info {
+  position: absolute;
+  color: var(--color-text-primary);
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(12px);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: var(--font-family-base);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  white-space: normal;
+  pointer-events: none;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+  left: 100%;           /* 相对于父元素（clusterEl）的右侧 */
+  top: 0;
+  transform: translateX(10px);  /* 额外间距 */
+  width: max-content;
+  min-width: 160px;
+  max-width: 240px;
+}
+
+.artist-info strong, .album-info strong {
+  color: var(--color-secondary);
+  font-size: 1rem;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.artist-info .tooltip-value, .album-info .tooltip-value {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
 

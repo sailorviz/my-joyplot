@@ -2,6 +2,7 @@
   position: relative;   /* 参考定位，子元素 sticky 以此为边界 */
   height: auto;        /* 给滚动动画留出空间 */
   margin-bottom: 20vh;
+  background: var(--color-background-base);
 }
 
 .four-curves-stickyContainer {
@@ -17,8 +18,6 @@
   display: flex;
   align-items: center;     /* 垂直居中 */
   justify-content: center; /* 水平居中 */
-  /* overflow: hidden; */
-  background: rgba(245, 85, 85, 0.5);
 }
 
 .scrollingTextContainer-4curves {
@@ -33,11 +32,19 @@
 }
 
 .scrolling-text-4curves {
-  font-size: 1.5rem;
-  color: white;
-  text-align: center;
-  height: 40vh;
-  background:  rgba(57, 143, 224, 0.5);
+  width: 65%;           /* 根据需要设置宽度 */
+  max-width: 500px;     /* 限制最大宽度，保证可读性 */
+  height: auto;         /* 高度自动，随内容撑开 */
+  background-color: rgba(114, 140, 52, 0.9);  /* 80% 不透明度的深蓝灰，文字不受影响 */
+  border-radius: 8px;  /* 可选：圆角 */
+  padding: 24px 32px;   /* 可选：内边距，让文字不贴边 */
+  margin: 0 auto;       /* 可选：水平居中 */
+  text-align: left;
+}
+
+.scrolling-text-4curves * {
+  /* 文字完全不透明，不会被父级背景影响 */
+  color: var(--color-text-primary, #F5F7FA);
 }
 
 .triggerStep-4curves {

@@ -20,8 +20,6 @@ export function focusTop1Album(container, albumInfos, language){
     transition: "transform 1s ease, z-index 0.5s",
     zIndex: 999, // 确保在最上层
     transform: `translate(${translateX}px, ${translateY}px) scale(2)`,// 放大 2 倍
-    pointerEvents: "none",
-    maxWidth: "50vh"
   });
 
   otherAlbums.forEach(el => {
@@ -36,18 +34,6 @@ export function focusTop1Album(container, albumInfos, language){
   // 创建 info 元素
   const infoDiv = document.createElement("div");
   infoDiv.className = "album-info";
-  Object.assign(infoDiv.style, {
-    position: "fixed", // 相对于 clusterEl 定位
-    color: "white",
-    background: "rgba(0,0,0,0.6)",
-    padding: "6px 10px",
-    borderRadius: "6px",
-    fontSize: "12px",
-    maxWidth: "30vh",
-    opacity: 0,
-    transition: "opacity 0.5s ease",
-    zIndex: 1000 // 高于 top1Album
-  });
 
   const tooltipTexts = {
     zh: {
@@ -75,14 +61,13 @@ export function focusTop1Album(container, albumInfos, language){
   // 设置 info 内容
   const info = albumInfos[top1Album.dataset.album];
   infoDiv.innerHTML = `
-    <strong>《${top1Album.dataset.album}》</strong><br>
-    <strong>${t.artists}</strong>: ${info?.artist_name || "Unknown"}<br/>
-    <strong>${t.genre}</strong>: ${info?.Genre || "Unknown"}<br/>
-    <strong>${t.year}</strong>: ${info?.release_year || "Unknown"}<br/>
-    <strong>${t.language}</strong>: ${info?.Language || "Unknown"}<br/>
-    <strong>${t.songsCollected}</strong>: ${info?.song_count || 0}<br/>
-    <strong>${t.totalTracks}</strong>: ${info?.total_tracks || 0}<br/>
-    <strong>${t.collectionRate}</strong>: ${info?.collection_rate || 0}%
+    <strong>${top1Album.dataset.album}</strong><br>
+    ${t.artists}: <span class="tooltip-value">${info?.artist_name || "Unknown"}</span><br/>
+    ${t.genre}: <span class="tooltip-value">${info?.Genre || "Unknown"}</span><br/>
+    ${t.year}: <span class="tooltip-value">${info?.release_year || "Unknown"}</span><br/>
+    ${t.language}: <span class="tooltip-value">${info?.Language || "Unknown"}</span><br/>
+    ${t.songsCollected}: <span class="tooltip-value">${info?.song_count || 0}</span><br/>
+    ${t.totalTracks}: <span class="tooltip-value">${info?.total_tracks || 0}</span><br/>
   `;
 
 

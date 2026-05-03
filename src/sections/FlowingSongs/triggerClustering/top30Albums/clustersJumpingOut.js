@@ -119,14 +119,81 @@ export function clustersJumpingOut(containerRef, albumInfos, language){
       
       img.src = el.dataset.artistPhoto;
 
-      tooltip.innerHTML = `<strong>${album}</strong><br>${t.mainArtist}: ${mainArtist}<br>${t.year}: ${releaseYear}`;
-      tooltip.style.left = `${e.clientX - rectContainer.left + 10}px`;
-      tooltip.style.top = `${e.clientY - rectContainer.top - 40}px`;
-      tooltip.style.opacity = 1;
+      tooltip.innerHTML = `
+        <strong>${album}</strong><br>
+        ${t.mainArtist}: <span class="tooltip-value">${mainArtist}</span><br>
+        ${t.year}: <span class="tooltip-value">${releaseYear}</span>
+      `;
+      // tooltip.style.left = `${e.clientX - rectContainer.left + 10}px`;
+      // tooltip.style.top = `${e.clientY - rectContainer.top - 40}px`;
+      requestAnimationFrame(() => {
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const tooltipWidth = tooltipRect.width;
+        const tooltipHeight = tooltipRect.height;
+        
+        let left = e.clientX + 15;
+        let top = e.clientY - 40;
+        
+        // 右边界检测
+        if (left + tooltipWidth > window.innerWidth) {
+          left = e.clientX - tooltipWidth - 15;
+        }
+        
+        // 左边界检测
+        if (left < 0) {
+          left = 10;
+        }
+        
+        // 上边界检测
+        if (top < 0) {
+          top = e.clientY + 20;
+        }
+        
+        // 下边界检测
+        if (top + tooltipHeight > window.innerHeight) {
+          top = e.clientY - tooltipHeight - 10;
+        }
+        
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+        tooltip.style.opacity = 1;
+      });
     };
     const jumpMouseMove = (e) => {
-      tooltip.style.left = `${e.clientX - rectContainer.left + 10}px`;
-      tooltip.style.top = `${e.clientY - rectContainer.top - 40}px`;
+      // tooltip.style.left = `${e.clientX - rectContainer.left + 10}px`;
+      // tooltip.style.top = `${e.clientY - rectContainer.top - 40}px`;
+      requestAnimationFrame(() => {
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const tooltipWidth = tooltipRect.width;
+        const tooltipHeight = tooltipRect.height;
+        
+        let left = e.clientX + 15;
+        let top = e.clientY - 40;
+        
+        // 右边界检测
+        if (left + tooltipWidth > window.innerWidth) {
+          left = e.clientX - tooltipWidth - 15;
+        }
+        
+        // 左边界检测
+        if (left < 0) {
+          left = 10;
+        }
+        
+        // 上边界检测
+        if (top < 0) {
+          top = e.clientY + 20;
+        }
+        
+        // 下边界检测
+        if (top + tooltipHeight > window.innerHeight) {
+          top = e.clientY - tooltipHeight - 10;
+        }
+        
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+        tooltip.style.opacity = 1;
+      });
     };
     const jumpMouseLeave = () => {
       if (el.dataset.state !== "jump") return;

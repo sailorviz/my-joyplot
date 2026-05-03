@@ -34,17 +34,6 @@ export function focusTop1Artist(container, artistInfos, language){
   // 创建 info 元素
   const infoDiv = document.createElement("div");
   infoDiv.className = "artist-info";
-  Object.assign(infoDiv.style, {
-    position: "absolute", // 相对于 clusterEl 定位
-    color: "white",
-    background: "rgba(0,0,0,0.6)",
-    padding: "6px 10px",
-    borderRadius: "6px",
-    fontSize: "12px",
-    maxWidth: "480px",
-    opacity: 0,
-    transition: "opacity 0.5s ease"
-  });
 
   const textsUI = {
     zh: { 
@@ -65,9 +54,9 @@ export function focusTop1Artist(container, artistInfos, language){
   const info = artistInfos[top1Artist.dataset.artist];
   infoDiv.innerHTML = `
     <strong>${top1Artist.dataset.artist}</strong><br>
-    ${textsUI[language].genre}: ${info?.Genre || "Unknown"}<br>
-    ${textsUI[language].country}: ${info?.Country || "Unknown"}<br>
-    ${textsUI[language].songsCollected}: ${info?.song_count || 0}
+    ${textsUI[language].genre}: <span class="tooltip-value">${info?.Genre || "Unknown"}</span><br>
+    ${textsUI[language].country}: <span class="tooltip-value">${info?.Country || "Unknown"}</span><br>
+    ${textsUI[language].songsCollected}: <span class="tooltip-value">${info?.song_count || 0}</span>
   `;
 
   // 将 infoDiv 添加到 clusterEl 下

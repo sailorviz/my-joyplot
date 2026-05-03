@@ -29,7 +29,7 @@ export function clusterTimezoneOfAlbum(clusterElsMap, timelineSvg, xScale, ticks
     .call(xAxis)
     .call(g => g.selectAll(".tick text")
       .style("font-weight", d => boundaries.some(b => +b === +d) ? "bold" : "normal")
-      .style("fill", d => boundaries.some(b => +b === +d) ? "#666" : "#333")
+      .style("fill", d => boundaries.some(b => +b === +d) ? "#F5F7FA" : "#c6c8d0")
       .attr("y", d => boundaries.some(b => +b === +d) ? 25 : 10) // ✅ 将文字下移 20 像素
       .style("font-size", d => boundaries.some(b => +b === +d) ? 18 : 12));
 
@@ -46,8 +46,8 @@ export function clusterTimezoneOfAlbum(clusterElsMap, timelineSvg, xScale, ticks
     .attr("x2", d => xScale(d))
     .attr("y1", dividerY1 + 18)
     .attr("y2", dividerY1 - dividerHeight)
-    .attr("stroke", "#888")
-    .attr("stroke-width", 3)
+    .attr("stroke", "#F5F7FA")
+    .attr("stroke-width", 2)
     .attr("stroke-dasharray", "3,3")
     .attr("opacity", 0.7);
 
@@ -129,7 +129,8 @@ export function clusterTimezoneOfAlbum(clusterElsMap, timelineSvg, xScale, ticks
       //   cluster.style.transform = `translate(${tx}px, ${ty}px) scale(0.35)`;
       // }
 
-      tooltip.innerHTML = `<strong>${album}</strong><br>Year: ${releaseYear}`;
+      tooltip.innerHTML = `<strong>${album}</strong><br>
+      Year: <span class="tooltip-value">${releaseYear}</span>`;
       tooltip.style.left = `${e.clientX - rect.left + 10}px`;
       tooltip.style.top = `${e.clientY - rect.top - 40}px`;
       tooltip.style.opacity = 1;

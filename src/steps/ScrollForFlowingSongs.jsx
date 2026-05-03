@@ -285,9 +285,6 @@ export default function ScrollForFlowingSongs() {
         <div className="scrolling-text">
           <ReactMarkdown>{artistSteps[9]}</ReactMarkdown>
         </div>
-        <div className="scrolling-text">
-          <ReactMarkdown>{artistSteps[10]}</ReactMarkdown>
-        </div>
         <div className="scrollingTextEndStep"></div>
       </div>  
 

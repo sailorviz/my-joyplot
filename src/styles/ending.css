@@ -1,7 +1,7 @@
 /* styles/ending.css */
 .ending-section {
   min-height: 100vh;
-  background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
+  background: var(--color-background-base);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,32 +9,17 @@
   position: relative;
 }
 
-/* 可选：加一点星尘效果 */
-.ending-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.15), transparent);
-  background-size: 50px 50px;
-  pointer-events: none;
-}
-
 .ending-container {
-  max-width: 700px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-}
-
-.ending-content {
-  color: #e0e0e0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  line-height: 1.8;
-  text-align: center;
+  /* 窄宽度居中 */
+  max-width: 550px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem;
+  color: var(--color-text-secondary);
+  text-align: left;
+  font-size: 1rem;
+  line-height: var(--line-height-relaxed);
 }
 
 /* 标题样式 */

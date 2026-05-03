@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import scrollama from "scrollama";
 import "../styles/intro.css";
 import ReactMarkdown from "react-markdown";
-import rehypeRaw from "rehype-raw";  // 👈 新增
 import { useLanguage } from "../components/LanguageContext";
 
 export default function ScrollForIntro(){
@@ -11,14 +10,18 @@ export default function ScrollForIntro(){
   const scrollerRef = useRef(null);
   const { language } = useLanguage(); // 获取当前语言
   const textsUI = {
-      zh: { 
-          projectName: '皮皮帆的音乐自画像',  // 或者 '皮皮帆·音乐自画像'
-          creatorName: '来自 皮皮帆' 
-      },
-      en: { 
-          projectName: "Macy's Musical Self-Portrait",
-          creatorName: 'By Macy Yang' 
-      }
+    zh: { 
+      projectName: '皮皮帆的音乐自画像',
+      subtitle: '2299 首歌，8 个月，一张数据自画像',  // 新增
+      creatorName: '来自 皮皮帆',
+      publishedTime: '2025.01 — 2025.08'  // 新增
+    },
+    en: { 
+      projectName: "Macy's Musical Self-Portrait",
+      subtitle: '2,299 songs, 8 months, one musical universe',  // 新增
+      creatorName: 'By Macy Yang',
+      publishedTime: 'Jan 2025 — Aug 2025'  // 新增
+    }
   };
   
   useEffect(() => {
@@ -80,14 +83,14 @@ export default function ScrollForIntro(){
       <div className="sticky-container">
         <div className="sticky-headline">
         <h1 className="title">{textsUI[language].projectName}</h1>
-          <p className="subtitle"></p>
+          <p className="subtitle">{textsUI[language].subtitle}</p>
           <p className="author">{textsUI[language].creatorName}</p>
-          <p className="published-time"></p>
+          <p className="published-time">{textsUI[language].publishedTime}</p>
         </div>
 
         {activeStep !== null && activeStep >= 0 && steps[activeStep] && (
           <div className={`scroll-intro fade-in`}>
-            <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+            <ReactMarkdown>
               {steps[activeStep]}
             </ReactMarkdown>
           </div>

@@ -2,7 +2,8 @@
   position: relative;   /* 参考定位，子元素 sticky 以此为边界 */
   height: auto;        /* 给滚动动画留出空间 */
   margin-bottom: 20vh;
-  outline: 3px solid yellow;
+  background: var(--color-background-base);
+  color: var(--color-text-secondary);
 }
 
 .hpcp-example-stickyContainer {
@@ -15,11 +16,10 @@
 }
 
 #hpcp-example-container {
-  width: 75%;              /* 或你想要的比例 */
+  width: 70%;              /* 或你想要的比例 */
   height: 100%;            /* 必须 100% */
   display: flex;
   flex-direction: column;
-  background: #1a1a1a;
   overflow: hidden;
 }
 
@@ -40,10 +40,15 @@
 /* 右侧文字区 */
 .hpcp-example-right{
   top: 0;
-  width: 25%;
-  padding: 4rem 2rem;
-  display: flex;
+  width: 30%;
   align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding-top: 35vh;
+  padding-left: 1vw;
+  padding-right: 2vw;
+  text-align: left;
+  color: var(--color-text-secondary);
 }
 
 .hpcp-example-stage {
@@ -61,20 +66,19 @@
   flex: 0 0 auto;   /* 不参与弹性分配 */
   display: flex;
   align-items: center;
-  justify-content: center;               
+  justify-content: center;  
+  margin-bottom: 8vh;             
 }
 
 .hpcp-example-header {
   display: inline-flex;       /* inline-flex 保证整体可以居中 */
   align-items: center;        /* 垂直居中 */
-  
-  gap: 10px;                  /* 标题和按钮之间的间隙，可调 */
 }
 
 .hpcp-example-title{
-  font-size: clamp(1rem, 1.5vw, 1.4rem);  /* 🔥 自适应 */
-  font-weight: 600;
-  color:#ffffff;
+  color:var(--color-text-primary);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: var(--font-weight-semibold);
 }
 
 .hpcp-example-legend-wrapper .legend-title {
@@ -110,9 +114,7 @@
   justify-content: space-between;   /* weak 在左，strong 在右 */
   max-width: 320px;
   width: 100%;
-  font-size: 0.82rem;
-  color: #ddd;
-  padding: 0 4px;
+  font-size: 0.75rem;
 }
 
 /* spectrogram 会自动适应 上层容器 宽度 */
@@ -121,7 +123,6 @@
   position: relative;
   min-height: 0;                   /* 防止 flex 子元素溢出（非常重要！） */
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.1);
 }
 
 .hpcp-example-spectrogram-canvas {
@@ -134,9 +135,7 @@
 
 .hpcp-example-text{
   font-size: 1rem;
-  line-height: 1.6;
-  max-width: 320px;
-  color: white;
+  line-height: var(--line-height-regular);
 }
 
 .scrollingTextContainer-hpcp-example {

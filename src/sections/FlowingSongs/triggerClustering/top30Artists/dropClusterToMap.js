@@ -120,8 +120,8 @@ export function dropClusterToMap(containerRef, artistInfos, hoverVersionRef, lan
       .enter()
       .append("path")
       .attr("d", path)
-      .attr("fill", "#ddd")
-      .attr("stroke", "#aaa")
+      .attr("fill", "#c6c8d0")
+      .attr("stroke", "#898da0")
       .attr("stroke-width", 1);
     
     // // 地图上升
@@ -267,7 +267,7 @@ export function dropClusterToMap(containerRef, artistInfos, hoverVersionRef, lan
             .duration(zoomDuration)
             .attr("transform", `translate(${centroidX},${centroidY}) scale(${zoomScale}) translate(${-centroidX},${-centroidY})`);            
           // 高亮 cluster 所属的 country
-          countryPaths.attr("fill", d => d.properties.name === country ? "#f8c471" : "#ddd");
+          countryPaths.attr("fill", d => d.properties.name === country ? "#C355F5" : "#ddd");
           // 创建 text 元素（如果不存在就创建）
           const countryClass = `country-label-${country.replace(/\s+/g,'-')}`;
           let label = mapGroup.select(`text.country-label-${countryClass}`);
@@ -276,8 +276,8 @@ export function dropClusterToMap(containerRef, artistInfos, hoverVersionRef, lan
               .attr("class", `country-label-${countryClass}`)
               .attr("text-anchor", "middle")
               .attr("dominant-baseline", "middle")
-              .attr("font-size", 20)
-              .attr("fill", "#8a8888ff")
+              .attr("font-size", "2rem")
+              .attr("fill", "#F5F7FA")
               .text(countryRaw);
           }
           label.attr("x", centroidX).attr("y", centroidY).style("opacity", 1);

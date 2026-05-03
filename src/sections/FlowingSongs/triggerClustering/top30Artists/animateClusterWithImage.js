@@ -28,18 +28,6 @@ export function animateClusterWithImages(containerRef, allSongs, artistInfos, la
   if (!tooltip) {
     tooltip = document.createElement("div");
     tooltip.className = "artist-tooltip";
-    Object.assign(tooltip.style, {
-      position: "absolute",
-      padding: "8px 12px",
-      background: "rgba(0,0,0,0.75)",
-      color: "white",
-      borderRadius: "8px",
-      fontSize: "12px",
-      pointerEvents: "none", // ✅ 一定要有
-      opacity: 0,
-      transition: "opacity 0.2s ease",
-      zIndex: 9999
-    });
     containerRef.current.appendChild(tooltip);
   }
 
@@ -141,20 +129,85 @@ export function animateClusterWithImages(containerRef, allSongs, artistInfos, la
 
       tooltip.innerHTML = `
         <strong>${artist}</strong><br/>
-        ${textsUI[language].gender}: ${info?.singer_sex || "Unknown"}<br/>
-        ${textsUI[language].country}: ${info?.Country || "Unknown"}<br/>
-        ${textsUI[language].genre}: ${info?.Genre || "Unknown"}<br/>
-        ${textsUI[language].songsCollected}: ${info?.song_count || 0}
+        ${textsUI[language].gender}: <span class="tooltip-value">${info?.singer_sex || "Unknown"}</span><br/>
+        ${textsUI[language].country}: <span class="tooltip-value">${info?.Country || "Unknown"}</span><br/>
+        ${textsUI[language].genre}: <span class="tooltip-value">${info?.Genre || "Unknown"}</span><br/>
+        ${textsUI[language].songsCollected}: <span class="tooltip-value">${info?.song_count || 0}</span>
       `;
 
-      tooltip.style.left = `${e.clientX - rect.left + 10}px`;
-      tooltip.style.top = `${e.clientY - rect.top - 40}px`;
-      tooltip.style.opacity = 1;
+      // tooltip.style.left = `${e.clientX - rect.left + 10}px`;
+      // tooltip.style.top = `${e.clientY - rect.top - 40}px`;
+      // tooltip.style.opacity = 1;
+      // 等待 DOM 更新后计算位置
+      requestAnimationFrame(() => {
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const tooltipWidth = tooltipRect.width;
+        const tooltipHeight = tooltipRect.height;
+        
+        let left = e.clientX + 15;
+        let top = e.clientY - 40;
+        
+        // 右边界检测
+        if (left + tooltipWidth > window.innerWidth) {
+          left = e.clientX - tooltipWidth - 15;
+        }
+        
+        // 左边界检测
+        if (left < 0) {
+          left = 10;
+        }
+        
+        // 上边界检测
+        if (top < 0) {
+          top = e.clientY + 20;
+        }
+        
+        // 下边界检测
+        if (top + tooltipHeight > window.innerHeight) {
+          top = e.clientY - tooltipHeight - 10;
+        }
+        
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+        tooltip.style.opacity = 1;
+      });
     };
 
-      const initialMouseMove = (e) => {
-      tooltip.style.left = `${e.clientX - rect.left + 10}px`;
-      tooltip.style.top = `${e.clientY - rect.top - 40}px`;
+    const initialMouseMove = (e) => {
+      // tooltip.style.left = `${e.clientX - rect.left + 10}px`;
+      // tooltip.style.top = `${e.clientY - rect.top - 40}px`;
+      requestAnimationFrame(() => {
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const tooltipWidth = tooltipRect.width;
+        const tooltipHeight = tooltipRect.height;
+        
+        let left = e.clientX + 15;
+        let top = e.clientY - 40;
+        
+        // 右边界检测
+        if (left + tooltipWidth > window.innerWidth) {
+          left = e.clientX - tooltipWidth - 15;
+        }
+        
+        // 左边界检测
+        if (left < 0) {
+          left = 10;
+        }
+        
+        // 上边界检测
+        if (top < 0) {
+          top = e.clientY + 20;
+        }
+        
+        // 下边界检测
+        if (top + tooltipHeight > window.innerHeight) {
+          top = e.clientY - tooltipHeight - 10;
+        }
+        
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+        tooltip.style.opacity = 1;
+      });
     };
 
     const initialMouseLeave = () => {

@@ -25,18 +25,6 @@ export function animateClusterOfAlbumWithImage(containerRef, allSongs, albumInfo
   if (!tooltip) {
     tooltip = document.createElement("div");
     tooltip.className = "album-tooltip";
-    Object.assign(tooltip.style, {
-      position: "absolute",
-      padding: "8px 12px",
-      background: "rgba(0,0,0,0.75)",
-      color: "white",
-      borderRadius: "8px",
-      fontSize: "12px",
-      pointerEvents: "none", // ✅ 一定要有
-      opacity: 0,
-      transition: "opacity 0.2s ease",
-      zIndex: 9999
-    });
     containerRef.current.appendChild(tooltip);
   }
 
@@ -143,24 +131,89 @@ export function animateClusterOfAlbumWithImage(containerRef, allSongs, albumInfo
       const t = tooltipTexts[language] || tooltipTexts.en;
 
       tooltip.innerHTML = `
-        <strong>《${artist}》</strong><br/>
-        <strong>${t.artists}</strong>: ${info?.artist_name || "Unknown"}<br/>
-        <strong>${t.genre}</strong>: ${info?.Genre || "Unknown"}<br/>
-        <strong>${t.year}</strong>: ${info?.release_year || "Unknown"}<br/>
-        <strong>${t.language}</strong>: ${info?.Language || "Unknown"}<br/>
-        <strong>${t.songsCollected}</strong>: ${info?.song_count || 0}<br/>
-        <strong>${t.totalTracks}</strong>: ${info?.total_tracks || 0}<br/>
-        <strong>${t.collectionRate}</strong>: ${info?.collection_rate || 0}%
+        <strong>${artist}</strong><br/>
+        ${t.artists}: <span class="tooltip-value">${info?.artist_name || "Unknown"}</span><br/>
+        ${t.genre}: <span class="tooltip-value">${info?.Genre || "Unknown"}</span><br/>
+        ${t.year}: <span class="tooltip-value">${info?.release_year || "Unknown"}</span><br/>
+        ${t.language}: <span class="tooltip-value">${info?.Language || "Unknown"}</span><br/>
+        ${t.songsCollected}: <span class="tooltip-value">${info?.song_count || 0}</span><br/>
+        ${t.totalTracks}: <span class="tooltip-value">${info?.total_tracks || 0}</span><br/>
+        ${t.collectionRate}: <span class="tooltip-value">${info?.collection_rate || 0}%</span>
       `;
 
-      tooltip.style.left = `${e.clientX - rect.left + 10}px`;
-      tooltip.style.top = `${e.clientY - rect.top - 40}px`;
-      tooltip.style.opacity = 1;
+      // tooltip.style.left = `${e.clientX - rect.left + 10}px`;
+      // tooltip.style.top = `${e.clientY - rect.top - 40}px`;
+      // tooltip.style.opacity = 1;
+            // 等待 DOM 更新后计算位置
+      requestAnimationFrame(() => {
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const tooltipWidth = tooltipRect.width;
+        const tooltipHeight = tooltipRect.height;
+        
+        let left = e.clientX + 15;
+        let top = e.clientY - 40;
+        
+        // 右边界检测
+        if (left + tooltipWidth > window.innerWidth) {
+          left = e.clientX - tooltipWidth - 15;
+        }
+        
+        // 左边界检测
+        if (left < 0) {
+          left = 10;
+        }
+        
+        // 上边界检测
+        if (top < 0) {
+          top = e.clientY + 20;
+        }
+        
+        // 下边界检测
+        if (top + tooltipHeight > window.innerHeight) {
+          top = e.clientY - tooltipHeight - 10;
+        }
+        
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+        tooltip.style.opacity = 1;
+      });
     };
 
-      const initialMouseMove = (e) => {
-      tooltip.style.left = `${e.clientX - rect.left + 10}px`;
-      tooltip.style.top = `${e.clientY - rect.top - 40}px`;
+    const initialMouseMove = (e) => {
+      // tooltip.style.left = `${e.clientX - rect.left + 10}px`;
+      // tooltip.style.top = `${e.clientY - rect.top - 40}px`;
+      requestAnimationFrame(() => {
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const tooltipWidth = tooltipRect.width;
+        const tooltipHeight = tooltipRect.height;
+        
+        let left = e.clientX + 15;
+        let top = e.clientY - 40;
+        
+        // 右边界检测
+        if (left + tooltipWidth > window.innerWidth) {
+          left = e.clientX - tooltipWidth - 15;
+        }
+        
+        // 左边界检测
+        if (left < 0) {
+          left = 10;
+        }
+        
+        // 上边界检测
+        if (top < 0) {
+          top = e.clientY + 20;
+        }
+        
+        // 下边界检测
+        if (top + tooltipHeight > window.innerHeight) {
+          top = e.clientY - tooltipHeight - 10;
+        }
+        
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+        tooltip.style.opacity = 1;
+      });
     };
 
     const initialMouseLeave = () => {

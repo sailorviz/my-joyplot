@@ -14,28 +14,27 @@
 
 .sticky-headline {
   position: absolute;
-  top: 20%; /* 根据需要调整垂直位置 */
-  left: 0;
-  right: 0;
+  top: 10%; /* 根据需要调整垂直位置 */
+  min-width: 80vw;
   /* 如果需要水平居中 */
   text-align: center;
+  overflow: hidden;
 }
 
 .scroll-intro {
   /* 窄宽度居中 */
-  max-width: 560px;
+  max-width: 550px;
   width: 90%;
   margin-left: auto;
   margin-right: auto;
+  /* 文字样式 */
+  text-align: left;
+  padding: 2rem;
   
   /* 原有的定位（底部固定位置） */
   position: absolute;
-  bottom: 15%;           /* 从 20% 微调到 15% 让视觉平衡 */
-  left: 0;
-  right: 0;
-  
-  /* 文字样式 */
-  text-align: left;
+  bottom: 20%;           /* 从 20% 微调到 15% 让视觉平衡 */
+
   
   /* 过渡 */
   transition: opacity 0.3s ease;
@@ -61,7 +60,33 @@
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
   letter-spacing: var(--letter-spacing-wider);
+  color: var(--color-primary);
+  /* ... */
+}
+
+.intro .subtitle {
+  font-size: clamp(1rem, 4vw, 1.5rem);;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-wider);
   color: var(--color-text-primary);
+  /* ... */
+}
+
+.intro .author {
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-wider);
+  /* ... */
+}
+
+.intro .published-time {
+  font-size: clamp(0.5rem, 1vw, 0.875rem);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-wider);
+  color: var(--color-text-tertiary);
   /* ... */
 }
 

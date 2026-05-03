@@ -86,7 +86,7 @@ export function dropAlbumClusterToTimeline(containerRef, clusterElsMap, timeline
         const ty = parseFloat(cluster.dataset.dropTy) || 0;
         cluster.style.transform = `translate(${tx}px, ${ty}px) scale(0.35)`;
 
-        tooltip.innerHTML = `<strong>${album}</strong><br>${t.year}: ${releaseYear}`;
+        tooltip.innerHTML = `<strong>${album}</strong><br>${t.year}: <span class="tooltip-value">${releaseYear}</span>`;
         tooltip.style.left = `${e.clientX - rect.left + 10}px`;
         tooltip.style.top = `${e.clientY - rect.top - 40}px`;
         tooltip.style.opacity = 1;

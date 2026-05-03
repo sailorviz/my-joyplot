@@ -1,7 +1,8 @@
 .hpcpIllustration {
   position: relative;
   margin-bottom: 20vh;
-  outline: 3px solid blue;
+  background: var(--color-background-base);
+  color: var(--color-text-secondary);
 }
 
 /* ===================== */
@@ -10,18 +11,20 @@
 
 .text-hpcpIllustration {
   height: 100vh;
-  background: red;
+  /* 窄宽度居中 */
+  max-width: 550px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem;
 
   /* 新增 ↓ */
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
 
-  text-align: center;
-
-  /* 控制阅读宽度 */
-  padding-left: 20vw;
-  padding-right: 20vw;
+  text-align: left;
 }
 
 
@@ -56,8 +59,6 @@
   /* 新增 ↓ 控制宽度 */
   width: 70vw;
   max-width: 1200px;
-
-  background: rgba(245, 85, 85, 0.5);
   position: relative;
 }
 

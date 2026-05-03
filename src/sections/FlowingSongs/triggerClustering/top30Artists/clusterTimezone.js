@@ -31,7 +31,7 @@ export function clusterTimezone(clusterElsMap, timelineSvg, xScale, ticks, artis
     .call(xAxis)
     .call(g => g.selectAll(".tick text")
       .style("font-weight", d => boundaries.some(b => +b === +d) ? "bold" : "normal")
-      .style("fill", d => boundaries.some(b => +b === +d) ? "#666" : "#333")
+      .style("fill", d => boundaries.some(b => +b === +d) ? "#F5F7FA" : "#c6c8d0")
       // .style("dy", d => boundaries.some(b => +b === +d) ? "3em" : "1.5em")
       .attr("y", d => boundaries.some(b => +b === +d) ? 25 : 10) // ✅ 将文字下移 20 像素
       .style("font-size", d => boundaries.some(b => +b === +d) ? 18 : 12));
@@ -49,8 +49,8 @@ export function clusterTimezone(clusterElsMap, timelineSvg, xScale, ticks, artis
     .attr("x2", d => xScale(d))
     .attr("y1", dividerY1 + 18)
     .attr("y2", dividerY1 - dividerHeight)
-    .attr("stroke", "#888")
-    .attr("stroke-width", 3)
+    .attr("stroke", "#F5F7FA")
+    .attr("stroke-width", 2)
     .attr("stroke-dasharray", "3,3")
     .attr("opacity", 0.7);
 

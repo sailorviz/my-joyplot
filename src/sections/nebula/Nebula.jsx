@@ -29,7 +29,7 @@ const Nebula = forwardRef((_, ref) => {
   const DOT_CONFIG = {
     size: 10,
     opacity: 0.9,
-    color: [255, 255, 255] // 🟢 优化：预设为 RGB 数组，避免每一帧解析字符串
+    color: [160, 196, 255]// 🟢 优化：预设为 RGB 数组，避免每一帧解析字符串
   };
   const SIZE_SCALE_TOP50 = 2.0;
   const freezeTriggeredRef = useRef(false);
@@ -394,7 +394,7 @@ const Nebula = forwardRef((_, ref) => {
     // 🟢 优化：只有在必要阶段才更新颜色和文字属性
     if (a < 1) {
       el.style.fontSize = `${p.fontSize * (1 - a)}px`;
-      el.style.color = `rgba(255,255,255,${1 - a})`;
+      el.style.color = `rgba(160,196,255,${1 - a})`;
     }
 
     let baseColor;

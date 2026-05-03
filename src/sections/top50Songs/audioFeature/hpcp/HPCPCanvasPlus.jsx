@@ -62,7 +62,7 @@ export default function HPCPCanvasPlus({ dataPath, onDataReady, colorScale }) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // ✅ 和 CQT 对齐的 margin
-    const margin = { left: 60, right: 20, top: 50, bottom: 50 };
+    const margin = { left: 60, right: 20, top: 20, bottom: 50 };
 
     const drawWidth = width - margin.left - margin.right;
     const drawHeight = height - margin.top - margin.bottom;
