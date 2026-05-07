@@ -1,7 +1,7 @@
 import { forClusterPosition } from "./forClusterPosition";
 
 export function addRemainingSongs(containerRef, clusterData) {
-  forClusterPosition(containerRef, clusterData, ({ artist, data, clusterIndex, clusterOpacity }) => {
+  forClusterPosition(containerRef, clusterData, ({ artist, data, clusterIndex, clusterOpacity }) => {    
     data.remainingSongs.forEach((song, idx) => {
       const el = document.createElement("div"); // 在初始的100个div之后创建新的div
       el.className = "song adding-song";

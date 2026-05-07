@@ -330,7 +330,7 @@ const JoyplotBase = forwardRef((_, ref) => {
     domainRef.current = initialJoyplot.domain;
     initialJoyplotRef.current = initialJoyplot;
     waveformStatesRef.current = setWaveformStates(containerRef.current, allInteractionLockedRef, clickLockedRef);
-  
+
   }, [mergedSongs]);
 
   useEffect(() => {

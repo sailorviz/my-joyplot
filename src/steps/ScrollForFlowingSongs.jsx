@@ -60,7 +60,10 @@ export default function ScrollForFlowingSongs() {
           switch (index) {
             case 0:
               floatingRef.current.pause();
-              floatingRef.current.triggerClustering();
+              floatingRef.current.triggerClusteringFake();
+              setTimeout(() => {
+                floatingRef.current.triggerClustering();
+              }, 50);  // 很短的延迟，用户几乎感知不到
               break;
             case 1:
               floatingRef.current.animateClusterWithImages();
@@ -82,6 +85,7 @@ export default function ScrollForFlowingSongs() {
               break; 
             case 9:
               floatingRef.current.pause();
+              floatingRef.current.triggerClusteringByAlbumFake();
               floatingRef.current.triggerClusteringByAlbum();
               break;  
             case 11:

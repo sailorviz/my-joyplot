@@ -36,6 +36,8 @@ import { backToInitialJumping } from "./triggerClustering/top30Albums/backToInit
 import { continueToJumpOutFamily } from "./triggerClustering/top30Albums/continueToJumpOutFamily";
 import { backToInitialJumpingF } from "./triggerClustering/top30Albums/backToInitialJumpingF";
 import { useLanguage } from "../../components/LanguageContext";
+import { triggerClusteringFake } from "./triggerClustering/top30Artists/triggerClusteringFake";
+import { triggerClusteringByAlbumFake } from "./triggerClustering/top30Albums/triggerClusteringByAlbumFake";
 
 const FloatingSongs = forwardRef((_, ref) => {
   const [songs, setSongs] = useState([]);
@@ -171,6 +173,7 @@ const FloatingSongs = forwardRef((_, ref) => {
     pause: () => { runningRef.current = false; cancelAnimationFrame(animationRef.current); },
     resetFloating: () => resetFloating(containerRef, runningRef, animateRef, positionsRef, opacityRef, speedRef, MAX_VISIBLE),
     triggerClustering: () => triggerClustering(containerRef, songs),
+    triggerClusteringFake: () => triggerClusteringFake(containerRef, songs),
     animateClusterWithImages: () => animateClusterWithImages(containerRef, songs, artistInfos, language),
     hideImages: () => hideImages(containerRef.current),
     focusTop1Artist: () => focusTop1Artist(containerRef.current, artistInfos, language),
@@ -188,6 +191,7 @@ const FloatingSongs = forwardRef((_, ref) => {
     backToTimeline : () => backToTimeline(containerRef),
     backToMap : () => backToMap(containerRef, MAX_VISIBLE),
     triggerClusteringByAlbum : () => triggerClusteringByAlbum(containerRef, songs),
+    triggerClusteringByAlbumFake : () => triggerClusteringByAlbumFake(containerRef, songs),
     animateClusterOfAlbumWithImage : () => animateClusterOfAlbumWithImage(containerRef, songs, albumInfos, language),
     hideCovers : () => hideCovers(containerRef.current),
     focusTop1Album : () => focusTop1Album(containerRef.current, albumInfos, language),
