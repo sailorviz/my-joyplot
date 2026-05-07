@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import * as d3 from "d3";
-import { useLanguage } from "../../../../components/LanguageContext";
+// import { useLanguage } from "../../../../components/LanguageContext";
 
 export default function CreateHPCPCircle({
   songs,
@@ -12,21 +12,6 @@ export default function CreateHPCPCircle({
   const containerRef = useRef(null);
   const [size, setSize] = useState({ width: 600, height: 600 });
   const [layoutReady, setLayoutReady] = useState(false);
-
-  const { language } = useLanguage();
-
-  // 翻译字典
-  const hpcpGuideTexts = {
-    zh: {
-      fanArea: '扇形区域 = 一首歌',
-      ringArea: '环形区域 = 一个音高类别'
-    },
-    en: {
-      fanArea: 'Fan-shaped area = one song',
-      ringArea: 'Circular area = one pitch class'
-    }
-  };
-  const t = hpcpGuideTexts[language] || hpcpGuideTexts.en;
 
   // =========================
   // resize
@@ -291,14 +276,14 @@ export default function CreateHPCPCircle({
                 fill={c.color}
                 stroke={
                   isDominantHighlight
-                    ? "red"
+                    ? "var(--color-primary)"
                     : isActive
                       ? "white"
                       : "rgba(255,255,255,0.05)"
                 }
                 strokeWidth={
                   isDominantHighlight
-                    ? 3
+                    ? 5
                     : isActive
                       ? 1.5
                       : 0.5
@@ -373,27 +358,6 @@ export default function CreateHPCPCircle({
           </text>
         )}
       </svg>
-
-      {/* 引导文字提示 */}
-      <div 
-        style={{
-          position: "absolute",
-          top: "5vh",
-          paddingLeft: "0",
-          background: "rgba(0,0,0,0.8)",
-          color: "#fff",
-          borderRadius: "8px",
-          fontSize: "13.8px",
-          pointerEvents: "none",
-          zIndex: 30,
-          boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
-        }}
-      >
-        <span style={{ opacity: 0.9 }}>
-          {t.fanArea}<br />
-          {t.ringArea}
-        </span>
-      </div>
     </div>
   );
 }

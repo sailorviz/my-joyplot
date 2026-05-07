@@ -86,10 +86,25 @@ const BaseSquares = forwardRef((_, ref) => {
     const container = containerRef.current;
 
     const cols = 10;
-    const size = 90; // 每个 cluster 的边长
-    const gap = 40;
+    const rows = 5;
+    // const size = 90; // 每个 cluster 的边长
+    // const gap = 40;
     const offsetX = 110; // cluster距离container的offset
-    const offsetY = 50;
+    const offsetY = 100;
+
+    const containerRect = container.getBoundingClientRect();
+    const containerWidth = containerRect.width;
+    const containerHeight = containerRect.height;
+    
+    // 计算每个 cluster 的边长（基于容器尺寸）
+    const availableWidth = containerWidth - offsetX * 2; // 左右留白各 110px
+    const availableHeight = containerHeight - offsetY * 2; // 上下留白各 50px
+    
+    const sizeByWidth = availableWidth / (cols + (cols - 1) * 0.3); // gap 比例约为边长的 30%
+    const sizeByHeight = availableHeight / (rows + (rows - 1) * 0.3);
+    
+    const size = Math.min(sizeByWidth, sizeByHeight, 120); // 最大不超过 120px
+    const gap = size * 0.3; // gap 为边长的 30%
 
     if (!container) return;
     container.replaceChildren(); // 比 innerHTML = "" 更安全

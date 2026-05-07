@@ -47,7 +47,7 @@
   display: flex;
   flex-direction: column;
   /* gap: 1.2rem; */
-  margin-top: 1vh;
+  margin-top: 2vh;
   height: 100%;
 }
 
@@ -61,18 +61,19 @@
   color: var(--color-text-primary);
   font-size: clamp(1.25rem, 3vw, 1.75rem);
   font-weight: var(--font-weight-semibold);
-  margin-bottom: 2vh;
+  margin-bottom: 8vh;
 }
 
 .hpcp-comparision-selector {
   display: flex;
   justify-content: center;
-  gap: 2vw;
+  gap: 3vw;
+  margin-bottom: 1vh;
 }
 
 .hpcp-comparision-selector label {
   font-family: var(--font-family-base);
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
   letter-spacing: var(--letter-spacing-wide);

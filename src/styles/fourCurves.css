@@ -84,7 +84,7 @@
 
 .four-curves-songs:hover .song-dot {
   transform: scale(1.8);
-  background: #ffffff;
+  background: var(--color-text-primary);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 
@@ -106,8 +106,8 @@
 }
 
 .four-curves-songs.playing .song-dot {
-  background: #00ffcc;
-  box-shadow: 0 0 12px rgba(0, 255, 204, 0.9);
+  background: var(--color-secondary);
+  box-shadow: 0 0 12px var(--color-secondary);
   transform: scale(1.9);
 }
 
@@ -124,16 +124,35 @@
 }
 
 .song-tooltip {
-  position: fixed;
+  position: absolute;
+  padding: 10px 14px;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(12px);
+  color: var(--color-text-primary);
+  border-radius: 10px;
+  font-family: var(--font-family-base);
+  font-size: 0.75rem;
+  line-height: 1.6;
   pointer-events: none;
-  background: rgba(0,0,0,0.85);
-  color: white;
-  padding: 6px 8px;
-  font-size: 12px;
-  border-radius: 4px;
+  z-index: 10000;
   opacity: 0;
-  transition: opacity 0.15s ease;
-  z-index: 9999;
+  transition: opacity 0.2s ease;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  max-width: 240px;
+  white-space: normal;
+}
+
+.song-tooltip strong {
+  color: var(--color-secondary);
+  font-size: 1rem;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.song-tooltip .tooltip-value {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
 }
 
 /* 2x2 Grid 容器 */
@@ -174,8 +193,9 @@
 
 /* KDE 卡片标题 */
 .kde-card-title {
-  font-size: 12px;
-  color: #ccc;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
   text-align: center;
   width: 100%;
   margin-bottom: 4px;
@@ -183,18 +203,18 @@
 
 /* x-axis 与曲线 */
 .kde-card svg .curve {
-  stroke-width: 2px;
+  stroke-width: 1.5px;
   fill: none;
 }
 
 .kde-card svg .x-axis path,
 .kde-card svg .x-axis line {
-  stroke: #aaa;
+  stroke: var(--color-text-tertiary);
 }
 
 .kde-card svg .x-axis text {
-  fill: #aaa;
-  font-size: 10px;
+  fill: var(--color-text-secondary);
+  font-size: 9px;
 }
 
 /* tooltip 样式保持不变 */

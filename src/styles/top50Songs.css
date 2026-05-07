@@ -30,6 +30,14 @@
   z-index: 999;
 }
 
+.songs-titleLegend {
+  z-index: 1;
+}
+
+.sankey {
+  z-index: 2;
+}
+
 .song-title {
   font-weight: bold;
   font-size: 12px;
@@ -46,23 +54,67 @@
   text-align: left;
 }
 
-.songs-tooltip {
-  position: fixed;
-  padding: 6px 10px;
-  background: rgba(0, 0, 0, 0.78);
-  color: white;
-  font-size: 12px;
-  border-radius: 6px;
+.songs-tooltip, .density-tooltip, 
+.popularity-kde-tooltip,
+.treemap-tooltip,
+.sankey-tooltip {
+  position: absolute;
+  padding: 10px 14px;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(12px);
+  color: var(--color-text-primary);
+  border-radius: 10px;
+  font-family: var(--font-family-base);
+  font-size: 0.75rem;
+  line-height: 1.6;
   pointer-events: none;
-  white-space: nowrap;
-  z-index: 9999;
+  z-index: 10000;
   opacity: 0;
-  transition: opacity 0.15s;
+  transition: opacity 0.2s ease;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  max-width: 240px;
+  white-space: normal;
+}
+
+.songs-tooltip strong, 
+.density-tooltip strong,
+.treemap-tooltip strong,
+.sankey-tooltip strong {
+  color: var(--color-secondary);
+  font-size: 1rem;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.songs-tooltip .tooltip-value, 
+.density-tooltip .tooltip-value,
+.treemap-tooltip .tooltip-value,
+.sankey-tooltip .tooltip-value {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+
+.popularity-kde-tooltip b {
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.popularity-kde-tooltip .tooltip-value-allsongs {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-secondary);
+}
+
+.popularity-kde-tooltip .tooltip-value-top50songs {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
 }
 
 .playing-highlight {
-  outline: 3px solid #ffdd57;
-  box-shadow: 0 0 12px rgba(255, 221, 87, 0.9);
+  outline: 3px solid var(--color-secondary);
+  box-shadow: 0 0 12px var(--color-secondary);
   transition: box-shadow 0.2s, outline 0.2s;
 }
 

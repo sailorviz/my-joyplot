@@ -31,7 +31,7 @@ export function drawReleaseYearDensity(svg, releaseYears, xScale, timelineHeight
     densityPath = svg.append("path")
       .attr("class", "release-density")
       .attr("fill", "none")
-      .attr("stroke", "steelblue")
+      .attr("stroke", "var(--color-primary-darker)")
       .attr("stroke-width", 2)
       .attr("opacity", 0); // 默认隐藏
   }
@@ -39,15 +39,15 @@ export function drawReleaseYearDensity(svg, releaseYears, xScale, timelineHeight
   if (densityArea.empty()) {
     densityArea = svg.append("path")
       .attr("class", "release-density-area")
-      .attr("fill", "steelblue")
+      .attr("fill", "var(--color-primary-darker)")
       .attr("opacity", 0); // 默认隐藏
   }
 
   if (focusLine.empty()) {
     focusLine = svg.append("line")
       .attr("class", "release-focus-line")
-      .attr("stroke", "lightGray")
-      .attr("stroke-width", 1)
+      .attr("stroke", "var(--color-text-secondary)")
+      .attr("stroke-width", 2)
       .attr("y1", timelineHeight - offsetY - 140)
       .attr("y2", timelineHeight - offsetY + 20)
       .attr("stroke-dasharray", "4,1.5")
@@ -60,7 +60,7 @@ export function drawReleaseYearDensity(svg, releaseYears, xScale, timelineHeight
       .attr("r", 3)
       .attr("fill", "white")
       .attr("stroke", "white")
-      .attr("stroke-width", 2)
+      .attr("stroke-width", 1)
       .style("opacity", 0);
   }
 
@@ -68,14 +68,6 @@ export function drawReleaseYearDensity(svg, releaseYears, xScale, timelineHeight
     tooltip = d3.select("body")
       .append("div")
       .attr("class", "density-tooltip")
-      .style("position", "absolute")
-      .style("padding", "6px 10px")
-      .style("background", "white")
-      .style("border", "1px solid #ccc")
-      .style("border-radius", "6px")
-      .style("font-size", "14px")
-      .style("pointer-events", "none")
-      .style("opacity", 0);
   }
 
   // -------------------------------
@@ -176,7 +168,8 @@ export function drawReleaseYearDensity(svg, releaseYears, xScale, timelineHeight
     // tooltip
     tooltip
       .style("opacity", 1)
-      .html(`${t.year}: <strong>${year}</strong><br/>${t.songsCount}: ${count}`)
+      .html(`${t.year}: <strong>${year}</strong><br/>
+        ${t.songsCount}: <span class="tooltip-value">${count}</span>`)
       .style("left", (event.pageX + 12) + "px")
       .style("top", (event.pageY - 28) + "px");
   });

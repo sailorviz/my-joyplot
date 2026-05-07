@@ -13,7 +13,7 @@ export function drawPopularityDensity(
   language
 ) {
   const xPosition = axisX + 20;
-  const color = "steelblue";
+  const color = "var(--color-primary-darker)";
   const bandwidth = 8;
 
   // 清洗数据

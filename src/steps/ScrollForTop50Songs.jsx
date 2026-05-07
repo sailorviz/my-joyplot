@@ -123,6 +123,7 @@ export default function ScrollForTop50Songs() {
               break;
             case 9:
               baseRef.current.genreTreemapToGenreCompare();
+              baseRef.current.genreCompare();
               break;
             case 10:
               baseRef.current.moodCompareToGenreTreemap();

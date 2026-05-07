@@ -95,7 +95,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1vh;
+  margin-bottom: 2vh;
   color: var(--color-text-primary);
 }
 #joyplot-container.exploratory .controls-div  { height: 20%;}
@@ -111,7 +111,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.75rem;                     /* 减小间距 */
+  gap: 0.85rem;                     /* 减小间距 */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   flex-wrap: wrap;
 }
@@ -122,7 +122,7 @@
   flex-direction: row;
   align-items: center;
   gap: 0.35rem;                     /* 减小 label 和 select 的间距 */
-  font-size: 0.75rem;               /* 缩小标签字体 */
+  font-size: 0.85rem;               /* 缩小标签字体 */
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
 }
@@ -130,7 +130,7 @@
 /* 下拉框样式 - 使用主色优化 */
 .joyplot-controls select {
   font-family: var(--font-family-base);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: var(--font-weight-regular);
   color: var(--color-text-primary);
   background: rgba(0, 0, 0, 0.4);
@@ -170,38 +170,38 @@
 .joyplot-controls select option {
   background: var(--color-surface);
   color: var(--color-text-primary);
-  padding: 0.25rem;
+  padding: 0.3rem;
 }
 
 /* Legend 区域 */
 .joyplot-controls .joyplot-legend {
   flex-basis: 100%;
-  margin-top: 0rem;              /* 减小上边距 */
+  margin-top: 0.3rem;              /* 减小上边距 */
   border-top: 1px solid var(--color-border);
   padding-top: 0rem;             /* 减小上内边距 */
 }
 
 .joyplot-controls .joyplot-legend-title {
-  font-size: 0.75rem;               /* 缩小标题字体 */
-  margin-bottom: 0.1rem;            /* 减小下边距 */
+  font-size: 0.85rem;               /* 缩小标题字体 */
+  margin-bottom: 0.3rem;            /* 减小下边距 */
 }
 
 .joyplot-controls .joyplot-legend-items {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;                     /* 减小色块间距 */
-  max-height: 70px;                 /* 减小最大高度 */
+  max-height: 80px;                 /* 减小最大高度 */
   overflow-y: auto;
 }
 
 .joyplot-controls .joyplot-legend-item {
   gap: 0.2rem;
-  font-size: 0.55rem;               /* 缩小文字 */
+  font-size: 0.65rem;               /* 缩小文字 */
 }
 
 .joyplot-controls .joyplot-legend-color {
-  width: 8px;                       /* 缩小色块 */
-  height: 8px;
+  width: 10px;                       /* 缩小色块 */
+  height: 10px;
   border-radius: 2px;
 }
 
@@ -265,28 +265,48 @@
 }
 
 .joyplot-tooltip {
-  position: fixed;
+  position: absolute;
+  padding: 10px 14px;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(12px);
+  color: var(--color-text-primary);
+  border-radius: 10px;
+  font-family: var(--font-family-base);
+  font-size: 0.75rem;
+  line-height: 1.6;
   pointer-events: none;
-  background: rgba(0,0,0,0.85);
-  color: white;
-  padding: 6px 8px;
-  font-size: 12px;
-  border-radius: 4px;
+  z-index: 10000;
   opacity: 0;
-  transition: opacity 0.15s ease;
-  z-index: 9999;
+  transition: opacity 0.2s ease;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  max-width: 240px;
+  white-space: normal;
+}
+
+.joyplot-tooltip strong {
+  color: var(--color-secondary);
+  font-size: 1rem;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.joyplot-tooltip .tooltip-value {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
 }
 
 .joyplot-close-btn {
   position: absolute;          /* 浮在 container 上 */
-  top: 12px;                   /* 距离顶部 */
-  right: 12px;                 /* 距离右侧 */
+  top: 15px;                   /* 距离顶部 */
+  right: 25px;                 /* 距离右侧 */
   padding: 6px 10px;           /* 内边距 */
   background: rgba(50, 50, 50, 0.7); /* 半透明背景 */
-  color: #fff;                 /* 白色文字 */
+  color: var(--color-primary);                 /* 白色文字 */
   font-size: 16px;              /* 字体稍大 */
   font-weight: bold;
   cursor: pointer;
+  border: 1px solid var(--color-primary-darker);
   border-radius: 4px;           /* 圆角 */
   user-select: none;            /* 防止选中 */
   opacity: 0;                   /* 初始隐藏 */
@@ -295,7 +315,15 @@
 }
 
 .joyplot-close-btn:hover {
-  background: rgba(80, 80, 80, 0.9); /* hover 效果 */
+  background: rgba(195, 85, 245, 0.3);      /* 悬停时加深背景 */
+  border-color: rgba(195, 85, 245, 0.8);
+  color: #FFFFFF;                           /* 悬停时文字变白 */
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(195, 85, 245, 0.3); /* 主色发光效果 */
+}
+
+.joyplot-close-btn:active {
+  transform: scale(0.98);                   /* 点击反馈 */
 }
 
 /* 模式切换按钮样式 */

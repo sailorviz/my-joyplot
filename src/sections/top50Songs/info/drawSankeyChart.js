@@ -8,6 +8,7 @@ export function drawSankeyChart(container, songs, language){
   // 移除已有的 sankey / treemap
   d3.select(container).select(".sankey")?.remove();
   d3.select(container).select(".Mood-treemap")?.remove();
+  d3.select(container).select(".treemap-tooltip")?.remove();
 
   // show timeline title&legend SVG
   const oldTitleLegend = d3.select(container).select(".songs-titleLegend");
@@ -39,16 +40,16 @@ export function drawSankeyChart(container, songs, language){
   // --- Tooltip ---
   const tooltip = d3.select(container)
     .append("div")
-    .attr("class", "sankey-tooltip")
-    .style("position", "absolute")
-    .style("pointer-events", "none")
-    .style("z-index", "9999")
-    .style("opacity", 0)
-    .style("background", "rgba(0,0,0,0.75)")
-    .style("color", "#fff")
-    .style("padding", "6px 10px")
-    .style("border-radius", "4px")
-    .style("font-size", "12px");
+    .attr("class", "sankey-tooltip");
+    // .style("position", "absolute")
+    // .style("pointer-events", "none")
+    // .style("z-index", "9999")
+    // .style("opacity", 0)
+    // .style("background", "rgba(0,0,0,0.75)")
+    // .style("color", "#fff")
+    // .style("padding", "6px 10px")
+    // .style("border-radius", "4px")
+    // .style("font-size", "12px");
   const rect = container.getBoundingClientRect();
 
   // -----------------------
@@ -97,13 +98,14 @@ export function drawSankeyChart(container, songs, language){
   // -----------------------
   const width = window.innerWidth;
   const height = window.innerHeight;
-  const offsetTop = height / 6 ;
+  const offsetTop = height / 24 * 7 ;
   const offsetLeft = width / 6 ;
+  const offsetBottom = height / 10 ;
 
   const sankeyGenerator = sankey()
     .nodeWidth(20)
     .nodePadding(10)
-    .extent([[offsetLeft, offsetTop], [width - offsetLeft, height - offsetTop]]);
+    .extent([[offsetLeft, offsetTop], [width - offsetLeft, height - offsetBottom]]);
 
   const { nodes: sankeyNodes, links: sankeyLinks } = sankeyGenerator({
       nodes: nodes,  // 不要复制
@@ -118,7 +120,6 @@ export function drawSankeyChart(container, songs, language){
     .attr("class", "sankey")
     .attr("width", width)
     .attr("height", height);
-    // .style("z-index", 9999);
 
   // -----------------------
   // 4️⃣ 创建渐变 defs
@@ -267,7 +268,7 @@ export function drawSankeyChart(container, songs, language){
         .style("opacity", 1)
         .html(`
           <div><strong>${s.name} → ${t.name}</strong></div>
-          <div>${ts.songsCount}: ${d.value}</div>
+          <div>${ts.songsCount}: <span class="tooltip-value">${d.value}</span></div>
         `);
     })
     .on("mousemove", function(e){

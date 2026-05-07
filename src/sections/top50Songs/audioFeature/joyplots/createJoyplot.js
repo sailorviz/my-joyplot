@@ -65,8 +65,6 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
     .attr("class", "joyplot-svg")
     .attr("width", 0)
     .attr("height", 0);
-    // .attr("width", width)
-    // .attr("height", height + margin * 2);
   
   // 初始化 d.series
   let data = initialSongs;
@@ -107,8 +105,8 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
     inner.append("path")
       .attr("class", "joy-path-visible")
       .attr("fill", "none")
-      .attr("stroke", "#ccc")
-      .attr("stroke-width", 0.3);
+      .attr("stroke", "var(--color-text-primary)")
+      .attr("stroke-width", 0.5);
     
     // ⭐ 为 enriched 预留 group
     inner.append("g")
@@ -264,9 +262,9 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
   // --------------- 设置enriched waveforms样式--------------------
   function applyBaseEncoding() {
     layers.selectAll(".joy-path-visible")
-      .attr("stroke", "#ccc")
+      .attr("stroke", "var(--color-text-primary)")
       .attr("stroke-width", d =>
-        d.renderMode === "enriched" ? 1 : 0.3
+        d.renderMode === "enriched" ? 1 : 0.5
       )
       .attr("opacity", d =>
         d.renderMode === "enriched" ? 0 : 0.6
@@ -382,8 +380,8 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
       inner.append("path")
         .attr("class", "joy-path-visible")
         .attr("fill", "none")
-        .attr("stroke", "#ccc")
-        .attr("stroke-width", 0.3);
+        .attr("stroke", "var(--color-text-primary)")
+        .attr("stroke-width", 0.5);
 
       inner.append("g")
         .attr("class", "joy-path-enriched-group");
@@ -470,10 +468,10 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
 
       tooltip.innerHTML = `
         <strong>${d.song} - ${d.artist}</strong>
-        ${genre !== null ? `<div>${tx[filter?.type === "genre" ? "genre" : "mood"]}: ${genre}</div>` : ""}
-        ${enriched ? `<div>${tx[filter?.type === "genre" ? "mood" : "genre"]}: ${enriched}</div>` : ""}
-        ${sortValue !== null ? `<div>${tx.value}: ${sortValue}</div>` : ""}
-        ${sortDiff !== null ? `<div>${tx.diffWithTop}: ${sortDiff}</div>` : ""}
+        ${genre !== null ? `<div>${tx[filter?.type === "genre" ? "genre" : "mood"]}: <span class="tooltip-value">${genre}</span></div>` : ""}
+        ${enriched ? `<div>${tx[filter?.type === "genre" ? "mood" : "genre"]}: <span class="tooltip-value">${enriched}</span></div>` : ""}
+        ${sortValue !== null ? `<div>${tx.value}: <span class="tooltip-value">${sortValue}</span></div>` : ""}
+        ${sortDiff !== null ? `<div>${tx.diffWithTop}: <span class="tooltip-value">${sortDiff}</span></div>` : ""}
       `;
     }
   }
@@ -497,7 +495,7 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
         } else {
           const layerPath = d3.select(this).select(".joy-path-visible");
           if (!interactionLocked) {
-            layerPath.attr("stroke", "#ffcc66").attr("stroke-width", 0.6);
+            layerPath.attr("stroke", "var(--color-primary)").attr("stroke-width", 0.6);
             layers.filter(l => l.id !== d.id)
               .select(".joy-path-visible")
               .attr("stroke-width", 0.1);
@@ -535,8 +533,8 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
         // 3️⃣ 非状态驱动的 DOM reset
         if (!interactionLocked) {
           layers.select(".joy-path-visible")
-            .attr("stroke", "#ccc")
-            .attr("stroke-width", 0.3);
+            .attr("stroke", "var(--color-text-primary)")
+            .attr("stroke-width", 0.5);
         }
       });
 
@@ -652,7 +650,8 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
       .attr("y", -rowHeight)
       .attr("width", width)
       .attr("height", rowHeight * 2)
-      .attr("fill", "rgba(255,204,102,0.2)")
+      .attr("fill", "var(--color-secondary)")
+      .style("opacity", 0.1)
       .style("pointer-events", "none"); // ✅ 关键
   }
 
@@ -682,8 +681,8 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
     inner.append("path")
       .attr("class", "joy-path-clip")
       .attr("fill", "none")
-      .attr("stroke", "#fa4614ff")
-      .attr("stroke-width", 0.3)
+      .attr("stroke", "var(--color-secondary)")
+      .attr("stroke-width", 0.5)
       .attr("clip-path", `url(#${clipId})`);
 
     // 3️⃣ startTime 文本也放 inner 内部
@@ -691,7 +690,7 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
       .attr("class", "clip-start-time")
       .attr("x", clipStartX)
       .attr("y", -rowHeight - 2)
-      .attr("fill", "#ffcc66")
+      .attr("fill", "var(--color-primary)")
       .text(formatTime(d.clip_start || 0));
 
     updateScales();
@@ -709,7 +708,7 @@ export function createJoyplot(container, initialSongs, tooltip, allInteractionLo
       .attr("class", "playhead")
       .attr("y1", -rowHeight)
       .attr("y2", rowHeight)
-      .attr("stroke", "#ffcc66");
+      .attr("stroke", "var(--color-primary)");
 
     currentAudio.ontimeupdate = () => {
       const progress = Math.min(

@@ -16,13 +16,13 @@ export function compareWithArtistOrAlbum(containerRef, songs, timelineSvg, timel
   ];
 
   const artistConcentratedBands = [
-    { name: "1969 - 1998", range: [new Date(1969, 0, 1), new Date(1998, 0, 1)], color: "steelblue" },
-    { name: "2010 - 2019", range: [new Date(2010, 0, 1), new Date(2019, 0, 1)], color: "steelblue" },
+    { name: "1969 - 1998", range: [new Date(1969, 0, 1), new Date(1998, 0, 1)], color: "var(--color-text-tertiary)" },
+    { name: "2010 - 2019", range: [new Date(2010, 0, 1), new Date(2019, 0, 1)], color: "var(--color-text-tertiary)" },
   ];
 
   const albumConcentratedBands = [
-    { name: "Before 1984", range: [new Date(1963, 0, 1), new Date(1984, 0, 1)], color: "steelblue" },
-    { name: "After 2010", range: [new Date(2010, 0, 1), new Date(2025, 10, 28)], color: "steelblue" },
+    { name: "Before 1984", range: [new Date(1963, 0, 1), new Date(1984, 0, 1)], color: "var(--color-text-tertiary)" },
+    { name: "After 2010", range: [new Date(2010, 0, 1), new Date(2025, 10, 28)], color: "var(--color-text-tertiary)" },
   ];
 
   let boundaries = [];
@@ -40,8 +40,8 @@ export function compareWithArtistOrAlbum(containerRef, songs, timelineSvg, timel
         .attr("x2", d => xScale(d))
         .attr("y1", timelineHeight - offsetY - 140)
         .attr("y2", timelineHeight - offsetY + 20)
-        .attr("stroke", "lightGray")
-        .attr("stroke-width", 5)
+        .attr("stroke", "var(--color-text-secondary)")
+        .attr("stroke-width", 3)
         .attr("stroke-dasharray", "6,2")
         .style("opacity", 1),
       update => update
@@ -106,9 +106,9 @@ export function compareWithArtistOrAlbum(containerRef, songs, timelineSvg, timel
         .text(d => d.name)
         .attr("text-anchor", "middle")
         .attr("dominant-baseline", "middle")
-        .style("font-size", "20px")
+        .style("font-size", "1rem")
         .style("font-weight", 500)
-        .style("fill", "white")
+        .style("fill", "var(--color-text-primary)")
         .style("pointer-events", "none"),   // 避免遮挡 hover
       update => update
         .attr("x", d => xScale(d.range[0]) + (xScale(d.range[1]) - xScale(d.range[0])) / 2)
@@ -130,15 +130,15 @@ export function compareWithArtistOrAlbum(containerRef, songs, timelineSvg, timel
       const ifTopAlbum = Number(song.if_top30albums);
 
       if (compareType === "artist" && ifTopArtist === 1) {
-        el.style.background = "green";
+        el.style.background = "var(--color-secondary-darker)";
         el.style.zIndex = 9999;
         el.dataset.compareStatus = "artist";
       } else if (compareType === "album" && ifTopAlbum === 1) {
-        el.style.background = "green";
+        el.style.background = "var(--color-secondary-darker)";
         el.style.zIndex = 9999;
         el.dataset.compareStatus = "album";
       } else {
-        el.style.background = "orange";
+        el.style.background = "var(--color-primary-darker)";
         el.style.zIndex = 999;
         el.dataset.compareStatus = "";
       }

@@ -1,29 +1,30 @@
-These 2,299 songs have condensed into my musical universe — and this universe is still expanding.
+# Epilogue
 
-Some galaxies are huge, with many rich bodies; some are like lone comets, flashing through this universe for a moment...
+These 2,299 songs have condensed into my little musical universe — and it's still expanding.
 
-They have all left their marks, deep or shallow, on my world.
+Some galaxies are vast, filled with rich celestial bodies; others are like lonely comets, flashing across this universe in an instant...
 
-This breathing "living being" is also an important part of my life, bringing me so much color and vitality.
+Each of them has left its mark on my world, some deep, some faint.
 
-Thank goodness music exists in this world.
+This breathing "living organism" is also an important part of my life, bringing me so much color and vitality.
 
-This project started with "Music saved my damn life" and ends with "I still don't know *how* it saved me, but I know it did."
+&nbsp;
 
-Music is a person's private treasure vault. Thank you for opening my vault and taking a look.
+> Thank goodness there is still music in this world.
 
----
+&nbsp;
 
-If you want to see how all of this was built —
+This project started with "Music saved my damn life," and ends with "I still don't know how it saved it, but I know it really did."
 
-👉 The code and data are here: [GitHub link]
+If you're curious how all of this was built —
 
-If you've made a similar "musical self-portrait" — I'd love to see it.
+👉 The code and data are right here: [GitHub Link](https://github.com/yourusername)
 
-👉 Share the song that "defines you," and be sure to tag me: @[your Twitter/Instagram]
+If you have any suggestions for my project, or just want to say hi,
+feel free to reach me at: [macyyang1996@gmail.com](mailto:macyyang1996@gmail.com)
 
-Or just say hello :)
+## Thank you for scrolling all the way to the end :)
 
-Thanks for scrolling to the end with me. 🎧
+&nbsp;
 
---- [Your Name]
+### —— Macy Yang

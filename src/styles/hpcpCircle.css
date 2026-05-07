@@ -80,7 +80,7 @@
   /* 防止撑爆 */
   overflow: hidden;
   position: relative;
-  padding-left: 5vw;
+  padding-left: 0;
 }
 
 /* 控制 SVG 最大尺寸 */
@@ -93,8 +93,8 @@
 
 .hpcp-legend-group {
   position: absolute;
-  bottom: 20px;
-  left: 5vw;
+  top: 5vh;
+  right: 2vw;
   width: 140px;
 
   display: flex;
@@ -161,7 +161,11 @@
   color: #ddd;
 }
 
-.hpcp-song-detail, hpcp-pitch-detail {
+.hpcp-song-detail strong, .hpcp-pitch-detail strong, .area-illustration {
+  color: var(--color-secondary);
+  font-size: 1.25rem;
+  display: inline-block;
+  margin-right: 8px;
 }
 
 /* ===================== */

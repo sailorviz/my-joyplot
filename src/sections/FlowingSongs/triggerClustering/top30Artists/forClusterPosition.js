@@ -6,7 +6,10 @@ export function forClusterPosition(containerRef, clusterData, callback) {
   const gridCols = 6;
   const gridRows = Math.ceil(clusterKeys.length / gridCols);
 
-  const gridWidth = window.innerWidth / gridCols;
+    // 👇 减小这个系数来缩小横向间隔（原先是 1，可以改成 0.7 或 0.6）
+  const horizontalCompression = 0.9;  // 调整这个值：越小横向间隔越小
+  const gridWidth = (window.innerWidth * horizontalCompression) / gridCols;
+  // const gridWidth = window.innerWidth / gridCols;
   const gridHeight = window.innerHeight / gridRows;
 
   clusterKeys.forEach((artist, clusterIndex) => {
@@ -15,12 +18,14 @@ export function forClusterPosition(containerRef, clusterData, callback) {
     const col = clusterIndex % gridCols;
     const row = Math.floor(clusterIndex / gridCols);
 
-    // const clusterCenterX = col * gridWidth + gridWidth/6 + (Math.random()-0.5) * 50;
-    // const clusterCenterY = row * gridHeight + gridHeight/2 + (Math.random()-0.5) * 50;
-    const clusterCenterX = col * gridWidth + gridWidth/6;
+    // const clusterCenterX = col * gridWidth + gridWidth/6;
+    // const clusterCenterY = row * gridHeight + gridHeight/2;
+    // const clusterOpacity = Math.random() * 0.5 + 0.5;
+    // 👇 还需要调整 X 的起始偏移，让整体居中
+    const totalWidth = gridWidth * gridCols;
+    const startX = (window.innerWidth - totalWidth) / 2;
+    const clusterCenterX = startX + col * gridWidth + gridWidth/6;
     const clusterCenterY = row * gridHeight + gridHeight/2;
-
-    // const clusterOpacity = minOpacity + (data.displayedSongs.length + data.remainingSongs.length) / maxSongsInAnyCluster * (maxOpacity - minOpacity);
     const clusterOpacity = Math.random() * 0.5 + 0.5;
     
     callback({ artist, data, clusterCenterX, clusterCenterY, clusterIndex, clusterOpacity });

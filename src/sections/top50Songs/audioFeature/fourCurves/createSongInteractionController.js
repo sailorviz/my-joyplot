@@ -215,10 +215,13 @@ export function createSongInteractionController({
 
     const featureLabel = t[feature] || feature;  // ← 翻译 feature 名称
     // tooltip 保留（这是 UI，不是状态）
-    let tooltipHtml = `<strong>${div.dataset.song}</strong><br/>${div.dataset.artist}<br>${featureLabel}: ${value.toFixed(3)}`;
+    let tooltipHtml = `
+    <strong>${div.dataset.song} - ${div.dataset.artist}</strong>
+    <br>${featureLabel}: <span class="tooltip-value">${value.toFixed(3)}</span>
+    `;
 
     if (interactionState.reference && interactionState.reference.feature === feature) {
-      tooltipHtml += `<br>${t.delta}: ${(value - interactionState.reference.value).toFixed(3)}`;
+      tooltipHtml += `<br>${t.delta}: <span class="tooltip-value">${(value - interactionState.reference.value).toFixed(3)}</span>`;
     }
 
     tooltip.innerHTML = tooltipHtml;

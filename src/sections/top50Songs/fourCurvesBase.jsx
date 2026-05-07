@@ -246,7 +246,7 @@ const FourCurvesBase = forwardRef((_, ref) => {
     container.replaceChildren();
 
     // ---------- 先创建并隐藏每首歌对应的 cluster div（保留数据与 DOM） ----------
-    const size = 15; // 每个 cluster 的边长
+    const size = 20; // 每个 cluster 的边长
 
     const tooltip = document.createElement("div");
     tooltip.className = "song-tooltip";
@@ -328,9 +328,9 @@ const FourCurvesBase = forwardRef((_, ref) => {
 
     const featureOrder = [
       { key: "dissonance", label: t.dissonance, color: "#d62728" },
-      { key: "bpm", label: t.bpm, color: "#1f77b4" },
+      { key: "bpm", label: t.bpm, color: "#317bdb" },
       { key: "danceability", label: t.danceability, color: "#2ca02c" },
-      { key: "dynamic_complexity", label: t.dynamicComplexity, color: "#9467bd" },
+      { key: "dynamic_complexity", label: t.dynamicComplexity, color: "#8038c4" },
     ];
 
     featureOrder.forEach(({ key, label, color }) => {

@@ -70,7 +70,7 @@ export function addPopularitiesForSongs(containerRef, songs, context, language) 
     .attr("transform", `translate(${axisX},0)`)
     .call(yAxis)
     .selectAll("line")
-    .attr("stroke", "#333");
+    .attr("stroke", "var(--color-text-secondary)");
 
   timelineSvg.select(".y-axis")
     .selectAll(".tick text")
@@ -78,12 +78,12 @@ export function addPopularitiesForSongs(containerRef, songs, context, language) 
     .attr("opacity", 0);  
 
   timelineSvg.select(".y-axis path")
-    .attr("stroke", "#333")
+    .attr("stroke", "var(--color-text-secondary)")
     .attr("stroke-width", 2);
 
   // Y 轴延长线 + 箭头
   const topY = offsetY;
-  const extendLen = 50;
+  const extendLen = 20;
 
   timelineSvg.append("line")
     .attr("class", "y-expand line")
@@ -91,7 +91,7 @@ export function addPopularitiesForSongs(containerRef, songs, context, language) 
     .attr("y1", topY)
     .attr("x2", axisX)
     .attr("y2", topY - extendLen)
-    .attr("stroke", "#333")
+    .attr("stroke", "var(--color-text-secondary)")
     .attr("stroke-width", 2);
 
   timelineSvg.append("path")
@@ -102,7 +102,7 @@ export function addPopularitiesForSongs(containerRef, songs, context, language) 
       L ${axisX},${topY - extendLen}
       Z
     `)
-    .attr("fill", "#333");
+    .attr("fill", "var(--color-text-secondary)");
 
   // 横向网格线
   const yGrid = d3.axisLeft(yScale)
@@ -115,7 +115,7 @@ export function addPopularitiesForSongs(containerRef, songs, context, language) 
     .attr("transform", `translate(${axisX},0)`)
     .call(yGrid)
     .selectAll("line")
-    .attr("stroke", "#ddd")
+    .attr("stroke", "var(--color-text-tertiary)")
     .attr("stroke-width", 1)
     .attr("opacity", 0.7);
 
@@ -139,7 +139,7 @@ export function addPopularitiesForSongs(containerRef, songs, context, language) 
     .attr("y1", frameTopY)
     .attr("x2", frameRightX)
     .attr("y2", frameBottomY)
-    .attr("stroke", "#ddd")
+    .attr("stroke", "var(--color-text-tertiary)")
     .attr("stroke-width", 1);
 
   // X 轴标题
@@ -148,9 +148,9 @@ export function addPopularitiesForSongs(containerRef, songs, context, language) 
     .attr("x", timelineWidth / 2)
     .attr("y", frameBottomY + 40)
     .attr("text-anchor", "middle")
-    .attr("font-size", 16)
+    .attr("font-size", "1rem")
     .attr("font-weight", "bold")
-    .attr("fill", "#333")
+    .attr("fill", "var(--color-text-secondary)")
     .text(t.xAxis);
 
   // Y 轴标题
@@ -162,11 +162,11 @@ export function addPopularitiesForSongs(containerRef, songs, context, language) 
     .attr("text-anchor", "middle")
     .attr("font-size", 16)
     .attr("font-weight", "bold")
-    .attr("fill", "#333")
+    .attr("fill", "var(--color-text-secondary)")
     .text(t.yAxis);
 
   // titleLegend 移动 & 更新文本
-  const titleLegendTy = -150;
+  const titleLegendTy = -80;
   const durationY = 500;
   titleLegendSvg
     .style("transition", `transform ${durationY}ms ease-out`)
@@ -214,7 +214,11 @@ export function addPopularitiesForSongs(containerRef, songs, context, language) 
     const popMouseEnter = (e) => {
       if (el.dataset.state !== "pop") return;
       el.style.transform = `translate(${popTx}px, ${popTy}px) scale(0.35)`;
-      tooltip.innerHTML = `${song} - ${artist}<br>${t.year}: ${songReleaseYear}<br>${t.popularity}: ${pop || "null"}`;
+      tooltip.innerHTML = `
+        <strong>${song} - ${artist}</strong><br>
+        ${t.year}: <span class="tooltip-value">${songReleaseYear}</span><br>
+        ${t.popularity}: <span class="tooltip-value">${pop || "null"}</span>
+      `;
       tooltip.style.left = `${e.clientX - rect.left + 10}px`;
       tooltip.style.top = `${e.clientY - rect.top - 40}px`;
       tooltip.style.opacity = 1;

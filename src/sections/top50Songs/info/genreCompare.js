@@ -4,6 +4,11 @@ import { registerHandlers } from "../../../components/registerHandlers";
 import { genreColorMap } from "../../../components/genreColorMap";
 
 export function genreCompare(containerRef, songs){
+  const treemap = containerRef.current.querySelector(".Genre-treemap");
+  if (treemap) treemap.remove();
+  const treemapTooltip = containerRef.current.querySelector(".treemap-tooltip");
+  if (treemapTooltip) treemapTooltip.remove();
+  
   const clusterElsNodeList = containerRef.current.querySelectorAll(".top50-songs");
   const clusters = Array.from(clusterElsNodeList);
   const tooltip = containerRef.current.querySelector(".songs-tooltip");
@@ -62,7 +67,7 @@ export function genreCompare(containerRef, songs){
         bar.style.justifyContent = "center";
 
         // tooltip 显示 歌名 - 歌手名
-        tooltip.innerHTML = `${name} - ${artist}`;
+        tooltip.innerHTML = `<strong>${name} - ${artist}</strong>`;
         tooltip.style.opacity = 1;
         tooltip.style.left = `${e.clientX - rect.left + 10}px`;
         tooltip.style.top  = `${e.clientY - rect.top - 40}px`;

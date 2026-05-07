@@ -6,6 +6,9 @@
 import { updateBarColor } from "./updateBarColor";
 
 export function switchMoodGroup(containerRef, mode = "mood") {
+  const treemapTooltip = containerRef.current.querySelector(".treemap-tooltip");
+  if (treemapTooltip) treemapTooltip.remove();
+  
   const bars = containerRef.current.querySelectorAll(".mood-bar");
   bars.forEach(bar => {
     bar.dataset.state = mode;

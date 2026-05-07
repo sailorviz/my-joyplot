@@ -25,7 +25,7 @@ export function addPopularitiesKDEForAllSongs(svg, yScale, legend, axisX, langua
   const t = kdeTexts[language] || kdeTexts.en;
 
   const xPosition = axisX + 20;
-  const color = "orange";
+  const color = "var(--color-secondary-darker)";
   const bandwidth = 8;
   svg.raise();
 
@@ -46,32 +46,32 @@ export function addPopularitiesKDEForAllSongs(svg, yScale, legend, axisX, langua
   if (focusLine.empty()) {
     focusLine = svg.append("line")
       .attr("class", "popularity-kde-focus-line")
-      .attr("stroke", "#fff")
+      .attr("stroke", "var(--color-text-secondary)")
       .attr("stroke-width", 1)
       .attr("stroke-dasharray", "4,1.5")
       .attr("opacity", 0);
   }
 
   // focus circles 
-  let circle50 = groupTop50.select(".focus-circle-50");
-  if (circle50.empty()) {
-    circle50 = groupTop50.append("circle")
-      .attr("class", "focus-circle-50")
-      .attr("r", 4)
-      .attr("fill", "#fff")
-      .attr("stroke", "#fff")
-      .attr("opacity", 0);
-  }
-
   let circleAll = svg.select(".focus-circle-all");
   if (circleAll.empty()) {
     circleAll = svg.append("circle")
       .attr("class", "focus-circle-all")
       .attr("r", 4)
-      .attr("fill", "orange")
-      .attr("stroke", "#fff")
+      .attr("fill", "var(--color-secondary)")
+      .attr("stroke", "var(--color-text-primary)")
       .attr("opacity", 0);
   }
+
+    let circle50 = svg.select(".focus-circle-50");
+    if (circle50.empty()) {
+      circle50 = svg.append("circle")
+        .attr("class", "focus-circle-50")
+        .attr("r", 4)
+        .attr("fill", "var(--color-primary)")
+        .attr("stroke", "var(--color-text-primary)")
+        .attr("opacity", 0);
+    }
 
   // tooltip
   let tooltip = d3.select(".popularity-kde-tooltip");
@@ -79,14 +79,14 @@ export function addPopularitiesKDEForAllSongs(svg, yScale, legend, axisX, langua
     tooltip = d3.select("body")
       .append("div")
       .attr("class", "popularity-kde-tooltip")
-      .style("position", "absolute")
-      .style("pointer-events", "none")
-      .style("background", "rgba(0,0,0,0.7)")
-      .style("padding", "6px 10px")
-      .style("border-radius", "4px")
-      .style("color", "#fff")
-      .style("font-size", "12px")
-      .style("opacity", 0);
+      // .style("position", "absolute")
+      // .style("pointer-events", "none")
+      // .style("background", "rgba(0,0,0,0.7)")
+      // .style("padding", "6px 10px")
+      // .style("border-radius", "4px")
+      // .style("color", "#fff")
+      // .style("font-size", "12px")
+      // .style("opacity", 0);
   }
 
   fetch("/data/2296_all_songs.csv")
@@ -191,8 +191,8 @@ export function addPopularitiesKDEForAllSongs(svg, yScale, legend, axisX, langua
             .style("top", event.pageY + 15 + "px")
             .html(`
               <div>${t.popularity}: <b>${p}</b></div>
-              <div>${t.top50Density}: ${d50 ? d50[1].toFixed(4) : "-"}</div>
-              <div>${t.allSongsDensity}: ${dAll[1].toFixed(4)}</div>
+              <div>${t.top50Density}: <span class="tooltip-value-top50songs">${d50 ? d50[1].toFixed(4) : "-"}</span></div>
+              <div>${t.allSongsDensity}: <span class="tooltip-value-allsongs">${dAll[1].toFixed(4)}</span></div>
             `);
         })
         .on("mouseout", () => {

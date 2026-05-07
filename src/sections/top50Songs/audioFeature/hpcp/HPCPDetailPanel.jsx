@@ -11,12 +11,16 @@ export default function HPCPDetailPanel({
     zh: {
       hoverHint: '👈👈👈 悬停到圆圈上',
       key: '调性',
-      pitch: '音高'
+      pitch: '音高',
+      fanArea: '扇形区域 = 一首歌',      // 从第一个组件移过来
+      ringArea: '环形区域 = 一个音高类别'  // 从第一个组件移过来
     },
     en: {
       hoverHint: 'Hover something 👈👈👈👈👈',
       key: 'Key',
-      pitch: 'Pitch'
+      pitch: 'Pitch',
+      fanArea: 'Fan-shaped area = one song',      // 从第一个组件移过来
+      ringArea: 'Circular area = one pitch class'  // 从第一个组件移过来
     }
   };
   const t = detailTexts[language] || detailTexts.en;
@@ -27,7 +31,17 @@ export default function HPCPDetailPanel({
   ];
 
   if (!hover) {
-    return <div>{t.hoverHint}</div>;
+    return (
+      <div>
+        <div className="area-illustration">
+          {t.fanArea}<br />
+          {t.ringArea}
+        </div>
+        <br />
+        <br />
+        {t.hoverHint}
+      </div>
+    );
   }
 
   if (hover.type === "song") {
@@ -37,20 +51,41 @@ export default function HPCPDetailPanel({
 
     return (
       <div className="hpcp-song-detail">
-        <img
-          src={song.coverPath}
+        <strong>{song.song}</strong>
+        
+        <div
           style={{
-            width: 100,
-            height: 100,
-            objectFit: "cover",
-            borderRadius: 8
+            display: "flex",
+            gap: 12,
+            alignItems: "flex-start",
+            padding: "8px 0",
+            marginTop: "8px"
           }}
-        />
+        >
+          <img
+            src={song.coverPath}
+            style={{
+              width: 80,
+              height: 80,
+              objectFit: "cover",
+              borderRadius: 8,
+              flexShrink: 0
+            }}
+            alt={song.song}
+          />
 
-        <h2>{song.song}</h2>
-        <p>{song.artist}</p>
-        <p>{song.album}</p>
-        <p>{t.key}: {song.key} {song.scale}</p>   {/* ← 翻译 */}
+          <div style={{ lineHeight: 1.3 }}>
+            <div style={{ fontSize: 14, fontWeight: 500 }}>
+              {song.artist}
+            </div>
+            <div style={{ fontSize: 13, opacity: 0.7, marginTop: 4 }}>
+              {song.album}
+            </div>
+            <div style={{ fontSize: 12, opacity: 0.6, marginTop: 4 }}>
+              {t.key}: {song.key} {song.scale}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -61,7 +96,7 @@ export default function HPCPDetailPanel({
 
     return (
       <div className="hpcp-pitch-detail">
-        <h2>{t.pitch}: {pitchNames[hover.pitchIndex]}</h2>   {/* ← 翻译 */}
+        <strong>{t.pitch}: {pitchNames[hover.pitchIndex]}</strong>   {/* ← 翻译 */}
 
         {pitchSongs.map((s, i) => {
           const isMatch = s.key === currentPitch;

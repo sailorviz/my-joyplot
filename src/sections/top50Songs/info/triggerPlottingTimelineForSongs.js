@@ -23,7 +23,7 @@ export function triggerPlottingTimelineForSongs(containerRef, songs, language){
   const t = timelineTexts[language] || timelineTexts.en;
 
   // 创建 timeline SVG
-  const timelineHeight = 450;
+  const timelineHeight = 400;
   const timelineWidth = window.innerWidth; //是不是window.innerWidth的原因，因为宽度在变化
   const timelineOriginalP = 150;
   const timelineSvg = d3.select(containerRef.current)
@@ -33,7 +33,7 @@ export function triggerPlottingTimelineForSongs(containerRef, songs, language){
     .attr("height", timelineHeight)
     .style("position", "absolute")
     .style("top", `${timelineOriginalP}vh`) //初始位置，在视口之外下方
-    .style("border", "1px solid red")
+    // .style("border", "1px solid red")
 
     // —— 水平居中：用像素计算 left，避免 transform 被后续覆盖
   const containerWidth = containerRef.current.clientWidth || window.innerWidth;
@@ -41,8 +41,8 @@ export function triggerPlottingTimelineForSongs(containerRef, songs, language){
   timelineSvg.style("left", `${leftPx}px`);
 
   //相对于svg内部的位置偏移
-  const offsetX = 300; // x 轴左右留白
-  const offsetY = 50; //相对于底部
+  const offsetX = 250; // x 轴左右留白
+  const offsetY = 70; //相对于底部
 
   // 清除旧svg（避免重复绘制）
   d3.select(containerRef.current).select(".songs-titleLegend").remove();
@@ -53,18 +53,17 @@ export function triggerPlottingTimelineForSongs(containerRef, songs, language){
   .attr("width", timelineWidth)
   .attr("height", titleLegendHeight)
   .style("position", "absolute")
-  .style("top", `30vh`) //初始位置，在视口之外下方
-  .style("z-index", -1); 
+  .style("top", `20vh`); 
 
   // 添加标题
   const title = titleLegendSvg.append("text")
     .attr("class", "title")
     .attr("x", timelineWidth / 2)       // 水平居中
-    .attr("y", 20)                      // 距离顶部 20px
+    .attr("y", 30)                      // 距离顶部 20px
     .attr("text-anchor", "middle")      // 居中对齐
-    .attr("font-size", 20)
+    .attr("font-size", "2rem")
     .attr("font-weight", "bold")
-    .attr("fill", "#333")
+    .attr("fill", "#F5F7FA")
     .attr("opacity", 0)
     .text(t.title);     // 标题内容
 
@@ -72,7 +71,7 @@ export function triggerPlottingTimelineForSongs(containerRef, songs, language){
   const legend = titleLegendSvg.append("g")
     .attr("class", "legend")
     .attr("opacity", 0)
-    .attr("transform", `translate(${timelineWidth/6 * 4}, 50)`); // 放左上角
+    .attr("transform", `translate(${timelineWidth/6 * 4}, 60)`); // 放左上角
   
   // updateLegend(legend, "songs");
 
@@ -113,13 +112,12 @@ export function triggerPlottingTimelineForSongs(containerRef, songs, language){
     .attr("orient", "auto")
     .append("path")
     .attr("d", "M 0 0 L 10 5 L 0 10 z")
-    .attr("fill", "#333");
+    .attr("fill", "#898da0");
 
     // 绘制 axis
   const axisGroup = timelineSvg.append("g")
     .attr("transform", `translate(0, ${timelineHeight - offsetY})`)
     .attr("class","axis")
-    .style("border", "1px solid blue")
     .call(xAxis);
 
     // ⭐ 额外左端延长线
@@ -128,7 +126,7 @@ export function triggerPlottingTimelineForSongs(containerRef, songs, language){
     .attr("x2", offsetX - extraLeft)
     .attr("y1", timelineHeight - offsetY)
     .attr("y2", timelineHeight - offsetY)
-    .attr("stroke", "#333")
+    .attr("stroke", "#898da0")
     .attr("stroke-width", 2);
 
   // ✅ 添加箭头线（在轴线最右端）
@@ -139,12 +137,16 @@ export function triggerPlottingTimelineForSongs(containerRef, songs, language){
     .attr("x2", xEnd)
     .attr("y1", 0)
     .attr("y2", 0)
-    .attr("stroke", "#333")
+    .attr("stroke", "#898da0")
     .attr("stroke-width", 2)
     .attr("marker-end", "url(#arrowhead)");
 
   axisGroup.selectAll("path.domain").remove(); // 移除默认轴线（我们自己画了）
 
+  axisGroup.selectAll(".tick text")
+    .attr("font-size", "12px")        // 改为你想要的字号
+    .attr("fill", "#F5F7FA");
+    
   //clusters缩小
   shrinkClusters(clusterElsArray);
 

@@ -21,25 +21,18 @@ export function drawTreemap(type, data, colorMap, categoryColorMap, container) {
 
   const tooltip = d3.select(container)
     .append("div")
-    .attr("class", "treemap-tooltip")
-    .style("position", "absolute")
-    .style("padding", "6px 10px")
-    .style("background", "rgba(0,0,0,0.7)")
-    .style("color", "white")
-    .style("font-size", "12px")
-    .style("border-radius", "4px")
-    .style("pointer-events", "none")
-    .style("z-index", 1000)
-    .style("opacity", 0);
+    .attr("class", "treemap-tooltip");
 
   const leafOffset = { left: 4, top: 20 }; // leaf 相对 category 偏移
   const leafPaddingInner = 2; // leaf 与 leaf 间距
 
   const hasCategoryLayer = root.children?.[0]?.children;
+  const bottomPadding = 20; // 底部预留空间
+  const usableHeight = height - bottomPadding;
 
   if (hasCategoryLayer) {
     d3.treemap()
-      .size([width, height])
+      .size([width, usableHeight])
       .paddingInner(10)(root);
 
     root.children.forEach(cat => {
@@ -94,8 +87,10 @@ export function drawTreemap(type, data, colorMap, categoryColorMap, container) {
           .style("cursor", "pointer")
           .on("mouseenter", (event, d) => {
             const percent = ((leaf.value / totalValue) * 100).toFixed(1);
-            tooltip.html(`${type}: ${leaf.data.name}<br>count: ${leaf.value}<br>percentage: ${percent}%`)
-              .style("opacity", 1);
+            tooltip.html(`${type}: <strong>${leaf.data.name}</strong><br>
+              count: <span class="tooltip-value">${leaf.value}</span><br>
+              percentage: <span class="tooltip-value">${percent}%</span>`)
+          .style("opacity", 1);
           })
           .on("mousemove", (event) => {
             const rect = container.getBoundingClientRect();
@@ -156,8 +151,11 @@ export function drawTreemap(type, data, colorMap, categoryColorMap, container) {
         .style("cursor", "pointer")
         .on("mouseenter", (event, d) => {
           const percent = ((leaf.value / totalValue) * 100).toFixed(1);
-          tooltip.html(`${type}: ${leaf.data.name}<br>count: ${leaf.value}<br>percentage: ${percent}%`)
-            .style("opacity", 1);
+          // tooltip.html(`${type}: ${leaf.data.name}<br>count: ${leaf.value}<br>percentage: ${percent}%`)
+          tooltip.html(`${type}: <strong>${leaf.data.name}</strong><br>
+            count: <span class="tooltip-value">${leaf.value}</span><br>
+            percentage: <span class="tooltip-value">${percent}%</span>`)
+        .style("opacity", 1);
         })
         .on("mousemove", (event) => {
           const rect = container.getBoundingClientRect();
@@ -212,11 +210,13 @@ export function drawTreemap(type, data, colorMap, categoryColorMap, container) {
 
       // 判断是否有 category 层
       const hasCategoryLayer = root.children?.[0]?.children;
+      const bottomPadding = 20; // 底部预留空间
+      const usableHeight = height - bottomPadding;
 
       if (hasCategoryLayer) {
         // category 层和 leaf 层重新布局
         d3.treemap()
-          .size([width, height])
+          .size([width, usableHeight])
           .paddingInner(10)(root);
 
         root.children.forEach(cat => {
