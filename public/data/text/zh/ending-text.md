@@ -19,7 +19,7 @@
 
 如果你想看看这一切是怎么构建的——
 
-👉 代码和数据都在这里：[GitHub链接](https://github.com/yourusername)
+👉 代码和数据都在这里：[GitHub链接](https://github.com/sailorviz/music-self-portrait)
 
 如果你对我的项目有什么建议，或是只是打个招呼，
 请联系我的邮箱：[macyyang1996@gmail.com](mailto:macyyang1996@gmail.com)

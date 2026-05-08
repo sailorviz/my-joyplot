@@ -18,7 +18,7 @@ This project started with "Music saved my damn life," and ends with "I still don
 
 If you're curious how all of this was built —
 
-👉 The code and data are right here: [GitHub Link](https://github.com/yourusername)
+👉 The code and data are right here: [GitHub Link](https://github.com/sailorviz/music-self-portrait)
 
 If you have any suggestions for my project, or just want to say hi,
 feel free to reach me at: [macyyang1996@gmail.com](mailto:macyyang1996@gmail.com)

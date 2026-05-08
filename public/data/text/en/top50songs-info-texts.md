@@ -64,7 +64,7 @@ I grouped them into three categories: happy, calm, sad.
 
 <!-- step1 -->
 
-Very few sad songs. When selecting these 50, I might have automatically filtered out things that would make me sadder — as the saying goes, "sad people don't listen to slow songs," haha.
+Very few sad songs. When selecting these 50, I might have automatically filtered out things that would make me sadder — as the saying goes, "sad people don't listen to dark songs," haha.
 
 <!-- step1 -->
 
