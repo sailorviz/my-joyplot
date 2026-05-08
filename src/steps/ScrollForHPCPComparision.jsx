@@ -9,7 +9,7 @@ export default function ScrollForHPCPComparision() {
   const baseRef = useRef(null);
   const [featureSteps, setFeatureSteps] = useState([]);
   const scrollerRef = useRef(null);
-  const [currentText, setCurrentText] = useState(featureSteps[0]);
+  const [currentText, setCurrentText] = useState(null);
   const { language } = useLanguage(); // 获取当前语言
 
   useEffect(() => {
@@ -23,12 +23,22 @@ export default function ScrollForHPCPComparision() {
           .filter((block) => block.trim().length > 0)
           .map((block) => block.trim());
         setFeatureSteps(blocks);
+        // console.log(blocks);
       })
       .catch((err) => console.error("加载 Markdown 出错:", err));
   }, []);
 
   useEffect(() => {
-    if (!baseRef.current || featureSteps.length === 0) return;
+    // if (!baseRef.current || featureSteps.length === 0) return;
+    console.log("featureSteps.length:", featureSteps.length);
+    console.log("baseRef.current:", baseRef.current);
+  
+    if (!baseRef.current || featureSteps.length === 0) {
+      console.log("条件不满足，跳过初始化");
+    return;
+  }
+  
+  console.log("开始初始化 scrollama");
     scrollerRef.current = scrollama();
 
     scrollerRef.current
@@ -50,7 +60,13 @@ export default function ScrollForHPCPComparision() {
         // }
         if (element.classList.contains("triggerStep-hpcp-comparision") && direction === "down") {
           // 1️⃣ 更新右侧文字
-          setCurrentText(featureSteps[index]);
+          if (featureSteps[index]) {
+            setCurrentText(featureSteps[index]);
+            const currentText = featureSteps[index];
+            console.log(currentText);
+          } else {
+            console.log("current text 不存在");
+          }
         }
       })
       .onStepExit(({ element, index, direction }) => {

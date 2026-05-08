@@ -14,14 +14,22 @@ You can see that most of the songs I like are primarily in C and D, and mainly i
 
 Pretty boring answer, right? After months of work, I end up with "I like C and D."
 
+&nbsp;
+
 But that's not where the fun lies.
 
 The fun part is: even in C major, some songs make me happy, some make me calm, and some I delete after one listen.
 
+&nbsp;
+
 That difference — data cannot capture.
+
+&nbsp;
 
 Data cannot capture why the intro of "Holiday" makes me happy as soon as it starts.
 
 What data *can* capture is that I prefer groove, medium-fast tempo, non-harsh sounds, albums from after 2010, and artists like Tia Ray, Bruno Mars, and the Faye Wong family.
+
+&nbsp;
 
 Data is abstract, but my liking is very concrete.

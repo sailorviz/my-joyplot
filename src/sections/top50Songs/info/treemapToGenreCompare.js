@@ -8,4 +8,6 @@ export function treemapToGenreCompare(type, container){
   
   const treemap = container.querySelector(`.${type}-treemap`);
   if (treemap) treemap.remove();
+  const treemapTooltip = container.querySelector(".treemap-tooltip");
+  if (treemapTooltip) treemapTooltip.remove();
 }

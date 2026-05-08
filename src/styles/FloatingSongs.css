@@ -55,14 +55,13 @@
 
 .triggerStep {
   height: 40vh;
-  background: rgba(5, 231, 16, 0.5);
+  margin-top: 50vh;
   margin-bottom: 50vh;
 }
 
 .scrollingTextEndStep {
   margin-top: auto; /* 推到底部 */
   height: 40vh;
-  background: rgba(57, 143, 224, 0.5);
 }
 
 .band-highlight {

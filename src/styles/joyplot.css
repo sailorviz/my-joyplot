@@ -248,20 +248,17 @@
 
 .triggerStep-joyplot {
   height: 40vh;
-  background: rgba(5, 231, 16, 0.5);
   margin-bottom: 50vh;
 }
 
 .triggerStep-illustration.amp60, .triggerStep-illustration.spec60 {
   height: 40vh;
-  background: rgba(5, 231, 16, 0.5);
   margin-bottom: 50vh;
 }
 
 .scrollingTextEndStep-joyplot {
   margin-top: auto; /* 推到底部 */
   height: 40vh;
-  background: rgba(57, 143, 224, 0.5);
 }
 
 .joyplot-tooltip {

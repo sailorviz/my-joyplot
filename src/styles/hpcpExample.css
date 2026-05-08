@@ -1,7 +1,6 @@
 .hpcp-example {
   position: relative;   /* 参考定位，子元素 sticky 以此为边界 */
   height: auto;        /* 给滚动动画留出空间 */
-  margin-bottom: 20vh;
   background: var(--color-background-base);
   color: var(--color-text-secondary);
 }
@@ -154,18 +153,15 @@
   color: white;
   text-align: center;
   height: 40vh;
-  background:  rgba(57, 143, 224, 0.5);
 }
 
 .triggerStep-hpcp-example {
   height: 40vh;
-  background: rgba(5, 231, 16, 0.5);
   margin-bottom: 50vh;
 }
 
 .scrollingTextEndStep-hpcp-example {
   margin-top: auto; /* 推到底部 */
   height: 40vh;
-  background: rgba(57, 143, 224, 0.5);
 }
 

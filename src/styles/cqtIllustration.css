@@ -109,7 +109,6 @@
   color: white;
   text-align: center;
   height: 40vh;
-  background:  rgba(57, 143, 224, 0.5);
 }
 
 
@@ -122,7 +121,6 @@
   /* 修改 ↓ */
   height: 100vh;
 
-  background: rgba(5, 231, 16, 0.5);
 
   /* 删除 margin-bottom */
 }
@@ -130,5 +128,4 @@
 .scrollingTextEndStep-cqtIllustration {
   margin-top: auto;
   height: 40vh;
-  background: rgba(57, 143, 224, 0.5);
 }

@@ -2,9 +2,13 @@
 
 What is CQT?
 
+&nbsp;
+
 CQT stands for Constant-Q Transform. The name is intimidating, but the idea is simple:
 
 It arranges sound by "pitch" rather than "frequency" — a way of listening that is closer to the human ear.
+
+&nbsp;
 
 Below is a graphical overview of the CQT spectrogram.
 

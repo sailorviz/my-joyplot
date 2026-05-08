@@ -7,15 +7,15 @@
 
 .global-controls {
   position: fixed;
-  top: 20px;
+  top: 1vh;
   right: 50px;
-  width: 20vw;
+  width: 17vw;
   z-index: 1000;
   display: flex;
   gap: 1vw;
   background: rgba(0, 0, 0, 0.5);
-  padding: 8px 16px;
-  border-radius: 30px;
+  padding: 3px 10px;
+  border-radius: 10px;
   border: 1px solid var(--color-border); /* 使用全局变量 */
   backdrop-filter: blur(5px);
   color: white;
@@ -28,8 +28,8 @@
   background: transparent;
   border: 1px solid var(--color-border);
   color: var(--color-text-primary);
-  padding: 4px 12px;
-  border-radius: 20px;
+  padding: 4px 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-family: var(--font-family-base);
   font-size: 0.875rem;

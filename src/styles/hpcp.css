@@ -15,29 +15,23 @@
 #hpcp-comparision-container {
   width: 70%;
   position: relative;
-  width: 100%;
   height: 100%;
   overflow: hidden;
-}
-
-/* 左侧图示区 */
-.hpcp-comparision-left{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 2rem 0; /* 顶部间距 */
+  padding: 2rem 0 2rem 4rem;
 }
 
 /* 右侧文字区 */
 .hpcp-comparision-right{
   top: 0;
   width: 30%;
+  align-items: center;
   display: flex;
   flex-direction: column;
   padding-top: 35vh;
   padding-left: 1vw;
   padding-right: 2vw;
   text-align: left;
+  color: var(--color-text-secondary);
 }
 
 .hpcp-comparision-stage{
@@ -216,14 +210,11 @@
 
 .hpcp-comparision-text{
   font-size: 1rem;
-  line-height: 1.6;
-  max-width: 320px;
-  color: white;
+  line-height: var(--line-height-regular);
 }
 
 .triggerStep-hpcp-comparision {
   height: 40vh;
-  background: rgba(5, 231, 16, 0.5);
   margin-bottom: 50vh;
 }
 

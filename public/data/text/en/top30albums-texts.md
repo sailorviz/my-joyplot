@@ -20,7 +20,7 @@ I wanted to know if my music taste aligns with the mainstream, so I found some r
 
 <!-- step1 -->
 
-On the left is *Rolling Stone*'s "500 Greatest Albums of All Time," on the right is my top 30 favorites.
+On the left is *Rolling Stone*'s "500 Greatest Albums of All Time", The purple ones were published before 2000, and the green ones after 2000. On the right is my top 30 favorites.
 
 (You can also see if any of your favorites are in those 500 albums.)
 

@@ -120,14 +120,10 @@
 
   /* 修改 ↓ */
   height: 100vh;
-
-  background: rgba(5, 231, 16, 0.5);
-
   /* 删除 margin-bottom */
 }
 
 .scrollingTextEndStep-hpcpIllustration {
   margin-top: auto;
   height: 40vh;
-  background: rgba(57, 143, 224, 0.5);
 }

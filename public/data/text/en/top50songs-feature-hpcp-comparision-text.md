@@ -2,6 +2,8 @@
 
 Here are five different instruments each playing a C4 note.
 
+&nbsp;
+
 (You can switch modes to see the difference between CQT and HPCP; you can also click on the instrument names to hear the C4 note played by different instruments.)
 
 <!-- step1 -->

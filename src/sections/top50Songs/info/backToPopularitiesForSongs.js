@@ -8,9 +8,15 @@ export function backToPopularitiesForSongs(songs, popContext, language) {
   }
 
   clusterElsArray.forEach(el => {
+    const popTx = el.dataset.popTx;
+    const popTy = el.dataset.popTy;
+
+    el.innerHTML = "";
+    el.style.transform = `translate(${popTx}px, ${popTy}px) scale(0.3)`;
     el.style.opacity = 1;
     el.style.transition = "opacity 0.3s";
     el.style.pointerEvents = "auto";
+    el.dataset.state = "pop";
   });
 
   // 计算密度曲线

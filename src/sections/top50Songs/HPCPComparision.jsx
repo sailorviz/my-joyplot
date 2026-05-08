@@ -158,9 +158,11 @@ const HPCPComparision = forwardRef((_, ref) => {
   };
   const t = hpcpTexts[language] || hpcpTexts.en;
 
-
+  // 不是必须用 ref={ref}，而是必须确保 ref.current 是 truthy 值。两种方式都可以：
+  // 用 useImperativeHandle 返回一个对象
+  // 用 ref={ref} 绑定到 DOM 元素
   return (
-    <div id="hpcp-comparision-container">
+    <div id="hpcp-comparision-container" ref={ref}>
 
       <div className="hpcp-comparision-left">
         <div className="hpcp-comparision-stage">

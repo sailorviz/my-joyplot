@@ -12,9 +12,15 @@ One soundwave is one song.
 
 I tried to draw what they look like, but the raw waveform is too dense — like a tangled mess.
 
+&nbsp;
+
 So I used the amplitude envelope curve method from audio signal analysis to draw the "outer contour" of that mess, representing how loudness changes over time.
 
+&nbsp;
+
 At a glance, you can see when a song is quiet, when it's loud, when it evolves regularly, and when it changes abruptly.
+
+&nbsp;
 
 (You can click on any curve to listen to the corresponding audio slice.)
 

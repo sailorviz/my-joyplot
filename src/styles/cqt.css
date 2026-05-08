@@ -273,19 +273,16 @@
   color: white;
   text-align: center;
   height: 40vh;
-  background:  rgba(57, 143, 224, 0.5);
 }
 
 .triggerStep-cqt {
   height: 40vh;
-  background: rgba(5, 231, 16, 0.5);
   margin-bottom: 50vh;
 }
 
 .scrollingTextEndStep-cqt {
   margin-top: auto; /* 推到底部 */
   height: 40vh;
-  background: rgba(57, 143, 224, 0.5);
 }
 
 .cqt-explore-panel select {
