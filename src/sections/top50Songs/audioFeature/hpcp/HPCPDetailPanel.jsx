@@ -11,14 +11,14 @@ export default function HPCPDetailPanel({
     zh: {
       hoverHint: '👈👈👈 悬停到圆圈上',
       key: '调性',
-      pitch: '音高',
+      pitch: '音高类',
       fanArea: '扇形区域 = 一首歌',      // 从第一个组件移过来
       ringArea: '环形区域 = 一个音高类别'  // 从第一个组件移过来
     },
     en: {
       hoverHint: 'Hover something 👈👈👈👈👈',
       key: 'Key',
-      pitch: 'Pitch',
+      pitch: 'Pitch Class',
       fanArea: 'Fan-shaped area = one song',      // 从第一个组件移过来
       ringArea: 'Circular area = one pitch class'  // 从第一个组件移过来
     }
