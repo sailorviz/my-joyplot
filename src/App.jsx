@@ -49,7 +49,7 @@ function AppContent() {
     <div className="app-container">
       <div className="global-controls">
         <button className="global-controls__lang-btn" onClick={toggleLanguage}>
-          {language === 'zh' ? 'English' : '中文'}
+          {language === 'en' ? '中文' : 'English'}
         </button>
         
         <div className="global-controls__volume-panel">

@@ -96,7 +96,8 @@ export function dropClusterToMap(containerRef, artistInfos, hoverVersionRef, lan
     "Canada": [-106, 56],                    // 加拿大中心
   };
 
-  d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(worldData => {
+  // d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
+  d3.json("/data/map/countries-110m.json").then(worldData => {
     const land = topojson.feature(worldData, worldData.objects.land);
     const countries = topojson.feature(worldData, worldData.objects.countries).features;
 
