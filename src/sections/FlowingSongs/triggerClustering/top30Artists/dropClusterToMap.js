@@ -31,7 +31,6 @@ export function dropClusterToMap(containerRef, artistInfos, hoverVersionRef, lan
     .attr("height", mapHeight)
     .style("position", "absolute")
     .style("top", mapOriginalP)   // 初始：屏幕下面
-    .style("border", "1px solid red")
     .style("transition", `top ${durationY}ms ease-out`)
     .style("opacity", 1);
 
