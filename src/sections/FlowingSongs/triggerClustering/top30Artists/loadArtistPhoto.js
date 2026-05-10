@@ -7,7 +7,8 @@ export function loadArtistPhoto(){
     PhotosJson[name] = photos[path].default;
   });
 
-  PhotosJson["Scott Bradlee's Postmodern Jukebox"] = "/src/assets/artistsPhoto/scott-bradlees-postmodern-jukebox.jpg";
+  console.log(PhotosJson);
+  // PhotosJson["Scott Bradlee's Postmodern Jukebox"] = "/src/assets/artistsPhoto/scott-bradlees-postmodern-jukebox.jpg";
   return PhotosJson;
 }
 
