@@ -13,13 +13,13 @@ export default function ScrollForIntro(){
     zh: { 
       projectName: '皮皮帆的音乐自画像',
       subtitle: '2299 首歌，8 个月，一张数据自画像',  // 新增
-      creatorName: '来自 皮皮帆',
+      creatorName: '来自 SailorViz',
       publishedTime: '2025.01 — 2025.08'  // 新增
     },
     en: { 
       projectName: "Macy's Musical Self-Portrait",
       subtitle: '2,299 songs, 8 months, one musical universe',  // 新增
-      creatorName: 'By Macy Yang',
+      creatorName: 'By SailorViz',
       publishedTime: 'Jan 2025 — Aug 2025'  // 新增
     }
   };
